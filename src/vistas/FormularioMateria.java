@@ -5,12 +5,18 @@ import control.Crud;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.MallaDao;
 import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
+import modelo.Campo;
+import modelo.ConfiguracionMateria;
+import modelo.DescripcionMateria;
 import modelo.Eje;
 import modelo.Especialidad;
 import modelo.Malla;
@@ -29,7 +35,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     MateriaDao materiaDao;
     ResultSet resultSet;
     Crud crud;
-    Map campos;
+    Map campos,campos1;
     Malla malla;
     Especialidad especialidad;
     Semestre semestre;
@@ -37,7 +43,11 @@ public class FormularioMateria extends javax.swing.JDialog {
     MetodosGeneralesDao metodosGeneralesDao;
     private static final int valor = 100;
     private String respuesta;
-    private int numeroCampos,numeroCreditos;
+    private int numeroCampos, numeroCreditos;
+    private ConfiguracionMateria configuracionMateria;
+    private DescripcionMateria descripcionMateria;
+    private List<Campo> lista, lista1;
+    private Campo campo, campo1;
 
     public FormularioMateria(FrmMateria parent, boolean modal) {
         FormularioMateria.frmMateria = parent;
@@ -768,17 +778,17 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(jLabel7)
                             .addComponent(ejeCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(validarBtn)
-                    .addComponent(guardarBtn)
-                    .addComponent(cancelarBtn)
-                    .addComponent(calcularBtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(validarBtn)
+                        .addComponent(guardarBtn)
+                        .addComponent(cancelarBtn)
+                        .addComponent(calcularBtn)))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
 
@@ -791,17 +801,19 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
         if (validaForm()) {
-            numeroCreditos = malla.getCreditoTeoria()-Integer.parseInt(creditosTxt.getText());
-            malla.setCreditoTeoria(numeroCreditos);
-            creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditoTeoria()));
-            guardarBtn.setEnabled(true);
-            ocultaForm();
-            validarBtn.setEnabled(false);
+            calculaCreditos();
         } else {
             JOptionPane.showMessageDialog(null, "Error verifique que el formulario este correcto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_validarBtnActionPerformed
-
+    private void calculaCreditos() {
+        numeroCreditos = malla.getCreditoTeoria() - Integer.parseInt(creditosTxt.getText());
+        malla.setCreditoTeoria(numeroCreditos);
+        creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditoTeoria()));
+        guardarBtn.setEnabled(true);
+        ocultaForm();
+        validarBtn.setEnabled(false);
+    }
     private void aporteTxt8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aporteTxt8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_aporteTxt8ActionPerformed
@@ -976,7 +988,18 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_aporteDscTxt10KeyTyped
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
-
+        cargarDatosMateriaLista(numeroCampos);        
+        campos = new HashMap();
+        campos1 = new HashMap();
+        for (Campo lista1 : lista) {
+            campos.put(lista1.getLlave(), lista1.getObjeto());
+        }
+        System.out.println(campos);
+        cargarDescripcionLista(numeroCampos);
+        for (Campo lista2 : lista1) {
+            campos1.put(lista2.getLlave(), lista2.getObjeto1());
+        }        
+        System.out.println(campos1);
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
@@ -1001,15 +1024,225 @@ public class FormularioMateria extends javax.swing.JDialog {
             } catch (SQLException | NumberFormatException e) {
             }
 
-        }else {
-                Malla mall = (Malla) mallaCmb.getSelectedItem();
-                this.malla.setIdMalla(mall.getIdMalla());
-                this.malla.setNombreMalla(mall.getNombreMalla());
+        } else {
+            Malla mall = (Malla) mallaCmb.getSelectedItem();
+            this.malla.setIdMalla(mall.getIdMalla());
+            this.malla.setNombreMalla(mall.getNombreMalla());
+        }
+    }//GEN-LAST:event_mallaCmbItemStateChanged
+    private ConfiguracionMateria cargaConfigMateria(int numCampos) {
+        configuracionMateria = new ConfiguracionMateria();
+        switch (numCampos) {
+            case 1:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                break;
+            case 2:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                break;
+            case 3:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                break;
+            case 4:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                break;
+            case 5:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                break;
+            case 6:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                break;
+            case 7:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
+                break;
+            case 8:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
+                break;
+            case 9:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
+                configuracionMateria.setAporte9(Integer.parseInt(aporteTxt9.getText()));
+                break;
+            case 10:
+                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
+                configuracionMateria.setAporte9(Integer.parseInt(aporteTxt9.getText()));
+                configuracionMateria.setAporte10(Integer.parseInt(aporteTxt10.getText()));
+                break;
         }
 
+        return configuracionMateria;
+    }
 
-    }//GEN-LAST:event_mallaCmbItemStateChanged
+    private DescripcionMateria cargaDescripcion(int numCampos) {
+        descripcionMateria = new DescripcionMateria();
+        switch (numCampos) {
+            case 1:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                break;
+            case 2:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                break;
+            case 3:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                break;
+            case 4:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                break;
+            case 5:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                break;
+            case 6:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                break;
+            case 7:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
+                break;
+            case 8:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
+                break;
+            case 9:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
+                descripcionMateria.setDescripcion9(aporteDscTxt9.getText());
+                break;
+            case 10:
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
+                descripcionMateria.setDescripcion9(aporteDscTxt9.getText());
+                descripcionMateria.setDescripcion10(aporteDscTxt10.getText());
+                break;
+        }
+        return descripcionMateria;
+    }
 
+    private List<Campo> cargarDatosMateriaLista(int numCampos) {
+        cargaConfigMateria(numCampos);
+        lista = new ArrayList<>();
+        Integer[] dato = {configuracionMateria.getAporte1(), configuracionMateria.getAporte2(), configuracionMateria.getAporte3(), configuracionMateria.getAporte4(), configuracionMateria.getAporte5(),
+            configuracionMateria.getAporte6(), configuracionMateria.getAporte7(), configuracionMateria.getAporte8(),
+            configuracionMateria.getAporte9(), configuracionMateria.getAporte10()};
+        String[] llave = {"aporte1", "aporte2", "aporte3", "aporte4", "aporte5", "aporte6",
+            "aporte7", "aporte8", "aporte9", "aporte10"};
+        int i = 0;
+        for (String llave1 : llave) {
+            if (i < numCampos) {
+                campo = new Campo();
+                campo.setLlave(llave1);
+                campo.setObjeto(dato[i]);
+                lista.add(campo);
+            }
+            if (i >= numCampos) {
+                break;
+            }
+            i++;
+        }
+        return lista;
+    }
+
+    private List<Campo> cargarDescripcionLista(int numCampos) {
+        cargaDescripcion(numCampos);
+        lista1 = new ArrayList<>();
+        String[] descripcion = {descripcionMateria.getDescripcion1(), descripcionMateria.getDescripcion2(),
+            descripcionMateria.getDescripcion3(), descripcionMateria.getDescripcion4(), descripcionMateria.getDescripcion5(),
+            descripcionMateria.getDescripcion6(), descripcionMateria.getDescripcion7(), descripcionMateria.getDescripcion8(),
+            descripcionMateria.getDescripcion9(), descripcionMateria.getDescripcion10()};
+        String[] llave = {"aporte1", "aporte2", "aporte3", "aporte4", "aporte5", "aporte6",
+            "aporte7", "aporte8", "aporte9", "aporte10"};
+        int i = 0;
+        for (String llave1 : llave) {
+            if (i < numCampos) {
+                campo1 = new Campo();
+                campo1.setLlave(llave1);
+                campo1.setObjeto1(descripcion[i]);
+                lista1.add(campo1);
+            }
+           if (i >= numCampos) {
+                break;
+            }
+            i++;
+        }
+        return lista1;
+    }
     private void semestreCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_semestreCmbItemStateChanged
         Semestre semes = (Semestre) semestreCmb.getSelectedItem();
         semestre.setIdSemestre(semes.getIdSemestre());
@@ -1017,7 +1250,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_semestreCmbItemStateChanged
 
     private void especialidadCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_especialidadCmbItemStateChanged
-        Especialidad espe = (Especialidad)especialidadCmb.getSelectedItem();
+        Especialidad espe = (Especialidad) especialidadCmb.getSelectedItem();
         especialidad.setIdEspecialidad(espe.getIdEspecialidad());
         especialidad.setEspecialidad(espe.getEspecialidad());
     }//GEN-LAST:event_especialidadCmbItemStateChanged

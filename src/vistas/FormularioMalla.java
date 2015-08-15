@@ -438,6 +438,7 @@ public class FormularioMalla extends javax.swing.JDialog {
         campos.put("porc_integrada", malla.getPorcentajeTutoriaIntegrada());
         campos.put("cred_teorica", malla.getCreditoTeoria());
         campos.put("cred_ciclo", malla.getCreditoCiclo());
+        campos.put("cred_ciclo_disp", malla.getCreditoCiclo());
         campos.put("porcentaje", "100");
         campos.put("id1_especialidad", especialidad.getIdEspecialidad());
         campos.put("id1_periodo", periodo.getIdPeriodo());
