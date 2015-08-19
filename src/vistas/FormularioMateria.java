@@ -6,11 +6,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import logica.ConfiguracionMateriaDao;
+import logica.DescripcionMateriaDao;
 import logica.MallaDao;
 import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
@@ -20,6 +23,8 @@ import modelo.DescripcionMateria;
 import modelo.Eje;
 import modelo.Especialidad;
 import modelo.Malla;
+import modelo.Materia;
+import modelo.Profesor;
 import modelo.Semestre;
 
 /**
@@ -32,14 +37,15 @@ public class FormularioMateria extends javax.swing.JDialog {
     Connection cn = cc.Conectar();
     public static FrmMateria frmMateria;
     private Integer idMateria;
-    MateriaDao materiaDao;
     ResultSet resultSet;
     Crud crud;
-    Map campos,campos1;
+    Map campos, campos1, campos2;
     Malla malla;
     Especialidad especialidad;
     Semestre semestre;
     Eje eje;
+    Materia materia;
+    Profesor profesor;
     MetodosGeneralesDao metodosGeneralesDao;
     private static final int valor = 100;
     private String respuesta;
@@ -48,6 +54,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private DescripcionMateria descripcionMateria;
     private List<Campo> lista, lista1;
     private Campo campo, campo1;
+    private String estado;
 
     public FormularioMateria(FrmMateria parent, boolean modal) {
         FormularioMateria.frmMateria = parent;
@@ -64,7 +71,11 @@ public class FormularioMateria extends javax.swing.JDialog {
         especialidad = new Especialidad();
         eje = new Eje();
         malla = new Malla();
-
+        semestreCmb.setEnabled(false);
+        especialidadCmb.setEnabled(false);
+        creditosDisponiblesTxt.setEnabled(false);
+        materia = new Materia();
+        profesor = new Profesor();
     }
 
     public FormularioMateria(FrmMateria parent, boolean modal, Integer idMateria) {
@@ -78,13 +89,19 @@ public class FormularioMateria extends javax.swing.JDialog {
         cargarSemestre();
         cargarEje();
         cargarMalla();
+        cargaProfesor();
         this.guardarBtn.setEnabled(false);
         this.validarBtn.setEnabled(false);
         this.calcularBtn.setEnabled(false);
+        creditosDisponiblesTxt.setEnabled(false);
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
         malla = new Malla();
+        semestreCmb.setEnabled(false);
+        especialidadCmb.setEnabled(false);
+        materia = new Materia();
+        profesor = new Profesor();
     }
 
     @SuppressWarnings("unchecked")
@@ -161,6 +178,8 @@ public class FormularioMateria extends javax.swing.JDialog {
         calcularBtn = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         creditosDisponiblesTxt = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        profesoCmb = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -168,15 +187,37 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         jLabel2.setText("Creditos");
 
+        creditosTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                creditosTxtKeyTyped(evt);
+            }
+        });
+
+        horasTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                horasTxtKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Numero de Horas");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Estado de Materia"));
 
         estadoMallaGroup.add(activadaRdb);
         activadaRdb.setText("Activada");
+        activadaRdb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activadaRdbActionPerformed(evt);
+            }
+        });
 
         estadoMallaGroup.add(desactivadaRdb);
         desactivadaRdb.setText("Desactivada");
+        desactivadaRdb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                desactivadaRdbActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,7 +226,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(activadaRdb)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addComponent(desactivadaRdb)
                 .addContainerGap())
         );
@@ -214,6 +255,11 @@ public class FormularioMateria extends javax.swing.JDialog {
         });
 
         ejeCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+        ejeCmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ejeCmbItemStateChanged(evt);
+            }
+        });
 
         jLabel7.setText("Eje");
 
@@ -671,6 +717,11 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         cancelarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Delete.png"))); // NOI18N
         cancelarBtn.setText("Cancelar");
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
 
         mallaCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
         mallaCmb.addItemListener(new java.awt.event.ItemListener() {
@@ -690,6 +741,15 @@ public class FormularioMateria extends javax.swing.JDialog {
         jLabel9.setText("Creditos Disponibles");
 
         creditosDisponiblesTxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        jLabel10.setText("Profesor");
+
+        profesoCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+        profesoCmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                profesoCmbItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -720,13 +780,15 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(semestreCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ejeCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(mallaCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(mallaCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profesoCmb, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -740,7 +802,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                         .addComponent(guardarBtn)
                         .addGap(18, 18, 18)
                         .addComponent(cancelarBtn)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -779,17 +841,21 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(ejeCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(validarBtn)
                         .addComponent(guardarBtn)
                         .addComponent(cancelarBtn)
-                        .addComponent(calcularBtn)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                        .addComponent(calcularBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -807,12 +873,21 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_validarBtnActionPerformed
     private void calculaCreditos() {
-        numeroCreditos = malla.getCreditoTeoria() - Integer.parseInt(creditosTxt.getText());
-        malla.setCreditoTeoria(numeroCreditos);
-        creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditoTeoria()));
-        guardarBtn.setEnabled(true);
-        ocultaForm();
-        validarBtn.setEnabled(false);
+        if (malla.getCreditosTeoricaDisponibles() == 0) {
+            JOptionPane.showMessageDialog(null, "Error no existe creditos disponibles para la materia", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            numeroCreditos = malla.getCreditosTeoricaDisponibles() - Integer.parseInt(creditosTxt.getText());
+            if (numeroCreditos < 0) {
+                JOptionPane.showMessageDialog(null, "Error numero de creditos no aceptable", "Error", JOptionPane.ERROR_MESSAGE);
+                creditosTxt.setText(null);
+            } else {
+                malla.setCreditosTeoricaDisponibles(numeroCreditos);
+                creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
+                guardarBtn.setEnabled(true);
+                ocultaForm();
+                validarBtn.setEnabled(false);
+            }
+        }
     }
     private void aporteTxt8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aporteTxt8ActionPerformed
         // TODO add your handling code here:
@@ -830,6 +905,8 @@ public class FormularioMateria extends javax.swing.JDialog {
                 } else {
                     cargaCampo(Integer.parseInt(numeroCamposTxt.getText()));
                     calcularBtn.setEnabled(true);
+                    cargarBtn.setEnabled(false);
+                    numeroCamposTxt.setEnabled(false);
                 }
             }
 
@@ -875,7 +952,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void aporteTxt1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_aporteTxt1KeyTyped
         validaNumero(evt);
-        if (aporteTxt1.getText().length() >= 2) {
+        if (aporteTxt1.getText().length() >= 3) {
             evt.consume();
         }
     }//GEN-LAST:event_aporteTxt1KeyTyped
@@ -988,20 +1065,81 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_aporteDscTxt10KeyTyped
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
-        cargarDatosMateriaLista(numeroCampos);        
+        crud = new Crud();
+        //inicia carga de datos para tabla configmateria
+        cargarDatosMateriaLista(numeroCampos);
         campos = new HashMap();
-        campos1 = new HashMap();
-        for (Campo lista1 : lista) {
+        for (@SuppressWarnings("LocalVariableHidesMemberVariable") Campo lista1 : lista) {
             campos.put(lista1.getLlave(), lista1.getObjeto());
         }
-        System.out.println(campos);
+        configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
+        campos.put("num_aporte", configuracionMateria.getNumeroAportes());
+        crud.insertar("config_materia", campos);
+        //inicia carga de datos para tabla descripcion materia
+        ConfiguracionMateriaDao cmd = new ConfiguracionMateriaDao();
+        configuracionMateria.setIdConfiguracionMateria(cmd.cargaSecuencialMateria());
         cargarDescripcionLista(numeroCampos);
+        campos1 = new HashMap();
         for (Campo lista2 : lista1) {
             campos1.put(lista2.getLlave(), lista2.getObjeto1());
-        }        
-        System.out.println(campos1);
-    }//GEN-LAST:event_guardarBtnActionPerformed
+        }
 
+        descripcionMateria.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
+        campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
+        crud.insertar("desc_materia", campos1);
+        //actualiza los crditos disponibles de malla
+        malla.setCreditosTeoricaDisponibles(malla.getCreditosTeoricaDisponibles());
+        Map mal = new HashMap();
+        mal.put("cred_teorica_disp", malla.getCreditosTeoricaDisponibles());
+        crud.actualizar("malla", "id_malla", malla.getIdMalla(), mal);
+        //inicia carga de datos para tabla materia
+        cargaDatos();
+        crud.insertarM("nombre_materia", campos2);
+        this.dispose();
+
+    }//GEN-LAST:event_guardarBtnActionPerformed
+    private Map cargaDatos() {
+        campos2 = new HashMap();
+        Calendar cal = Calendar.getInstance();
+        materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
+        materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
+        materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
+        materia.setEstado(estado);
+        materia.setIdMalla(malla.getIdMalla());
+        materia.setIdSemestre(semestre.getIdSemestre());
+        materia.setIdEspecialidad(especialidad.getIdEspecialidad());
+        materia.setIdProfesor(profesor.getIdProfesor());
+        materia.setIdEje(eje.getIdEje());
+        DescripcionMateriaDao dao = new DescripcionMateriaDao();
+        descripcionMateria.setIdDescripcionMateria(dao.cargaSecuencialMateria());
+        materia.setIdDescripcion(descripcionMateria.getIdDescripcionMateria());
+        materia.setIdConfiguracion(configuracionMateria.getIdConfiguracionMateria());
+        materia.setFechaCreacion(cal.getTime());
+        materia.setFechaModificacion(cal.getTime());
+        campos2.put("id_materia", " ");
+        campos2.put("id_semestre", " ");
+        campos2.put("id_especial", " ");
+        campos2.put("materia", materia.getNombreMateria());
+        campos2.put("creditos", materia.getCreditos());
+        campos2.put("numhora", materia.getNumeroHoras());
+        campos2.put("mat_sec", " ");
+        campos2.put("activa_mat", materia.getEstado());
+        campos2.put("AUX", 0);
+        campos2.put("ID_NUM",0);
+        campos2.put("id1_semestre", semestre.getIdSemestre());
+        campos2.put("id1_especialidad", especialidad.getIdEspecialidad());
+        campos2.put("id1_eje", eje.getIdEje());
+        campos2.put("id_ciclo", 0);
+        campos2.put("f_crea", materia.getFechaCreacion());
+        campos2.put("f_modifica", materia.getFechaModificacion());
+        campos2.put("id1_profe", profesor.getIdProfesor());
+        campos2.put("alias", " ");
+        campos2.put("materia_antes", materia.getNombreMateria());
+        campos2.put("id_malla", malla.getIdMalla());
+        campos2.put("id_config_materia", configuracionMateria.getIdConfiguracionMateria());
+        campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
+        return campos2;
+    }
     private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
         if (idMateria == 0) {
             try {
@@ -1011,8 +1149,8 @@ public class FormularioMateria extends javax.swing.JDialog {
                 this.malla.setNombreMalla(mall.getNombreMalla());
                 resultSet = mallaDao.consulta(malla.getIdMalla());
                 while (resultSet.next()) {
-                    this.malla.setCreditoTeoria(Integer.parseInt(resultSet.getString("cred_teorica")));
-                    creditosDisponiblesTxt.setText(String.valueOf(this.malla.getCreditoTeoria()));
+                    this.malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
+                    creditosDisponiblesTxt.setText(String.valueOf(this.malla.getCreditosTeoricaDisponibles()));
                     especialidad.setEspecialidad(resultSet.getString("especialidad"));
                     especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
                     especialidadCmb.setSelectedItem(especialidad);
@@ -1117,79 +1255,79 @@ public class FormularioMateria extends javax.swing.JDialog {
         descripcionMateria = new DescripcionMateria();
         switch (numCampos) {
             case 1:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
                 break;
             case 2:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
                 break;
             case 3:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
                 break;
             case 4:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
                 break;
             case 5:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
                 break;
             case 6:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
-                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText().toUpperCase());
                 break;
             case 7:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
-                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
-                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText().toUpperCase());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText().toUpperCase());
                 break;
             case 8:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
-                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
-                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
-                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText().toUpperCase());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText().toUpperCase());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText().toUpperCase());
                 break;
             case 9:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
-                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
-                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
-                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
-                descripcionMateria.setDescripcion9(aporteDscTxt9.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText().toUpperCase());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText().toUpperCase());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText().toUpperCase());
+                descripcionMateria.setDescripcion9(aporteDscTxt9.getText().toUpperCase());
                 break;
             case 10:
-                descripcionMateria.setDescripcion1(aporteDescTxt1.getText());
-                descripcionMateria.setDescripcion2(aporteDscTxt2.getText());
-                descripcionMateria.setDescripcion3(aporteDescTxt3.getText());
-                descripcionMateria.setDescripcion4(aporteDesTxt4.getText());
-                descripcionMateria.setDescripcion5(aporteDscTxt5.getText());
-                descripcionMateria.setDescripcion6(aporteDscTxt6.getText());
-                descripcionMateria.setDescripcion7(aporteDscTxt7.getText());
-                descripcionMateria.setDescripcion8(aporteDscTxt8.getText());
-                descripcionMateria.setDescripcion9(aporteDscTxt9.getText());
-                descripcionMateria.setDescripcion10(aporteDscTxt10.getText());
+                descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
+                descripcionMateria.setDescripcion2(aporteDscTxt2.getText().toUpperCase());
+                descripcionMateria.setDescripcion3(aporteDescTxt3.getText().toUpperCase());
+                descripcionMateria.setDescripcion4(aporteDesTxt4.getText().toUpperCase());
+                descripcionMateria.setDescripcion5(aporteDscTxt5.getText().toUpperCase());
+                descripcionMateria.setDescripcion6(aporteDscTxt6.getText().toUpperCase());
+                descripcionMateria.setDescripcion7(aporteDscTxt7.getText().toUpperCase());
+                descripcionMateria.setDescripcion8(aporteDscTxt8.getText().toUpperCase());
+                descripcionMateria.setDescripcion9(aporteDscTxt9.getText().toUpperCase());
+                descripcionMateria.setDescripcion10(aporteDscTxt10.getText().toUpperCase());
                 break;
         }
         return descripcionMateria;
@@ -1236,7 +1374,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                 campo1.setObjeto1(descripcion[i]);
                 lista1.add(campo1);
             }
-           if (i >= numCampos) {
+            if (i >= numCampos) {
                 break;
             }
             i++;
@@ -1254,6 +1392,36 @@ public class FormularioMateria extends javax.swing.JDialog {
         especialidad.setIdEspecialidad(espe.getIdEspecialidad());
         especialidad.setEspecialidad(espe.getEspecialidad());
     }//GEN-LAST:event_especialidadCmbItemStateChanged
+
+    private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
+        estado = "A";
+    }//GEN-LAST:event_activadaRdbActionPerformed
+
+    private void desactivadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desactivadaRdbActionPerformed
+        estado = "D";
+    }//GEN-LAST:event_desactivadaRdbActionPerformed
+
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
+
+    private void profesoCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_profesoCmbItemStateChanged
+        Profesor profe = (Profesor) profesoCmb.getSelectedItem();
+        profesor.setIdProfesor(profe.getIdProfesor());
+    }//GEN-LAST:event_profesoCmbItemStateChanged
+
+    private void ejeCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ejeCmbItemStateChanged
+        Eje j = (Eje) ejeCmb.getSelectedItem();
+        eje.setIdEje(j.getIdEje());
+    }//GEN-LAST:event_ejeCmbItemStateChanged
+
+    private void creditosTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_creditosTxtKeyTyped
+        validaNumero(evt);
+    }//GEN-LAST:event_creditosTxtKeyTyped
+
+    private void horasTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_horasTxtKeyTyped
+        validaNumero(evt);
+    }//GEN-LAST:event_horasTxtKeyTyped
     private void validaNumero(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
@@ -1465,6 +1633,21 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
     }
 
+    private void cargaProfesor() {
+        try {
+            resultSet = metodosGeneralesDao.cargaComboProfesor();
+            while (resultSet.next()) {
+                Profesor p = new Profesor();
+                p.setIdProfesor(Integer.parseInt(resultSet.getString("id1_profe")));
+                p.setNombreProfesor(resultSet.getString("nom_profe"));
+                p.setApellidoProfesor(resultSet.getString("apell_profe"));
+                profesoCmb.addItem(p);
+            }
+        } catch (SQLException | NumberFormatException e) {
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1549,6 +1732,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JButton guardarBtn;
     private javax.swing.JTextField horasTxt;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1564,6 +1748,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JComboBox mallaCmb;
     private javax.swing.JTextField nombreMateriaTxt;
     private javax.swing.JTextField numeroCamposTxt;
+    private javax.swing.JComboBox profesoCmb;
     private javax.swing.JComboBox semestreCmb;
     private javax.swing.JButton validarBtn;
     private javax.swing.JLabel valorlbl1;

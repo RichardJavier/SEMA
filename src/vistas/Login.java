@@ -19,7 +19,7 @@ public final class Login extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        cargar();
+       // cargar();
     }
 
     public void cargar() {
