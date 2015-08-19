@@ -14,15 +14,15 @@ public class Materia extends Malla {
     private String especialidad;
     private Integer idEje;
     private Integer idProfesor;
-    private Integer ponderacion;
     private Integer idDescripcion;
+    private Integer idConfiguracion;
     private Date fechaCreacion;
     private Date fechaModificacion;
 
     public Materia() {
     }
 
-    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer ponderacion, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre) {
+    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre) {
         super(idMalla, nombreMalla, idSemestre);
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
@@ -32,13 +32,12 @@ public class Materia extends Malla {
         this.idEspecialidad = idEspecialidad;
         this.idEje = idEje;
         this.idProfesor = idProfesor;
-        this.ponderacion = ponderacion;
         this.idDescripcion = idDescripcion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
     }
 
-    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer ponderacion, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla) {
+    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor,Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla) {
         super(idMalla);
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
@@ -48,7 +47,6 @@ public class Materia extends Malla {
         this.idEspecialidad = idEspecialidad;
         this.idEje = idEje;
         this.idProfesor = idProfesor;
-        this.ponderacion = ponderacion;
         this.idDescripcion = idDescripcion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
@@ -109,15 +107,6 @@ public class Materia extends Malla {
     public void setIdProfesor(Integer idProfesor) {
         this.idProfesor = idProfesor;
     }
-
-    public Integer getPonderacion() {
-        return ponderacion;
-    }
-
-    public void setPonderacion(Integer ponderacion) {
-        this.ponderacion = ponderacion;
-    }
-
     public Integer getIdDescripcion() {
         return idDescripcion;
     }
@@ -151,12 +140,20 @@ public class Materia extends Malla {
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
+    
+    
+    public Integer getIdConfiguracion() {
+        return idConfiguracion;
+    }
 
+    public void setIdConfiguracion(Integer idConfiguracion) {
+        this.idConfiguracion = idConfiguracion;
+    }
     @Override
     public String toString() {
         return nombreMateria;
     }
-
+     
     @Override
     public int hashCode() {
         int hash = 3;

@@ -12,8 +12,8 @@ public class Malla extends Semestre {
     private Integer porcentajeNotaTeorica;
     private Integer porcentajeNotaEmpresa;
     private Integer creditoTeoria;
+    private Integer creditosTeoricaDisponibles;
     private Integer creditoCiclo;
-    private Integer creditosCicloDisponibles;
     private Integer porcentaje;
     private String estado;
     private Date fechaCreacion;
@@ -97,12 +97,12 @@ public class Malla extends Semestre {
         this.creditoCiclo = creditoCiclo;
     }
    
-    public Integer getCreditosCicloDisponibles() {
-        return creditosCicloDisponibles;
+    public Integer getCreditosTeoricaDisponibles() {
+        return creditosTeoricaDisponibles;
     }
 
-    public void setCreditosCicloDisponibles(Integer creditosCicloDisponibles) {
-        this.creditosCicloDisponibles = creditosCicloDisponibles;
+    public void setCreditosTeoricaDisponibles(Integer creditosTeoricaDisponibles) {
+        this.creditosTeoricaDisponibles = creditosTeoricaDisponibles;
     }
     
     public Integer getPorcentaje() {

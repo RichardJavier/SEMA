@@ -37,6 +37,9 @@ public class EspecialidadDao {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
             System.out.println("Error en la consulta" + e);
+            
+            
+            
         }
 
         return null;
