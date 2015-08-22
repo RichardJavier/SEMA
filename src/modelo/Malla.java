@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.Date;
+import java.util.Objects;
 
 
 public class Malla extends Semestre {
@@ -26,9 +27,14 @@ public class Malla extends Semestre {
     public Malla(Integer idMalla) {
         this.idMalla = idMalla;
     }
-
-    public Malla(Integer idMalla, String nombreMalla, Integer idSemestre) {
-        super(idSemestre);
+    
+    public Malla(Integer idMalla, String nombreMalla,String semestre) {
+        super(semestre);
+        this.idMalla = idMalla;
+        this.nombreMalla = nombreMalla;
+    }
+    public Malla(Integer idMalla, String nombreMalla, Integer idSemestre,String semestre) {
+        super(idSemestre,semestre);
         this.idMalla = idMalla;
         this.nombreMalla = nombreMalla;
     }
@@ -148,6 +154,32 @@ public class Malla extends Semestre {
     @Override
     public String toString() {
         return nombreMalla ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.idMalla);
+        hash = 53 * hash + Objects.hashCode(this.nombreMalla);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Malla other = (Malla) obj;
+        if (!Objects.equals(this.idMalla, other.idMalla)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreMalla, other.nombreMalla)) {
+            return false;
+        }
+        return true;
     }
 
     

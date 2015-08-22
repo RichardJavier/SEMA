@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Objects;
+
 public class Eje {
 
     private Integer idEje;
@@ -42,6 +44,36 @@ public class Eje {
     @Override
     public String toString() {
         return  nombreEje ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.idEje);
+        hash = 97 * hash + Objects.hashCode(this.codigoEje);
+        hash = 97 * hash + Objects.hashCode(this.nombreEje);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Eje other = (Eje) obj;
+        if (!Objects.equals(this.idEje, other.idEje)) {
+            return false;
+        }
+        if (!Objects.equals(this.codigoEje, other.codigoEje)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreEje, other.nombreEje)) {
+            return false;
+        }
+        return true;
     }
 
 }

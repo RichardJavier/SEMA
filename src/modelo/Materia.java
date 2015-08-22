@@ -22,8 +22,8 @@ public class Materia extends Malla {
     public Materia() {
     }
 
-    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre) {
-        super(idMalla, nombreMalla, idSemestre);
+    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre,String semestre) {
+        super(idMalla, nombreMalla, idSemestre,semestre);
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
         this.numeroHoras = numeroHoras;

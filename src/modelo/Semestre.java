@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Semestre {
 private Integer idSemestre;
-private String semestre;
+String semestre;
 private String codigoSemestre;
 
     public Semestre() {
@@ -16,9 +16,10 @@ private String codigoSemestre;
     public Semestre(String semestre) {
         this.semestre = semestre;
     }
-
-    public Semestre(Integer idSemestre) {
+     
+    public Semestre(Integer idSemestre,String semestre) {
         this.idSemestre = idSemestre;
+        this.semestre=semestre;
     }
 
     public Semestre(Integer idSemestre, String semestre, String codigoSemestre) {

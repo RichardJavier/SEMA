@@ -2,6 +2,7 @@
 package modelo;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Profesor {
   private Integer idProfesor;
@@ -125,6 +126,38 @@ public class Profesor {
     public String toString() {
         return nombreProfesor + " " + apellidoProfesor ;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.idProfesor);
+        hash = 73 * hash + Objects.hashCode(this.nombreProfesor);
+        hash = 73 * hash + Objects.hashCode(this.apellidoProfesor);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesor other = (Profesor) obj;
+        if (!Objects.equals(this.idProfesor, other.idProfesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreProfesor, other.nombreProfesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellidoProfesor, other.apellidoProfesor)) {
+            return false;
+        }
+        return true;
+    }
+
+ 
 
    
   

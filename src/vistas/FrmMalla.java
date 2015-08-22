@@ -59,12 +59,15 @@ public class FrmMalla extends javax.swing.JInternalFrame {
                         malla.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
                         malla.setNombreMalla(resultSet.getString("nombre_malla"));
                         malla.setSemestre(resultSet.getString("semestre"));
-                        
-                        modelo.insertRow(i++, new Object[]{
+                        if (filtroTxt.equals("")||malla.getNombreMalla().contains(filtroTxt.getText())) {
+                            listaMalla.add(new Malla(malla.getIdMalla(), malla.getNombreMalla(),malla.getSemestre()));
+                            modelo.insertRow(i++, new Object[]{
                             malla.getIdMalla(),
                             malla.getNombreMalla(),
                             malla.getSemestre()
                         });
+                        }
+                        
                     }
                 } catch (SQLException | NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Error la cargar", "Error", JOptionPane.ERROR_MESSAGE);
@@ -94,6 +97,8 @@ public class FrmMalla extends javax.swing.JInternalFrame {
         mallaTabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         mensajeLbl = new javax.swing.JLabel();
+        filtroTxt = new javax.swing.JTextField();
+        Buscar = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -122,6 +127,14 @@ public class FrmMalla extends javax.swing.JInternalFrame {
 
         mensajeLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
+        Buscar.setText("jButton2");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,14 +144,23 @@ public class FrmMalla extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Buscar)))
                 .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Buscar)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
@@ -168,8 +190,14 @@ public class FrmMalla extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_mallaTablaMouseClicked
 
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        cargarDatos();
+    }//GEN-LAST:event_BuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Buscar;
+    private javax.swing.JTextField filtroTxt;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable mallaTabla;

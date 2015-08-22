@@ -5,7 +5,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Materia;
 
 public class MateriaDao {
 
@@ -31,17 +34,57 @@ public class MateriaDao {
         return null;
     }
 
-    public synchronized ResultSet consulta(Integer idEspecialidad) {
+    public synchronized ResultSet consulta(int idMateria) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "select * from especialidad where id1_especialidad =" + "'" + idEspecialidad + "';";
+            String sql = "SELECT * FROM nombre_materia AS nm "
+                    + "INNER JOIN malla m  "
+                    + "ON nm.id_malla= m.id_malla "
+                    + "INNER JOIN semestre s  "
+                    + "ON nm.id1_semestre= s.id1_semestre "
+                    + "INNER JOIN especialidad e "
+                    + "ON nm.id1_especialidad=e.id1_especialidad "
+                    + "INNER JOIN ejes j  "
+                    + "ON nm.id1_eje = j.id1_ejes "
+                    + "INNER JOIN datos_profesor p  "
+                    + "ON nm.id1_profe = p.id1_profe "
+                    + "INNER JOIN config_materia cm "
+                    + "ON nm.id_config_materia = cm.id_config_materia "
+                    + "INNER JOIN desc_materia dm "
+                    + "ON nm.id_desc_materia = dm.id_desc_materia "
+                    + "WHERE  nm.id1_nombre_materia " + "=" + "'" + idMateria + "'" + ";";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
             System.out.println("Error en la consulta" + e);
+        }
+
+        return null;
+    }
+
+    public List<Materia> valorCreditos(int idmalla) {
+
+        String sql = "SELECT * FROM nombre_materia nm " +                    
+                     "WHERE activa_mat ='A' AND id_malla " + "=" + "'" + idmalla + "'" + ";";
+        Conexion cc = Conexion.getInstance();
+        Connection cn = cc.Conectar();
+        try {
+            Statement st = cn.createStatement();
+            resultSet = st.executeQuery(sql);
+            List<Materia> listaMaterias = new ArrayList<>();
+            while (resultSet.next()) {
+                Materia materia = new Materia();
+                materia.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
+                materia.setNombreMateria(resultSet.getString("materia"));
+                materia.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
+                listaMaterias.add(materia);
+            }
+            return listaMaterias;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println(e);
         }
 
         return null;

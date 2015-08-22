@@ -102,6 +102,57 @@ public class FormularioMateria extends javax.swing.JDialog {
         especialidadCmb.setEnabled(false);
         materia = new Materia();
         profesor = new Profesor();
+        descripcionMateria=new DescripcionMateria();
+        configuracionMateria=new ConfiguracionMateria();
+        if (idMateria > 0) {
+            try {
+                MateriaDao materiaDao = new MateriaDao();
+                resultSet = materiaDao.consulta(idMateria);
+                while (resultSet.next()) {
+                    nombreMateriaTxt.setText(resultSet.getString("materia"));
+                    creditosTxt.setText(resultSet.getString("creditos"));
+                    estado = resultSet.getString("activa_mat");
+                    if (estado.equals("A")) {
+                        activadaRdb.setSelected(true);
+                    } else {
+                        desactivadaRdb.setSelected(true);
+                    }
+                    malla.setIdMalla(Integer.valueOf(resultSet.getString("id_malla")));
+                    malla.setNombreMalla(resultSet.getString("nombre_malla"));
+                    mallaCmb.setSelectedItem(malla);
+
+                    semestre.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
+                    semestre.setSemestre(resultSet.getString("semestre"));
+                    semestreCmb.setSelectedItem(semestre);
+
+                    especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
+                    especialidad.setEspecialidad(resultSet.getString("especialidad"));
+                    especialidadCmb.setSelectedItem(especialidad);
+
+                    eje.setIdEje(Integer.parseInt(resultSet.getString("id1_eje")));
+                    eje.setNombreEje(resultSet.getString("nom_ejes"));
+                    ejeCmb.setSelectedItem(eje);
+
+                    profesor.setIdProfesor(Integer.parseInt(resultSet.getString("id1_profe")));
+                    profesor.setNombreProfesor(resultSet.getString("nom_profe"));
+                    profesor.setApellidoProfesor(resultSet.getString("apell_profe"));
+                    profesoCmb.setSelectedItem(profesor);
+
+                    horasTxt.setText(resultSet.getString("numhora"));
+                    numeroCamposTxt.setText(resultSet.getString("num_aporte"));
+                    descripcionMateria.setIdDescripcionMateria(Integer.parseInt(resultSet.getString("id_desc_materia")));
+                    configuracionMateria.setIdConfiguracionMateria(Integer.parseInt(resultSet.getString("id_config_materia")));
+                    int camp = Integer.parseInt(numeroCamposTxt.getText());
+                    cargaCampo(camp);
+                    seteaConfigMateria(resultSet, camp);
+                    seteaDescripcion(resultSet, camp);
+
+                }
+                creditosDispLbl.setVisible(false);
+                creditosDisponiblesTxt.setVisible(false);
+            } catch (SQLException | NumberFormatException e) {
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -176,14 +227,17 @@ public class FormularioMateria extends javax.swing.JDialog {
         cancelarBtn = new javax.swing.JButton();
         mallaCmb = new javax.swing.JComboBox();
         calcularBtn = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        creditosDispLbl = new javax.swing.JLabel();
         creditosDisponiblesTxt = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         profesoCmb = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jLabel1.setText("Nombre Materia");
+
+        nombreMateriaTxt.setEditable(false);
 
         jLabel2.setText("Creditos");
 
@@ -738,7 +792,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
         });
 
-        jLabel9.setText("Creditos Disponibles");
+        creditosDispLbl.setText("Creditos Disponibles");
 
         creditosDisponiblesTxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
@@ -759,7 +813,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(creditosDispLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -802,7 +856,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                         .addComponent(guardarBtn)
                         .addGap(18, 18, 18)
                         .addComponent(cancelarBtn)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -853,7 +907,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
+                            .addComponent(creditosDispLbl)
                             .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -873,20 +927,36 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_validarBtnActionPerformed
     private void calculaCreditos() {
-        if (malla.getCreditosTeoricaDisponibles() == 0) {
-            JOptionPane.showMessageDialog(null, "Error no existe creditos disponibles para la materia", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            numeroCreditos = malla.getCreditosTeoricaDisponibles() - Integer.parseInt(creditosTxt.getText());
-            if (numeroCreditos < 0) {
-                JOptionPane.showMessageDialog(null, "Error numero de creditos no aceptable", "Error", JOptionPane.ERROR_MESSAGE);
-                creditosTxt.setText(null);
+        if (idMateria == 0) {
+            if (malla.getCreditosTeoricaDisponibles() == 0) {
+                JOptionPane.showMessageDialog(null, "Error no existe creditos disponibles para la materia", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                malla.setCreditosTeoricaDisponibles(numeroCreditos);
-                creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
-                guardarBtn.setEnabled(true);
-                ocultaForm();
-                validarBtn.setEnabled(false);
+                numeroCreditos = malla.getCreditosTeoricaDisponibles() - Integer.parseInt(creditosTxt.getText());
+                if (numeroCreditos < 0) {
+                    JOptionPane.showMessageDialog(null, "Error numero de creditos no aceptable", "Error", JOptionPane.ERROR_MESSAGE);
+                    creditosTxt.setText(null);
+                } else {
+                    malla.setCreditosTeoricaDisponibles(numeroCreditos);
+                    creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
+                    guardarBtn.setEnabled(true);
+                    ocultaForm();
+                    validarBtn.setEnabled(false);
+                }
             }
+        } else {
+            MateriaDao materiaDao = new MateriaDao();
+            try {
+                int val=0;  
+                List<Materia>listaTemp = new ArrayList<>();
+                
+                for (Materia valorCredito : materiaDao.valorCreditos(malla.getIdMalla())) {
+                   val = valorCredito.getCreditos()+val;
+                }
+   
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
         }
     }
     private void aporteTxt8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aporteTxt8ActionPerformed
@@ -1074,7 +1144,12 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
         configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
         campos.put("num_aporte", configuracionMateria.getNumeroAportes());
-        crud.insertar("config_materia", campos);
+        if (idMateria == 0) {
+            crud.insertar("config_materia", campos);
+        } else {
+            crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos);
+        }
+
         //inicia carga de datos para tabla descripcion materia
         ConfiguracionMateriaDao cmd = new ConfiguracionMateriaDao();
         configuracionMateria.setIdConfiguracionMateria(cmd.cargaSecuencialMateria());
@@ -1086,12 +1161,18 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         descripcionMateria.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
         campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
-        crud.insertar("desc_materia", campos1);
+        if (idMateria == 0) {
+            crud.insertar("desc_materia", campos1);
+        } else {
+            crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1);
+        }
+
         //actualiza los crditos disponibles de malla
         malla.setCreditosTeoricaDisponibles(malla.getCreditosTeoricaDisponibles());
         Map mal = new HashMap();
         mal.put("cred_teorica_disp", malla.getCreditosTeoricaDisponibles());
         crud.actualizar("malla", "id_malla", malla.getIdMalla(), mal);
+
         //inicia carga de datos para tabla materia
         cargaDatos();
         crud.insertarM("nombre_materia", campos2);
@@ -1125,7 +1206,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         campos2.put("mat_sec", " ");
         campos2.put("activa_mat", materia.getEstado());
         campos2.put("AUX", 0);
-        campos2.put("ID_NUM",0);
+        campos2.put("ID_NUM", 0);
         campos2.put("id1_semestre", semestre.getIdSemestre());
         campos2.put("id1_especialidad", especialidad.getIdEspecialidad());
         campos2.put("id1_eje", eje.getIdEje());
@@ -1164,8 +1245,8 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         } else {
             Malla mall = (Malla) mallaCmb.getSelectedItem();
-            this.malla.setIdMalla(mall.getIdMalla());
-            this.malla.setNombreMalla(mall.getNombreMalla());
+            malla.setIdMalla(mall.getIdMalla());
+
         }
     }//GEN-LAST:event_mallaCmbItemStateChanged
     private ConfiguracionMateria cargaConfigMateria(int numCampos) {
@@ -1251,6 +1332,93 @@ public class FormularioMateria extends javax.swing.JDialog {
         return configuracionMateria;
     }
 
+    private ConfiguracionMateria seteaConfigMateria(ResultSet resultSet, int numCampos) {
+        configuracionMateria = new ConfiguracionMateria();
+        try {
+            switch (numCampos) {
+                case 1:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    break;
+                case 2:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    break;
+                case 3:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    break;
+                case 4:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    break;
+                case 5:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    break;
+                case 6:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    aporteTxt6.setText(resultSet.getString("aporte6"));
+                    break;
+                case 7:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    aporteTxt6.setText(resultSet.getString("aporte6"));
+                    aporteTxt7.setText(resultSet.getString("aporte7"));
+                    break;
+                case 8:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    aporteTxt6.setText(resultSet.getString("aporte6"));
+                    aporteTxt7.setText(resultSet.getString("aporte7"));
+                    aporteTxt8.setText(resultSet.getString("aporte8"));
+                    break;
+                case 9:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    aporteTxt6.setText(resultSet.getString("aporte6"));
+                    aporteTxt7.setText(resultSet.getString("aporte7"));
+                    aporteTxt8.setText(resultSet.getString("aporte8"));
+                    aporteTxt9.setText(resultSet.getString("aporte9"));
+                    break;
+                case 10:
+                    aporteTxt1.setText(resultSet.getString("aporte1"));
+                    aporteTxt2.setText(resultSet.getString("aporte2"));
+                    aporteTxt3.setText(resultSet.getString("aporte3"));
+                    aporteTxt4.setText(resultSet.getString("aporte4"));
+                    aporteTxt5.setText(resultSet.getString("aporte5"));
+                    aporteTxt6.setText(resultSet.getString("aporte6"));
+                    aporteTxt7.setText(resultSet.getString("aporte7"));
+                    aporteTxt8.setText(resultSet.getString("aporte8"));
+                    aporteTxt9.setText(resultSet.getString("aporte9"));
+                    aporteTxt10.setText(resultSet.getString("aporte10"));
+                    break;
+            }
+
+        } catch (Exception e) {
+        }
+
+        return configuracionMateria;
+    }
+
     private DescripcionMateria cargaDescripcion(int numCampos) {
         descripcionMateria = new DescripcionMateria();
         switch (numCampos) {
@@ -1330,6 +1498,92 @@ public class FormularioMateria extends javax.swing.JDialog {
                 descripcionMateria.setDescripcion10(aporteDscTxt10.getText().toUpperCase());
                 break;
         }
+        return descripcionMateria;
+    }
+
+    private DescripcionMateria seteaDescripcion(ResultSet resultSet, int numCampos) {
+        descripcionMateria = new DescripcionMateria();
+        try {
+            switch (numCampos) {
+                case 1:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    break;
+                case 2:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    break;
+                case 3:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    break;
+                case 4:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    break;
+                case 5:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    break;
+                case 6:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    aporteDscTxt6.setText(resultSet.getString("dm.aporte6"));
+                    break;
+                case 7:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    aporteDscTxt6.setText(resultSet.getString("dm.aporte6"));
+                    aporteDscTxt7.setText(resultSet.getString("dm.aporte7"));
+                    break;
+                case 8:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    aporteDscTxt6.setText(resultSet.getString("dm.aporte6"));
+                    aporteDscTxt7.setText(resultSet.getString("dm.aporte7"));
+                    aporteDscTxt8.setText(resultSet.getString("dm.aporte8"));
+                    break;
+                case 9:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    aporteDscTxt6.setText(resultSet.getString("dm.aporte6"));
+                    aporteDscTxt7.setText(resultSet.getString("dm.aporte7"));
+                    aporteDscTxt8.setText(resultSet.getString("dm.aporte8"));
+                    aporteDscTxt9.setText(resultSet.getString("dm.aporte9"));
+                    break;
+                case 10:
+                    aporteDescTxt1.setText(resultSet.getString("dm.aporte1"));
+                    aporteDscTxt2.setText(resultSet.getString("dm.aporte2"));
+                    aporteDescTxt3.setText(resultSet.getString("dm.aporte3"));
+                    aporteDesTxt4.setText(resultSet.getString("dm.aporte4"));
+                    aporteDscTxt5.setText(resultSet.getString("dm.aporte5"));
+                    aporteDscTxt6.setText(resultSet.getString("dm.aporte6"));
+                    aporteDscTxt7.setText(resultSet.getString("dm.aporte7"));
+                    aporteDscTxt8.setText(resultSet.getString("dm.aporte8"));
+                    aporteDscTxt9.setText(resultSet.getString("dm.aporte9"));
+                    aporteDscTxt10.setText(resultSet.getString("dm.aporte10"));
+                    break;
+            }
+        } catch (Exception e) {
+        }
+
         return descripcionMateria;
     }
 
@@ -1713,6 +1967,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JButton calcularBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JButton cargarBtn;
+    private javax.swing.JLabel creditosDispLbl;
     private javax.swing.JTextField creditosDisponiblesTxt;
     private javax.swing.JTextField creditosTxt;
     private javax.swing.JLabel desLbl1;
@@ -1740,7 +1995,6 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
