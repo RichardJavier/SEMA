@@ -26,9 +26,14 @@ public class Malla extends Semestre {
     public Malla(Integer idMalla) {
         this.idMalla = idMalla;
     }
-
-    public Malla(Integer idMalla, String nombreMalla, Integer idSemestre) {
-        super(idSemestre);
+    
+    public Malla(Integer idMalla, String nombreMalla,String semestre) {
+        super(semestre);
+        this.idMalla = idMalla;
+        this.nombreMalla = nombreMalla;
+    }
+    public Malla(Integer idMalla, String nombreMalla, Integer idSemestre,String semestre) {
+        super(idSemestre,semestre);
         this.idMalla = idMalla;
         this.nombreMalla = nombreMalla;
     }

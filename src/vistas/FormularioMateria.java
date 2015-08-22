@@ -15,7 +15,6 @@ import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
 import logica.DescripcionMateriaDao;
 import logica.MallaDao;
-import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
 import modelo.Campo;
 import modelo.ConfiguracionMateria;
@@ -182,6 +181,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         profesoCmb = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jLabel1.setText("Nombre Materia");
 

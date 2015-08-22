@@ -27,7 +27,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="475" max="-2" attributes="0"/>
-                  <Component id="mensajeLbl" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="mensajeLbl" min="-2" pref="142" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                      <Component id="filtroTxt" min="-2" pref="158" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="Buscar" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="121" max="32767" attributes="0"/>
           </Group>
@@ -36,8 +42,14 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-              <Component id="mensajeLbl" min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="mensajeLbl" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="filtroTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Buscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="222" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -90,6 +102,19 @@
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="filtroTxt">
+    </Component>
+    <Component class="javax.swing.JButton" name="Buscar">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/recursos/search.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="jButton2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BuscarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
