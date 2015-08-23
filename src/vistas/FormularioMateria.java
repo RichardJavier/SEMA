@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
 import logica.DescripcionMateriaDao;
 import logica.MallaDao;
+import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
 import modelo.Campo;
 import modelo.ConfiguracionMateria;
