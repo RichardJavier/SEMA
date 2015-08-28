@@ -165,10 +165,10 @@ public class FormularioEspecialidad extends javax.swing.JDialog {
     }//GEN-LAST:event_guardarBtnActionPerformed
     private boolean validaForm() {
         boolean resultado = true;
-        if (codigoTxt.getText().isEmpty()) {
+        if (codigoTxt.getText().trim().isEmpty()) {
             resultado = false;
         }
-        if (nombreEspecialidadTxt.getText().isEmpty()) {
+        if (nombreEspecialidadTxt.getText().trim().isEmpty()) {
             resultado = false;
         }
         return resultado;

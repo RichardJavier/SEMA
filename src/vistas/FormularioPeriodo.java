@@ -388,7 +388,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
 
     private boolean validaForm() {
         boolean resultado = true;
-        if (nombrePeriodoTxt.getText().length() == 0) {
+        if (nombrePeriodoTxt.getText().trim().length() == 0) {
             resultado = false;
         }
         if (matriculaGroup.isSelected(null)) {

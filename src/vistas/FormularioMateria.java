@@ -1,9 +1,7 @@
 package vistas;
 
-import conectar.Conexion;
 import control.Crud;
 import java.awt.HeadlessException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -38,8 +36,6 @@ import modelo.Semestre;
  */
 public class FormularioMateria extends javax.swing.JDialog {
 
-    Conexion cc = Conexion.getInstance();
-    Connection cn = cc.Conectar();
     public static FrmMateria frmMateria;
     private Integer idMateria;
     ResultSet resultSet;
@@ -1225,7 +1221,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                 crud.insertarM("nombre_materia", campos2);
                 this.dispose();
             } else {
-                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);
+                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);           
                 this.dispose();
             }
 
@@ -1757,24 +1753,24 @@ public class FormularioMateria extends javax.swing.JDialog {
     }
 
     private void ocultaCampos() {
-        JTextField[] campo = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
+        JTextField[] camp = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
             aporteTxt7, aporteTxt8, aporteTxt9, aporteTxt10, aporteDescTxt1, aporteDscTxt2,
             aporteDescTxt3, aporteDesTxt4, aporteDscTxt5, aporteDscTxt6, aporteDscTxt7,
             aporteDscTxt8, aporteDscTxt9, aporteDscTxt10};
 
-        for (JTextField campo1 : campo) {
-            campo1.setEnabled(false);
+        for (JTextField campo3 : camp) {
+            campo3.setEnabled(false);
         }
 
     }
 
     private void cargaCampo(int valorCampos) {
-        JTextField[] campo = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
+        JTextField[] camp = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
             aporteTxt7, aporteTxt8, aporteTxt9, aporteTxt10};
         int i = 0;
-        for (JTextField campo1 : campo) {
+        for (JTextField campo4 : camp) {
             if (i < valorCampos) {
-                campo1.setEnabled(true);
+                campo4.setEnabled(true);
                 i++;
             }
         }
@@ -1793,17 +1789,17 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private boolean validaSuma(int valorNum) {
         boolean resultado = true;
-        JTextField[] campo = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
+        JTextField[] camp = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
             aporteTxt7, aporteTxt8, aporteTxt9, aporteTxt10};
         int val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0, val9 = 0, val10 = 0;
         int[] constante = {val1, val2, val3, val4, val5, val6, val7, val8, val9, val10};
         int i = 0;
         int y = 0;
         int suma = 0;
-        for (JTextField campo1 : campo) {
+        for (JTextField campo5 : camp) {
             if (i < valorNum) {
-                if (!campo1.getText().isEmpty()) {
-                    constante[y] = Integer.parseInt(campo1.getText());
+                if (!campo5.getText().trim().isEmpty()) {
+                    constante[y] = Integer.parseInt(campo5.getText());
                     i++;
                     y++;
                 } else {
@@ -1840,12 +1836,12 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private boolean validaDescripcion(int valorCampos) {
         boolean resultado = true;
-        JTextField[] campo = {aporteDescTxt1, aporteDscTxt2, aporteDescTxt3, aporteDesTxt4,
+        JTextField[] camp= {aporteDescTxt1, aporteDscTxt2, aporteDescTxt3, aporteDesTxt4,
             aporteDscTxt5, aporteDscTxt6, aporteDscTxt7, aporteDscTxt8, aporteDscTxt9, aporteDscTxt10};
         int i = 0;
-        for (JTextField campo1 : campo) {
+        for (JTextField campo6 : camp) {
             if (i < valorCampos) {
-                if (campo1.getText().length() == 0) {
+                if (campo6.getText().length() == 0) {
                     resultado = false;
                     respuesta = "descripcion";
                 }
@@ -1874,11 +1870,11 @@ public class FormularioMateria extends javax.swing.JDialog {
         if (!validaDescripcion(numeroCampos)) {
             resultado = false;
         }
-        if (nombreMateriaTxt.getText().length() == 0) {
+        if (nombreMateriaTxt.getText().trim().length() == 0) {
             resultado = false;
-        } else if (creditosTxt.getText().length() == 0) {
+        } else if (creditosTxt.getText().trim().length() == 0) {
             resultado = false;
-        } else if (horasTxt.getText().length() == 0) {
+        } else if (horasTxt.getText().trim().length() == 0) {
             resultado = false;
         }
         if (estadoMallaGroup.isSelected(null)) {
@@ -1981,20 +1977,18 @@ public class FormularioMateria extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormularioMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormularioMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormularioMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormularioMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 FormularioMateria dialog = new FormularioMateria(frmMateria, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

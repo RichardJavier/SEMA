@@ -408,7 +408,6 @@ public class FormularioMalla extends javax.swing.JDialog {
         crud = new Crud();
         if (validaForm()) {
             if (validaValor()) {
-                
                 this.gurdarBtn.setEnabled(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Error en configuracion de la Malla", "Error", JOptionPane.ERROR_MESSAGE);
@@ -418,20 +417,20 @@ public class FormularioMalla extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-  private void ocultaForm(){
-  nombreMallaTxt.setEnabled(false);
-  porcentajeNotaEmpresaTxt.setEnabled(false);
-  porcentajeNotaTeorica.setEnabled(false);
-  porcentajePonderadoNota.setEnabled(false);
-  porcentajeTutoriaIntegrada.setEnabled(false);
-  totalCreditosCiclo.setEnabled(false);
-  totalCreditosTeoricaTxt.setEnabled(false);
-  semestreCmb.setEnabled(false);
-  especialidadCmb.setEnabled(false);
-  periodoCmb.setEnabled(false);
-  activadaRdb.setEnabled(false);
-  desactivadaRdb.setEnabled(false);
-  }
+    private void ocultaForm() {
+        nombreMallaTxt.setEnabled(false);
+        porcentajeNotaEmpresaTxt.setEnabled(false);
+        porcentajeNotaTeorica.setEnabled(false);
+        porcentajePonderadoNota.setEnabled(false);
+        porcentajeTutoriaIntegrada.setEnabled(false);
+        totalCreditosCiclo.setEnabled(false);
+        totalCreditosTeoricaTxt.setEnabled(false);
+        semestreCmb.setEnabled(false);
+        especialidadCmb.setEnabled(false);
+        periodoCmb.setEnabled(false);
+        activadaRdb.setEnabled(false);
+        desactivadaRdb.setEnabled(false);
+    }
     private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
         activada = "A";
     }//GEN-LAST:event_activadaRdbActionPerformed
@@ -591,16 +590,19 @@ public class FormularioMalla extends javax.swing.JDialog {
             porcentajeNotaTeorica,
             totalCreditosCiclo,
             totalCreditosTeoricaTxt};
+        if (estadoMallaGroup.isSelected(null)) {
+            resultado = false;
+        }
         for (JTextField yu1 : yu) {
             if (yu1.getText().isEmpty() || yu1.getText().compareTo("0") == 0) {
                 resultado = false;
+                break;
             } else {
                 resultado = true;
             }
         }
-
-        if (estadoMallaGroup.isSelected(null)) {
-            resultado = false;
+        if (resultado==true) {
+            ocultaForm();
         }
         return resultado;
     }

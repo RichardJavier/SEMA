@@ -1,7 +1,6 @@
 package vistas;
 
 import conectar.Conexion;
-import groovy.xml.Entity;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 import logica.AlumnoDao;
 import modelo.Alumno;
 
-public class FrmAlumno extends javax.swing.JInternalFrame {
+public final class FrmAlumno extends javax.swing.JInternalFrame {
 
     Conexion cc = Conexion.getInstance();
     Connection cn = cc.Conectar();
@@ -25,7 +24,8 @@ public class FrmAlumno extends javax.swing.JInternalFrame {
     List<Alumno> listaAlumno;
     AlumnoDao alumnoDao;
     ResultSet resultSet;
-
+   public static  FormularioAlumno formularioAlumno;
+   private Integer idAlumno;
     public FrmAlumno() {
         initComponents();
         this.setLocation(310, 110);
@@ -132,6 +132,11 @@ public class FrmAlumno extends javax.swing.JInternalFrame {
 
             }
         ));
+        alumnoTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                alumnoTablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(alumnoTabla);
 
         jLabel1.setText("Bussqueda por Cedula");
@@ -146,6 +151,11 @@ public class FrmAlumno extends javax.swing.JInternalFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Add.png"))); // NOI18N
         jButton1.setText("Insertar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,6 +204,28 @@ public class FrmAlumno extends javax.swing.JInternalFrame {
         cargaDatos();
     }//GEN-LAST:event_buscarBtnActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            idAlumno=0;
+            mostrarDialog();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void alumnoTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_alumnoTablaMouseClicked
+     Integer i=alumnoTabla.getSelectedRow();
+     idAlumno=(Integer)alumnoTabla.getValueAt(i, 0);
+        try {
+            mostrarDialog();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_alumnoTablaMouseClicked
+   public void mostrarDialog(){
+    formularioAlumno=new FormularioAlumno(FrmAlumno.this,true,idAlumno);
+    formularioAlumno.setLocationRelativeTo(FrmAlumno.this);
+    formularioAlumno.setVisible(true);
+    cargaDatos();
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable alumnoTabla;
