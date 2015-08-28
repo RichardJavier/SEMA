@@ -2,14 +2,19 @@ package vistas;
 
 import conectar.Conexion;
 import control.Crud;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
@@ -76,6 +81,8 @@ public class FormularioMateria extends javax.swing.JDialog {
         creditosDisponiblesTxt.setEnabled(false);
         materia = new Materia();
         profesor = new Profesor();
+        descripcionMateria = new DescripcionMateria();
+        configuracionMateria = new ConfiguracionMateria();
     }
 
     public FormularioMateria(FrmMateria parent, boolean modal, Integer idMateria) {
@@ -102,8 +109,8 @@ public class FormularioMateria extends javax.swing.JDialog {
         especialidadCmb.setEnabled(false);
         materia = new Materia();
         profesor = new Profesor();
-        descripcionMateria=new DescripcionMateria();
-        configuracionMateria=new ConfiguracionMateria();
+        descripcionMateria = new DescripcionMateria();
+        configuracionMateria = new ConfiguracionMateria();
         if (idMateria > 0) {
             try {
                 MateriaDao materiaDao = new MateriaDao();
@@ -117,9 +124,14 @@ public class FormularioMateria extends javax.swing.JDialog {
                     } else {
                         desactivadaRdb.setSelected(true);
                     }
+                    materia.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
+                    materia.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("f_crea")));
+                    materia.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
                     malla.setIdMalla(Integer.valueOf(resultSet.getString("id_malla")));
                     malla.setNombreMalla(resultSet.getString("nombre_malla"));
                     mallaCmb.setSelectedItem(malla);
+                    malla.setCreditoCiclo(Integer.parseInt(resultSet.getString("cred_ciclo")));
+                    malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
 
                     semestre.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
                     semestre.setSemestre(resultSet.getString("semestre"));
@@ -148,9 +160,10 @@ public class FormularioMateria extends javax.swing.JDialog {
                     seteaDescripcion(resultSet, camp);
 
                 }
-                creditosDispLbl.setVisible(false);
-                creditosDisponiblesTxt.setVisible(false);
+
             } catch (SQLException | NumberFormatException e) {
+            } catch (ParseException ex) {
+                Logger.getLogger(FormularioMateria.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -236,8 +249,6 @@ public class FormularioMateria extends javax.swing.JDialog {
         setUndecorated(true);
 
         jLabel1.setText("Nombre Materia");
-
-        nombreMateriaTxt.setEditable(false);
 
         jLabel2.setText("Creditos");
 
@@ -926,6 +937,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Error verifique que el formulario este correcto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_validarBtnActionPerformed
+    @SuppressWarnings({"BoxedValueEquality", "NumberEquality", "element-type-mismatch"})
     private void calculaCreditos() {
         if (idMateria == 0) {
             if (malla.getCreditosTeoricaDisponibles() == 0) {
@@ -946,14 +958,38 @@ public class FormularioMateria extends javax.swing.JDialog {
         } else {
             MateriaDao materiaDao = new MateriaDao();
             try {
-                int val=0;  
-                List<Materia>listaTemp = new ArrayList<>();
-                
-                for (Materia valorCredito : materiaDao.valorCreditos(malla.getIdMalla())) {
-                   val = valorCredito.getCreditos()+val;
+                int val1 = 0;
+                @SuppressWarnings("UnusedAssignment")
+                List<Materia> listaTemp = new ArrayList<>();
+                listaTemp = materiaDao.valorCreditos(malla.getIdMalla());
+                for (Materia listaTemp1 : listaTemp) {
+                    int v = listaTemp1.getIdMateria();
+                    int h = materia.getIdMateria();
+                    if (v != h) {
+                        val1 = listaTemp1.getCreditos() + val1;
+                    }
                 }
-   
-            } catch (Exception e) {
+                if (activadaRdb.isSelected()==true) {
+                    int u = Integer.parseInt(creditosTxt.getText());
+                    val1 = val1 + u;
+                    if (val1 > malla.getCreditoCiclo()) {
+                        JOptionPane.showMessageDialog(null, "Error numero no admitido de creditos", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        malla.setCreditosTeoricaDisponibles(malla.getCreditoCiclo() - val1);
+                        creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
+                        guardarBtn.setEnabled(true);
+                        ocultaForm();
+                        validarBtn.setEnabled(false);
+                    }
+                } else {
+                    creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
+                    malla.setCreditosTeoricaDisponibles(materia.getCreditos());
+                    guardarBtn.setEnabled(true);
+                    ocultaForm();
+                    validarBtn.setEnabled(false);
+                }
+
+            } catch (NumberFormatException | HeadlessException e) {
                 System.out.println(e);
             }
 
@@ -1135,91 +1171,122 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_aporteDscTxt10KeyTyped
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
-        crud = new Crud();
-        //inicia carga de datos para tabla configmateria
-        cargarDatosMateriaLista(numeroCampos);
-        campos = new HashMap();
-        for (@SuppressWarnings("LocalVariableHidesMemberVariable") Campo lista1 : lista) {
-            campos.put(lista1.getLlave(), lista1.getObjeto());
-        }
-        configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
-        campos.put("num_aporte", configuracionMateria.getNumeroAportes());
-        if (idMateria == 0) {
-            crud.insertar("config_materia", campos);
-        } else {
-            crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos);
+        try {
+            crud = new Crud();
+            //inicia carga de datos para tabla configmateria
+            cargarDatosMateriaLista(numeroCampos);
+            campos = new HashMap();
+            for (@SuppressWarnings("LocalVariableHidesMemberVariable") Campo lista1 : lista) {
+                campos.put(lista1.getLlave(), lista1.getObjeto());
+            }
+            configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
+            campos.put("num_aporte", configuracionMateria.getNumeroAportes());
+            if (idMateria == 0) {
+                crud.insertar("config_materia", campos);
+            } else {
+                crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos);
+            }
+
+            //inicia carga de datos para tabla descripcion materia
+            if (idMateria == 0) {
+                ConfiguracionMateriaDao cmd = new ConfiguracionMateriaDao();
+                configuracionMateria.setIdConfiguracionMateria(cmd.cargaSecuencialMateria());
+            } else {
+                configuracionMateria.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
+            }
+
+            cargarDescripcionLista(numeroCampos);
+            campos1 = new HashMap();
+            for (Campo lista2 : lista1) {
+                campos1.put(lista2.getLlave(), lista2.getObjeto1());
+            }
+
+            if (idMateria == 0) {
+                descripcionMateria.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
+            } else {
+                descripcionMateria.setIdConfiguracionMateria(descripcionMateria.getIdDescripcionMateria());
+            }
+            campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
+            if (idMateria == 0) {
+                crud.insertar("desc_materia", campos1);
+            } else {
+                crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1);
+            }
+
+            //actualiza los crditos disponibles de malla
+            malla.setCreditosTeoricaDisponibles(malla.getCreditosTeoricaDisponibles());
+            Map mal = new HashMap();
+            mal.put("cred_teorica_disp", malla.getCreditosTeoricaDisponibles());
+            crud.actualizar("malla", "id_malla", malla.getIdMalla(), mal);
+
+            //inicia carga de datos para tabla materia
+            cargaDatos();
+            if (idMateria == 0) {
+                crud.insertarM("nombre_materia", campos2);
+                this.dispose();
+            } else {
+                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);
+                this.dispose();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar la informacion", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        //inicia carga de datos para tabla descripcion materia
-        ConfiguracionMateriaDao cmd = new ConfiguracionMateriaDao();
-        configuracionMateria.setIdConfiguracionMateria(cmd.cargaSecuencialMateria());
-        cargarDescripcionLista(numeroCampos);
-        campos1 = new HashMap();
-        for (Campo lista2 : lista1) {
-            campos1.put(lista2.getLlave(), lista2.getObjeto1());
-        }
-
-        descripcionMateria.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
-        campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
-        if (idMateria == 0) {
-            crud.insertar("desc_materia", campos1);
-        } else {
-            crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1);
-        }
-
-        //actualiza los crditos disponibles de malla
-        malla.setCreditosTeoricaDisponibles(malla.getCreditosTeoricaDisponibles());
-        Map mal = new HashMap();
-        mal.put("cred_teorica_disp", malla.getCreditosTeoricaDisponibles());
-        crud.actualizar("malla", "id_malla", malla.getIdMalla(), mal);
-
-        //inicia carga de datos para tabla materia
-        cargaDatos();
-        crud.insertarM("nombre_materia", campos2);
-        this.dispose();
 
     }//GEN-LAST:event_guardarBtnActionPerformed
     private Map cargaDatos() {
-        campos2 = new HashMap();
-        Calendar cal = Calendar.getInstance();
-        materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
-        materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
-        materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
-        materia.setEstado(estado);
-        materia.setIdMalla(malla.getIdMalla());
-        materia.setIdSemestre(semestre.getIdSemestre());
-        materia.setIdEspecialidad(especialidad.getIdEspecialidad());
-        materia.setIdProfesor(profesor.getIdProfesor());
-        materia.setIdEje(eje.getIdEje());
-        DescripcionMateriaDao dao = new DescripcionMateriaDao();
-        descripcionMateria.setIdDescripcionMateria(dao.cargaSecuencialMateria());
-        materia.setIdDescripcion(descripcionMateria.getIdDescripcionMateria());
-        materia.setIdConfiguracion(configuracionMateria.getIdConfiguracionMateria());
-        materia.setFechaCreacion(cal.getTime());
-        materia.setFechaModificacion(cal.getTime());
-        campos2.put("id_materia", " ");
-        campos2.put("id_semestre", " ");
-        campos2.put("id_especial", " ");
-        campos2.put("materia", materia.getNombreMateria());
-        campos2.put("creditos", materia.getCreditos());
-        campos2.put("numhora", materia.getNumeroHoras());
-        campos2.put("mat_sec", " ");
-        campos2.put("activa_mat", materia.getEstado());
-        campos2.put("AUX", 0);
-        campos2.put("ID_NUM", 0);
-        campos2.put("id1_semestre", semestre.getIdSemestre());
-        campos2.put("id1_especialidad", especialidad.getIdEspecialidad());
-        campos2.put("id1_eje", eje.getIdEje());
-        campos2.put("id_ciclo", 0);
-        campos2.put("f_crea", materia.getFechaCreacion());
-        campos2.put("f_modifica", materia.getFechaModificacion());
-        campos2.put("id1_profe", profesor.getIdProfesor());
-        campos2.put("alias", " ");
-        campos2.put("materia_antes", materia.getNombreMateria());
-        campos2.put("id_malla", malla.getIdMalla());
-        campos2.put("id_config_materia", configuracionMateria.getIdConfiguracionMateria());
-        campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
-        return campos2;
+        try {
+            campos2 = new HashMap();
+            Calendar cal = Calendar.getInstance();
+            materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
+            materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
+            materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
+            materia.setEstado(estado);
+            materia.setIdMalla(malla.getIdMalla());
+            materia.setIdSemestre(semestre.getIdSemestre());
+            materia.setIdEspecialidad(especialidad.getIdEspecialidad());
+            materia.setIdProfesor(profesor.getIdProfesor());
+            materia.setIdEje(eje.getIdEje());
+            materia.setIdDescripcion(descripcionMateria.getIdDescripcionMateria());
+            materia.setIdConfiguracion(configuracionMateria.getIdConfiguracionMateria());
+            if (idMateria == 0) {
+                materia.setFechaCreacion(cal.getTime());
+                DescripcionMateriaDao dao = new DescripcionMateriaDao();
+                descripcionMateria.setIdDescripcionMateria(dao.cargaSecuencialMateria());
+            } else {
+                materia.setFechaCreacion(materia.getFechaCreacion());
+            }
+            materia.setFechaModificacion(cal.getTime());
+            campos2.put("id_materia", " ");
+            campos2.put("id_semestre", " ");
+            campos2.put("id_especial", " ");
+            campos2.put("materia", materia.getNombreMateria());
+            campos2.put("creditos", materia.getCreditos());
+            campos2.put("numhora", materia.getNumeroHoras());
+            campos2.put("mat_sec", " ");
+            campos2.put("activa_mat", materia.getEstado());
+            campos2.put("AUX", 0);
+            campos2.put("ID_NUM", 0);
+            campos2.put("id1_semestre", semestre.getIdSemestre());
+            campos2.put("id1_especialidad", especialidad.getIdEspecialidad());
+            campos2.put("id1_eje", eje.getIdEje());
+            campos2.put("id_ciclo", 0);
+            campos2.put("f_crea", materia.getFechaCreacion());
+            campos2.put("f_modifica", materia.getFechaModificacion());
+            campos2.put("id1_profe", profesor.getIdProfesor());
+            campos2.put("alias", " ");
+            campos2.put("materia_antes", materia.getNombreMateria());
+            campos2.put("id_malla", malla.getIdMalla());
+            campos2.put("id_config_materia", configuracionMateria.getIdConfiguracionMateria());
+            campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
+            return campos2;
+        } catch (Exception e) {
+            System.out.println("error" + e);
+            return null;
+
+        }
+
     }
     private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
         if (idMateria == 0) {
@@ -1250,7 +1317,6 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_mallaCmbItemStateChanged
     private ConfiguracionMateria cargaConfigMateria(int numCampos) {
-        configuracionMateria = new ConfiguracionMateria();
         switch (numCampos) {
             case 1:
                 configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
@@ -1333,7 +1399,6 @@ public class FormularioMateria extends javax.swing.JDialog {
     }
 
     private ConfiguracionMateria seteaConfigMateria(ResultSet resultSet, int numCampos) {
-        configuracionMateria = new ConfiguracionMateria();
         try {
             switch (numCampos) {
                 case 1:
@@ -1420,7 +1485,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     }
 
     private DescripcionMateria cargaDescripcion(int numCampos) {
-        descripcionMateria = new DescripcionMateria();
+
         switch (numCampos) {
             case 1:
                 descripcionMateria.setDescripcion1(aporteDescTxt1.getText().toUpperCase());
@@ -1502,7 +1567,6 @@ public class FormularioMateria extends javax.swing.JDialog {
     }
 
     private DescripcionMateria seteaDescripcion(ResultSet resultSet, int numCampos) {
-        descripcionMateria = new DescripcionMateria();
         try {
             switch (numCampos) {
                 case 1:
@@ -1649,10 +1713,12 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
         estado = "A";
+        materia.setEstado(estado);
     }//GEN-LAST:event_activadaRdbActionPerformed
 
     private void desactivadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desactivadaRdbActionPerformed
         estado = "D";
+        materia.setEstado(estado);
     }//GEN-LAST:event_desactivadaRdbActionPerformed
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed

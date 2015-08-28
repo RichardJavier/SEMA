@@ -22,6 +22,13 @@ public class Materia extends Malla {
     public Materia() {
     }
 
+    public Materia(Integer idMateria, String nombreMateria, String especialidad, String semestre) {
+        super(semestre);
+        this.idMateria = idMateria;
+        this.nombreMateria = nombreMateria;
+        this.especialidad = especialidad;
+    }
+    
     public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre,String semestre) {
         super(idMalla, nombreMalla, idSemestre,semestre);
         this.idMateria = idMateria;

@@ -49,41 +49,42 @@ public class CargarAlumnoWeb extends Thread {
         Conexion1 cc = Conexion1.getInstance();
         Connection cn = cc.Conectar();
 
-        String sql = "SELECT * FROM  maestro_alumno ";
+        String sql = "SELECT * FROM  tabla ";
         try {
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
                 listaAlumnos = new ArrayList<>();
                 Alumno alumno = new Alumno();
-                alumno.setCedula(resultado.getString("cedula"));
-                alumno.setApellidoPaterno(resultado.getString("apellido_paterno"));
-                alumno.setApellidoMaterno(resultado.getString("apellido_materno"));
-                alumno.setNombreCompleto(resultado.getString("nombre_completo"));
-                alumno.setSexo(resultado.getString("sexo"));
-                alumno.setEstadoCivil(resultado.getString("estado_civil"));
-                alumno.setPaisNacimiento(resultado.getString("pais_nacimiento"));
-                setFechaNacimiento(formato.parse(resultado.getString("fecha_nacimiento")));
+                alumno.setCedula(resultado.getString("apellido"));
+                alumno.setApellidoPaterno(resultado.getString("nombre"));
+              //  alumno.setApellidoMaterno(resultado.getString("apellido_materno"));
+               // alumno.setNombreCompleto(resultado.getString("nombre_completo"));
+                //alumno.setSexo(resultado.getString("sexo"));
+                //alumno.setEstadoCivil(resultado.getString("estado_civil"));
+               // alumno.setPaisNacimiento(resultado.getString("pais_nacimiento"));
+                setFechaNacimiento(formato.parse(resultado.getString("fecha_registro")));
                 alumno.setFechaNacimiento(getFechaNacimiento());
-                alumno.setCiudadNacimiento(resultado.getString("ciudad_nacimiento"));
-                alumno.setCiudadDomicilio(resultado.getString("ciudad_domicilio"));
-                alumno.setDireccionDomicilio(resultado.getString("direccion_domicilio"));
-                alumno.setTelefonoFijo(resultado.getString("telefono_fijo"));
-                alumno.setCelular(resultado.getString("celular"));
-                alumno.setEmailAlumno(resultado.getString("email_alumno"));
-                alumno.setEmailAlternativo(resultado.getString("email_alternativo"));
-                alumno.setDiscapacidad(resultado.getString("discapacidad"));
-                alumno.setNumeroConadis(resultado.getString("numero_conadis"));
-                alumno.setEtnia(resultado.getString("etnia"));
-                alumno.setNombreColegio(resultado.getString("nombre_colegio"));
-                alumno.setPaisEstudio(resultado.getString("pais_estudio"));
-                alumno.setCiudadColegio(resultado.getString("ciudad_colegio"));
-                alumno.setPersonaContacto(resultado.getString("persona_contacto"));
-                alumno.setParentesco(resultado.getString("parentesco"));
-                alumno.setNumeroFijoFamiliar(resultado.getString("numero_fijo_familiar"));
-                alumno.setNumeroCelularFamiliar(resultado.getString("numero_celular_familiar"));
-                alumno.setEmailFamiliar(resultado.getString("email_familiar"));
-                listaAlumnos.add(alumno);
+               // alumno.setCiudadNacimiento(resultado.getString("ciudad_nacimiento"));
+//                alumno.setCiudadDomicilio(resultado.getString("ciudad_domicilio"));
+//                alumno.setDireccionDomicilio(resultado.getString("direccion_domicilio"));
+//                alumno.setTelefonoFijo(resultado.getString("telefono_fijo"));
+//                alumno.setCelular(resultado.getString("celular"));
+//                alumno.setEmailAlumno(resultado.getString("email_alumno"));
+//                alumno.setEmailAlternativo(resultado.getString("email_alternativo"));
+//                alumno.setDiscapacidad(resultado.getString("discapacidad"));
+//                alumno.setNumeroConadis(resultado.getString("numero_conadis"));
+//                alumno.setEtnia(resultado.getString("etnia"));
+//                alumno.setNombreColegio(resultado.getString("nombre_colegio"));
+//                alumno.setPaisEstudio(resultado.getString("pais_estudio"));
+//                alumno.setCiudadColegio(resultado.getString("ciudad_colegio"));
+//                alumno.setPersonaContacto(resultado.getString("persona_contacto"));
+//                alumno.setParentesco(resultado.getString("parentesco"));
+//                alumno.setNumeroFijoFamiliar(resultado.getString("numero_fijo_familiar"));
+//                alumno.setNumeroCelularFamiliar(resultado.getString("numero_celular_familiar"));
+//                alumno.setEmailFamiliar(resultado.getString("email_familiar"));
+             listaAlumnos.add(alumno);
+             
                 if (listaAlumnos.isEmpty()) {
                     System.out.println("no hay campos");
                 }else {
@@ -101,7 +102,9 @@ public class CargarAlumnoWeb extends Thread {
                 
 
             }
-
+            for (Alumno listaAlumno : listaAlumnos) {
+                System.out.println(listaAlumno.getCedula());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CargarAlumnoWeb.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

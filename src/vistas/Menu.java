@@ -269,10 +269,9 @@ public class Menu extends javax.swing.JFrame {
 
     private void alumnoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoMenuActionPerformed
 
-//        FrmAlumno fa = new FrmAlumno();
-//        p.cargarJDialog();
-//        escritorio.add(fa);
-//        fa.show();
+        FrmAlumno fa = new FrmAlumno();
+        escritorio.add(fa);
+        fa.show();
 
     }//GEN-LAST:event_alumnoMenuActionPerformed
 

@@ -137,6 +137,35 @@ public class Crud {
                 
                 Statement st = cn.createStatement();
                 int  registrosAfectados = st.executeUpdate(sql);                
+                cc.desconectar();
+                return registrosAfectados;
+            } catch (SQLException | HeadlessException e) {
+                System.out.println("Error en la actualizacion: " + e.toString());
+                JOptionPane.showMessageDialog(null, "Error en la actualizacion:" + e.toString());
+            }
+            return 0;
+        }
+     public synchronized Integer actualizarM(String tabla, String pkTabla, Integer pkDato, Map datos) {
+            try {
+                Conexion cc = Conexion.getInstance();
+                Connection cn = cc.Conectar();
+                StringBuilder campos = new StringBuilder();
+                StringBuilder coma = new StringBuilder();
+                for (Iterator it = datos.keySet().iterator(); it.hasNext();) {
+                    String llave = (String) it.next();
+                    campos.append(llave).append("=");
+                    if (datos.get(llave) instanceof Date) {
+                        campos.append("'").append(new java.sql.Date(((Date) datos.get(llave)).getTime()).toString()).append("',");
+                    } else {
+                        campos.append("'").append(datos.get(llave).toString()).append("',");
+                    }
+                }
+                String sql = "UPDATE" + "  " + tabla + " " + "SET" + " "
+                        + campos.toString().substring(0, campos.toString().length() - 1) + " "
+                        + "where" + " " + pkTabla + "=" + "'" + pkDato + "'" + ";";
+                
+                Statement st = cn.createStatement();
+                int  registrosAfectados = st.executeUpdate(sql);                
                 JOptionPane.showMessageDialog(null, "Registros actualizados Correctamente");
                 cc.desconectar();
                 return registrosAfectados;

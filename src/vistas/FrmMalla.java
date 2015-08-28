@@ -26,10 +26,11 @@ public class FrmMalla extends javax.swing.JInternalFrame {
     private Integer idMalla;
     private Malla malla;
     private MallaDao mallaDao;
-    private static  FormularioMalla formularioMalla;
+    private static FormularioMalla formularioMalla;
+
     public FrmMalla() {
         initComponents();
-        this.setLocation(310,110);
+        this.setLocation(310, 110);
         cargarDatos();
     }
 
@@ -59,15 +60,15 @@ public class FrmMalla extends javax.swing.JInternalFrame {
                         malla.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
                         malla.setNombreMalla(resultSet.getString("nombre_malla"));
                         malla.setSemestre(resultSet.getString("semestre"));
-                        if (filtroTxt.equals("")||malla.getNombreMalla().contains(filtroTxt.getText())) {
-                            listaMalla.add(new Malla(malla.getIdMalla(), malla.getNombreMalla(),malla.getSemestre()));
+                        if (filtroTxt.equals("") || malla.getNombreMalla().contains(filtroTxt.getText())) {
+                            listaMalla.add(new Malla(malla.getIdMalla(), malla.getNombreMalla(), malla.getSemestre()));
                             modelo.insertRow(i++, new Object[]{
-                            malla.getIdMalla(),
-                            malla.getNombreMalla(),
-                            malla.getSemestre()
-                        });
+                                malla.getIdMalla(),
+                                malla.getNombreMalla(),
+                                malla.getSemestre()
+                            });
                         }
-                        
+
                     }
                 } catch (SQLException | NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Error la cargar", "Error", JOptionPane.ERROR_MESSAGE);
@@ -84,11 +85,12 @@ public class FrmMalla extends javax.swing.JInternalFrame {
     }
 
     public void mostrarDialog() throws SQLException, ParseException {
-       formularioMalla=new FormularioMalla(FrmMalla.this, true, idMalla);
-       formularioMalla.setLocationRelativeTo(FrmMalla.this);
-       formularioMalla.setVisible(true);
+        formularioMalla = new FormularioMalla(FrmMalla.this, true, idMalla);
+        formularioMalla.setLocationRelativeTo(FrmMalla.this);
+        formularioMalla.setVisible(true);
         cargarDatos();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,6 +101,7 @@ public class FrmMalla extends javax.swing.JInternalFrame {
         mensajeLbl = new javax.swing.JLabel();
         filtroTxt = new javax.swing.JTextField();
         Buscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -127,13 +130,21 @@ public class FrmMalla extends javax.swing.JInternalFrame {
 
         mensajeLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        filtroTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filtroTxtKeyReleased(evt);
+            }
+        });
+
         Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
-        Buscar.setText("jButton2");
+        Buscar.setText("Buscar");
         Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Busqueda Por Nombre Malla");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,25 +158,34 @@ public class FrmMalla extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(63, 63, 63)
-                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Buscar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Buscar)))))
                 .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Buscar)))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mensajeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(jButton1)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,7 +193,7 @@ public class FrmMalla extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            idMalla=0;
+            idMalla = 0;
             mostrarDialog();
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(FrmMalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -183,7 +203,7 @@ public class FrmMalla extends javax.swing.JInternalFrame {
     private void mallaTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mallaTablaMouseClicked
         try {
             Integer i = mallaTabla.getSelectedRow();
-            idMalla=(Integer)mallaTabla.getValueAt(i, 0);
+            idMalla = (Integer) mallaTabla.getValueAt(i, 0);
             mostrarDialog();
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(FrmMalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,11 +214,19 @@ public class FrmMalla extends javax.swing.JInternalFrame {
         cargarDatos();
     }//GEN-LAST:event_BuscarActionPerformed
 
+    private void filtroTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtroTxtKeyReleased
+        convertiraMayusculasEnJtextfield(filtroTxt);
+    }//GEN-LAST:event_filtroTxtKeyReleased
+    public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
+        String cadena = (jTextfieldS.getText()).toUpperCase();
+        jTextfieldS.setText(cadena);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
     private javax.swing.JTextField filtroTxt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable mallaTabla;
     private javax.swing.JLabel mensajeLbl;

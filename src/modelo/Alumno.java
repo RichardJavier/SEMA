@@ -9,6 +9,7 @@ import java.util.Date;
 
 
 public class Alumno {
+ private Integer idAlumno;
  private String cedula;
  private String apellidoPaterno;
  private String apellidoMaterno;
@@ -39,6 +40,16 @@ public class Alumno {
     public Alumno() {
     }
 
+    public Alumno(Integer idAlumno, String cedula, String apellidoPaterno, String apellidoMaterno, String nombreCompleto, String sexo, Date fechaNacimiento) {
+        this.idAlumno = idAlumno;
+        this.cedula = cedula;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.nombreCompleto = nombreCompleto;
+        this.sexo = sexo;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public Alumno(String cedula, String apellidoPaterno, String apellidoMaterno, String nombreCompleto, String sexo, String estadoCivil, String paisNacimiento, Date fechaNacimiento, String ciudadNacimiento, String ciudadDomicilio, String direccionDomicilio, String telefonoFijo, String celular, String emailAlumno, String emailAlternativo, String discapacidad, String numeroConadis, String etnia, String nombreColegio, String paisEstudio, String ciudadColegio, String personaContacto, String parentesco, String numeroFijoFamiliar, String numeroCelularFamiliar, String emailFamiliar) {
         this.cedula = cedula;
         this.apellidoPaterno = apellidoPaterno;
@@ -67,7 +78,13 @@ public class Alumno {
         this.numeroCelularFamiliar = numeroCelularFamiliar;
         this.emailFamiliar = emailFamiliar;
     }
+    public Integer getIdAlumno() {
+        return idAlumno;
+    }
 
+    public void setIdAlumno(Integer idAlumno) {
+        this.idAlumno = idAlumno;
+    }
     public String getCedula() {
         return cedula;
     }
@@ -274,6 +291,11 @@ public class Alumno {
 
     public void setEmailFamiliar(String emailFamiliar) {
         this.emailFamiliar = emailFamiliar;
+    }
+
+    @Override
+    public String toString() {
+        return apellidoPaterno+" " + apellidoMaterno + " " + nombreCompleto ;
     }
  
 }

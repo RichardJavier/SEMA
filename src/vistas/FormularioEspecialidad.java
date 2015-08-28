@@ -51,6 +51,7 @@ public class FormularioEspecialidad extends javax.swing.JDialog {
         codigoTxt.setEnabled(false);
         especialidad = new Especialidad();
         especialidadDao = new EspecialidadDao();
+        cargarCodigo();
         try {
             if (idEspecialidad > 0) {
                 resultSet = especialidadDao.consulta(idEspecialidad);

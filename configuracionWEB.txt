@@ -1,8 +1,8 @@
 driver=com.mysql.jdbc.Driver
 jdbc=jdbc:mysql://
-host=localhost
-database=pruebas
-username=root
-password=root
+host=yasuni.ecuahosting.net
+database=itsbjedu_form
+username=itsbjedu_vic
+password=lomejorhd2020
 options=charSet=LATIN1
 mostrarpropiedades=si

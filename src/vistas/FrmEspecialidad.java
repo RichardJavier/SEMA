@@ -31,6 +31,7 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
     public FrmEspecialidad() {
         initComponents();
         especialidad = new Especialidad();
+        this.setLocation(310, 110);
         cargarDatos();
     }
 

@@ -73,13 +73,18 @@ public class FrmMateria extends javax.swing.JInternalFrame {
                         materia.setNombreMateria(resultSet.getString("materia"));
                         materia.setSemestre(resultSet.getString("semestre"));
                         materia.setEspecialidad(resultSet.getString("especialidad"));
-
-                        modelo.insertRow(i, new Object[]{
-                            materia.getIdMateria(),
-                            materia.getNombreMateria(),
-                            materia.getSemestre(),
-                            materia.getEspecialidad()
-                        });
+                        if (filtroTxt.equals("") || materia.getNombreMateria().contains(filtroTxt.getText().toUpperCase())) {
+                            listaMateria.add(new Materia(materia.getIdMateria(),
+                                    materia.getNombreMateria(),
+                                    materia.getSemestre(),
+                                    materia.getEspecialidad()));
+                            modelo.insertRow(i, new Object[]{
+                                materia.getIdMateria(),
+                                materia.getNombreMateria(),
+                                materia.getSemestre(),
+                                materia.getEspecialidad()
+                            });
+                        }
                     }
 
                 } catch (SQLException | NumberFormatException e) {
@@ -110,6 +115,8 @@ public class FrmMateria extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         materiaTabla = new javax.swing.JTable();
         insertarBtn = new javax.swing.JButton();
+        filtroTxt = new javax.swing.JTextField();
+        buscarBtn = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -136,6 +143,19 @@ public class FrmMateria extends javax.swing.JInternalFrame {
             }
         });
 
+        filtroTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filtroTxtKeyReleased(evt);
+            }
+        });
+
+        buscarBtn.setText("Buscar");
+        buscarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,13 +167,22 @@ public class FrmMateria extends javax.swing.JInternalFrame {
                         .addComponent(insertarBtn))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(353, 353, 353)
+                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(buscarBtn)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(insertarBtn)
@@ -182,8 +211,21 @@ public class FrmMateria extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_materiaTablaMouseClicked
 
+    private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
+        cargarDatos();
+    }//GEN-LAST:event_buscarBtnActionPerformed
+
+    private void filtroTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtroTxtKeyReleased
+        convertiraMayusculasEnJtextfield(filtroTxt);
+    }//GEN-LAST:event_filtroTxtKeyReleased
+    public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
+        String cadena = (jTextfieldS.getText()).toUpperCase();
+        jTextfieldS.setText(cadena);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buscarBtn;
+    private javax.swing.JTextField filtroTxt;
     private javax.swing.JButton insertarBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable materiaTabla;
