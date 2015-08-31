@@ -3,7 +3,7 @@ package modelo;
 import java.util.Date;
 import java.util.Objects;
 
-public class Materia extends Malla {
+public class Materia extends DescripcionMateria {
 
     private Integer idMateria;
     private String nombreMateria;
@@ -18,45 +18,25 @@ public class Materia extends Malla {
     private Integer idConfiguracion;
     private Date fechaCreacion;
     private Date fechaModificacion;
+    private Integer idSemestre;
+    private String semestre;
+    private Integer idMalla;
+    private String estado;
 
     public Materia() {
     }
 
-    public Materia(Integer idMateria, String nombreMateria, String especialidad, String semestre) {
-        super(semestre);
-        this.idMateria = idMateria;
+    public Materia(String nombreMateria, String semestre, String especialidad) {
+        this.semestre = semestre;
         this.nombreMateria = nombreMateria;
         this.especialidad = especialidad;
     }
-    
-    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor, Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla, String nombreMalla, Integer idSemestre,String semestre) {
-        super(idMalla, nombreMalla, idSemestre,semestre);
-        this.idMateria = idMateria;
-        this.nombreMateria = nombreMateria;
-        this.numeroHoras = numeroHoras;
-        this.creditos = creditos;
-        this.activaMateria = activaMateria;
-        this.idEspecialidad = idEspecialidad;
-        this.idEje = idEje;
-        this.idProfesor = idProfesor;
-        this.idDescripcion = idDescripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.fechaModificacion = fechaModificacion;
-    }
 
-    public Materia(Integer idMateria, String nombreMateria, Integer numeroHoras, Integer creditos, String activaMateria, Integer idEspecialidad, Integer idEje, Integer idProfesor,Integer idDescripcion, Date fechaCreacion, Date fechaModificacion, Integer idMalla) {
-        super(idMalla);
+    public Materia(Integer idMateria, String nombreMateria, String especialidad, String semestre) {
+        this.semestre = semestre;
         this.idMateria = idMateria;
         this.nombreMateria = nombreMateria;
-        this.numeroHoras = numeroHoras;
-        this.creditos = creditos;
-        this.activaMateria = activaMateria;
-        this.idEspecialidad = idEspecialidad;
-        this.idEje = idEje;
-        this.idProfesor = idProfesor;
-        this.idDescripcion = idDescripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.fechaModificacion = fechaModificacion;
+        this.especialidad = especialidad;
     }
 
     public Integer getIdMateria() {
@@ -114,6 +94,7 @@ public class Materia extends Malla {
     public void setIdProfesor(Integer idProfesor) {
         this.idProfesor = idProfesor;
     }
+
     public Integer getIdDescripcion() {
         return idDescripcion;
     }
@@ -130,12 +111,42 @@ public class Materia extends Malla {
         this.fechaModificacion = fechaModificacion;
     }
 
-    @Override
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
-    @Override
+    public Integer getIdEspecialidad() {
+        return idEspecialidad;
+    }
+
+    public void setIdEspecialidad(Integer idEspecialidad) {
+        this.idEspecialidad = idEspecialidad;
+    }
+
+    public Integer getIdSemestre() {
+        return idSemestre;
+    }
+
+    public void setIdSemestre(Integer idSemestre) {
+        this.idSemestre = idSemestre;
+    }
+
+    public String getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(String semestre) {
+        this.semestre = semestre;
+    }
+
+    public Integer getIdMalla() {
+        return idMalla;
+    }
+
+    public void setIdMalla(Integer idMalla) {
+        this.idMalla = idMalla;
+    }
+
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
@@ -147,8 +158,7 @@ public class Materia extends Malla {
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
-    
-    
+
     public Integer getIdConfiguracion() {
         return idConfiguracion;
     }
@@ -156,11 +166,20 @@ public class Materia extends Malla {
     public void setIdConfiguracion(Integer idConfiguracion) {
         this.idConfiguracion = idConfiguracion;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
         return nombreMateria;
     }
-     
+
     @Override
     public int hashCode() {
         int hash = 3;

@@ -40,6 +40,15 @@ public class Alumno {
     public Alumno() {
     }
 
+    public Alumno(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public Alumno(String cedula, String nombreCompleto) {
+        this.cedula = cedula;
+        this.nombreCompleto = nombreCompleto;
+    }
+     
     public Alumno(Integer idAlumno, String cedula, String apellidoPaterno, String apellidoMaterno, String nombreCompleto, String sexo, Date fechaNacimiento) {
         this.idAlumno = idAlumno;
         this.cedula = cedula;

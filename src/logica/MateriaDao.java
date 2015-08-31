@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Materia;
+import modelo.Matricula;
 
 public class MateriaDao {
 
@@ -67,8 +68,8 @@ public class MateriaDao {
 
     public List<Materia> valorCreditos(int idmalla) {
 
-        String sql = "SELECT * FROM nombre_materia nm " +                    
-                     "WHERE activa_mat ='A' AND id_malla " + "=" + "'" + idmalla + "'" + ";";
+        String sql = "SELECT * FROM nombre_materia nm "
+                + "WHERE activa_mat ='A' AND id_malla " + "=" + "'" + idmalla + "'" + ";";
         Conexion cc = Conexion.getInstance();
         Connection cn = cc.Conectar();
         try {
@@ -89,4 +90,29 @@ public class MateriaDao {
 
         return null;
     }
+
+    public List<Materia> listaMaterias(Integer idEspecialidad, Integer idSemestre) {
+        List<Materia> listaMaterias = new ArrayList<>();
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "select * from nombre_materia where id1_especialidad " + "=" + "'" + idEspecialidad + "'"
+                    + " and id1_semestre " + "=" + "'" + idSemestre + "'" + " and activa_mat = 'A' ";
+            Statement st = cn.createStatement();
+            resultSet = st.executeQuery(sql);
+            while (resultSet.next()) {
+                Materia mat = new Materia();
+                mat.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
+                mat.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_config_materia")));
+                mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia" )));
+                mat.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
+                listaMaterias.add(mat);
+            }
+            return listaMaterias;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+  
 }

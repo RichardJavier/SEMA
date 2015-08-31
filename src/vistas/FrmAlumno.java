@@ -31,7 +31,7 @@ public final class FrmAlumno extends javax.swing.JInternalFrame {
         this.setLocation(310, 110);
         cargaDatos();
     }
-
+    
     public void cargaDatos() {
         String[] columnas = {"PK", "CEDULA", "NOMBRE COMPLETOS", "SEXO", "FECHA NACIMIENTO"};
         String[][] data = {{"", "", ""}};
