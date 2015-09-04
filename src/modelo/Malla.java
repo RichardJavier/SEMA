@@ -15,6 +15,10 @@ public class Malla extends Semestre {
     private Integer creditoTeoria;
     private Integer creditosTeoricaDisponibles;
     private Integer creditoCiclo;
+    private Integer creditoNotaEmpresa;
+    private Integer valorMinimoPromedioMateria;
+    private Integer valorMinimoAsistencia;
+    private Integer valorNota;
     private Integer porcentaje;
     private String estado;
     private Date fechaCreacion;
@@ -114,7 +118,38 @@ public class Malla extends Semestre {
     public void setCreditosTeoricaDisponibles(Integer creditosTeoricaDisponibles) {
         this.creditosTeoricaDisponibles = creditosTeoricaDisponibles;
     }
+
+    public Integer getCreditoNotaEmpresa() {
+        return creditoNotaEmpresa;
+    }
+
+    public void setCreditoNotaEmpresa(Integer creditoNotaEmpresa) {
+        this.creditoNotaEmpresa = creditoNotaEmpresa;
+    }
+
+    public Integer getValorMinimoPromedioMateria() {
+        return valorMinimoPromedioMateria;
+    }
+
+    public void setValorMinimoPromedioMateria(Integer valorMinimoPromedioMateria) {
+        this.valorMinimoPromedioMateria = valorMinimoPromedioMateria;
+    }
     
+    public Integer getValorMinimoAsistencia() {
+        return valorMinimoAsistencia;
+    }
+
+    public void setValorMinimoAsistencia(Integer valorMinimoAsistencia) {
+        this.valorMinimoAsistencia = valorMinimoAsistencia;
+    }
+
+    public Integer getValorNota() {
+        return valorNota;
+    }
+
+    public void setValorNota(Integer valorNota) {
+        this.valorNota = valorNota;
+    }
     public Integer getPorcentaje() {
         return porcentaje;
     }

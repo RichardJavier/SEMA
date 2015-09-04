@@ -60,6 +60,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         ocultaCampos();
         matriculaBtn.setEnabled(false);
         validarBtn.setEnabled(false);
+        nombresBuscadosTxt.setEnabled(false);
         metodosGeneralesDao = new MetodosGeneralesDao();
         matriculaDao = new MatriculaDao();
         cargarEspecialidad();

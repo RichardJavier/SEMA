@@ -965,7 +965,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                         val1 = listaTemp1.getCreditos() + val1;
                     }
                 }
-                if (activadaRdb.isSelected()==true) {
+                if (activadaRdb.isSelected() == true) {
                     int u = Integer.parseInt(creditosTxt.getText());
                     val1 = val1 + u;
                     if (val1 > malla.getCreditoCiclo()) {
@@ -1221,7 +1221,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                 crud.insertarM("nombre_materia", campos2);
                 this.dispose();
             } else {
-                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);           
+                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);
                 this.dispose();
             }
 
@@ -1394,7 +1394,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         return configuracionMateria;
     }
 
-    private ConfiguracionMateria seteaConfigMateria(ResultSet resultSet, int numCampos) {
+    private void seteaConfigMateria(ResultSet resultSet, int numCampos) {
         try {
             switch (numCampos) {
                 case 1:
@@ -1476,8 +1476,6 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         } catch (Exception e) {
         }
-
-        return configuracionMateria;
     }
 
     private DescripcionMateria cargaDescripcion(int numCampos) {
@@ -1817,11 +1815,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     x++;
                 }
             }
-            if (suma < valor) {
-                resultado = false;
-                respuesta = "suma";
-            }
-            if (suma > valor) {
+            if (suma < valor || suma > valor) {
                 resultado = false;
                 respuesta = "suma";
             }
@@ -1836,7 +1830,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private boolean validaDescripcion(int valorCampos) {
         boolean resultado = true;
-        JTextField[] camp= {aporteDescTxt1, aporteDscTxt2, aporteDescTxt3, aporteDesTxt4,
+        JTextField[] camp = {aporteDescTxt1, aporteDscTxt2, aporteDescTxt3, aporteDesTxt4,
             aporteDscTxt5, aporteDscTxt6, aporteDscTxt7, aporteDscTxt8, aporteDscTxt9, aporteDscTxt10};
         int i = 0;
         for (JTextField campo6 : camp) {
@@ -1860,30 +1854,28 @@ public class FormularioMateria extends javax.swing.JDialog {
         desactivadaRdb.setEnabled(false);
         mallaCmb.setEnabled(false);
         ejeCmb.setEnabled(false);
+        profesoCmb.setEnabled(false);
     }
 
     private boolean validaForm() {
         boolean resultado = true;
         if (!validaSuma(numeroCampos)) {
             resultado = false;
-        }
-        if (!validaDescripcion(numeroCampos)) {
+        } else if (!validaDescripcion(numeroCampos)) {
             resultado = false;
-        }
-        if (nombreMateriaTxt.getText().trim().length() == 0) {
+        } else if (nombreMateriaTxt.getText().trim().length() == 0) {
             resultado = false;
         } else if (creditosTxt.getText().trim().length() == 0) {
             resultado = false;
         } else if (horasTxt.getText().trim().length() == 0) {
             resultado = false;
-        }
-        if (estadoMallaGroup.isSelected(null)) {
+        } else if (estadoMallaGroup.isSelected(null)) {
             resultado = false;
-        }
-        if (mallaCmb.getSelectedIndex() == 0) {
+        } else if (mallaCmb.getSelectedIndex() == 0) {
             resultado = false;
-        }
-        if (ejeCmb.getSelectedIndex() == 0) {
+        } else if (ejeCmb.getSelectedIndex() == 0) {
+            resultado = false;
+        } else if (profesoCmb.getSelectedIndex() == 0) {
             resultado = false;
         }
 
@@ -1982,7 +1974,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 

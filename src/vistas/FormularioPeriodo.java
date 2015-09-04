@@ -83,17 +83,17 @@ public class FormularioPeriodo extends javax.swing.JDialog {
         nombrePeriodoTxt.setText(periodo1.getNombrePeriodo());
         if (periodo1.getMatricula() == 1) {
             activaMatriculaRdb.setSelected(true);
-            matricula=1;
+            matricula = 1;
         } else {
             desactivaMatriculaRdb.setSelected(true);
-            matricula=0;
+            matricula = 0;
         }
         if (periodo1.getMalla() == 1) {
             nuevaMallaSiRdb.setSelected(true);
-            malla=1;
+            malla = 1;
         } else {
             nuevaMallaNoRdb.setSelected(true);
-            malla=0;
+            malla = 0;
         }
         fechaFinalChoosser.setDate(periodo1.getFechaFinalizacion());
 
@@ -321,7 +321,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                     jr.crearTabla();
                     cambiarNombre();
                     this.dispose();
-                    
+
                 } else {
                     crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos);
                     this.dispose();
@@ -390,14 +390,11 @@ public class FormularioPeriodo extends javax.swing.JDialog {
         boolean resultado = true;
         if (nombrePeriodoTxt.getText().trim().length() == 0) {
             resultado = false;
-        }
-        if (matriculaGroup.isSelected(null)) {
+        } else if (matriculaGroup.isSelected(null)) {
             resultado = false;
-        }
-        if (fechaFinalChoosser.getDate() == null) {
+        } else if (fechaFinalChoosser.getDate() == null) {
             resultado = false;
-        }
-        if (mallaGroup.isSelected(null)) {
+        } else if (mallaGroup.isSelected(null)) {
             resultado = false;
         }
 
@@ -430,12 +427,6 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                             st.executeUpdate(sql1);
                         } catch (SQLException e) {
                             System.out.println("error al ejecutar el cambio de nombre" + e);
-                        } finally {
-                            try {
-                                cc.desconectar();
-                            } catch (SQLException ex) {
-                                Logger.getLogger(FormularioPeriodo.class.getName()).log(Level.SEVERE, null, ex);
-                            }
                         }
                     }
                 }
