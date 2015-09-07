@@ -16,12 +16,14 @@ public class Malla extends Semestre {
     private Integer creditosTeoricaDisponibles;
     private Integer creditoCiclo;
     private Integer creditoNotaEmpresa;
-    private Integer valorMinimoPromedioMateria;
+    private Double valorMinimoPromedioMateria;
     private Integer valorMinimoAsistencia;
-    private Integer valorNota;
+    private Double valorNota;
+    private Double valorRecuperacion;
     private Integer porcentaje;
     private String estado;
     private Date fechaCreacion;
+    private Date fechaModificacion;
     private Integer idEspecialidad;
     private Integer idPeriodo;
 
@@ -127,11 +129,11 @@ public class Malla extends Semestre {
         this.creditoNotaEmpresa = creditoNotaEmpresa;
     }
 
-    public Integer getValorMinimoPromedioMateria() {
+    public Double getValorMinimoPromedioMateria() {
         return valorMinimoPromedioMateria;
     }
 
-    public void setValorMinimoPromedioMateria(Integer valorMinimoPromedioMateria) {
+    public void setValorMinimoPromedioMateria(Double valorMinimoPromedioMateria) {
         this.valorMinimoPromedioMateria = valorMinimoPromedioMateria;
     }
     
@@ -143,13 +145,22 @@ public class Malla extends Semestre {
         this.valorMinimoAsistencia = valorMinimoAsistencia;
     }
 
-    public Integer getValorNota() {
+    public Double getValorNota() {
         return valorNota;
     }
 
-    public void setValorNota(Integer valorNota) {
+    public void setValorNota(Double valorNota) {
         this.valorNota = valorNota;
     }
+
+    public Double getValorRecuperacion() {
+        return valorRecuperacion;
+    }
+
+    public void setValorRecuperacion(Double valorRecuperacion) {
+        this.valorRecuperacion = valorRecuperacion;
+    }
+    
     public Integer getPorcentaje() {
         return porcentaje;
     }
@@ -172,6 +183,14 @@ public class Malla extends Semestre {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 
     public Integer getIdEspecialidad() {

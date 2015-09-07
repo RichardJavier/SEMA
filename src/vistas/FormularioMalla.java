@@ -5,6 +5,8 @@ import control.Crud;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +18,7 @@ import modelo.Especialidad;
 import modelo.Malla;
 import modelo.Periodo;
 import modelo.Semestre;
-import sun.org.mozilla.javascript.internal.Token;
+
 
 public class FormularioMalla extends javax.swing.JDialog {
 
@@ -85,6 +87,7 @@ public class FormularioMalla extends javax.swing.JDialog {
                     semestreCmb.setSelectedItem(semestre);
 
                     malla.setNombreMalla(resultSet.getString("nombre_malla"));
+                    malla.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("fecha_creacion")));
                     nombreMallaTxt.setText(malla.getNombreMalla());
                     porcentajeNotaEmpresaTxt.setText(resultSet.getString("porc_nota_empresa"));
                     porcentajeNotaTeorica.setText(resultSet.getString("porc_nota_teorica"));
@@ -92,8 +95,12 @@ public class FormularioMalla extends javax.swing.JDialog {
                     porcentajeTutoriaIntegrada.setText(resultSet.getString("porc_integrada"));
                     totalCreditosCiclo.setText(resultSet.getString("cred_ciclo"));
                     totalCreditosTeoricaTxt.setText(resultSet.getString("cred_teorica"));
-                    valorMinimoPromedioNota.setText(resultSet.getString("valor_min_promedio"));
+                    valorMinimoPromedioNotaTxt.setText(resultSet.getString("valor_min_promedio"));
                     creditosNotaEmpresaTxt.setText(resultSet.getString("cred_nota_empresa"));
+                    valorIngresoNotaTxt.setText(resultSet.getString("valor_calf_nota"));
+                    valorMinimoAsistenciaTxt.setText(resultSet.getString("valor_min_asistencia"));
+                    valorMinimoPromedioNotaTxt.setText(resultSet.getString("valor_min_promedio"));
+                    valorMinimoRecuperacionTxt.setText(resultSet.getString("valor_min_recuperacion"));
                     activada = resultSet.getString("estado");
                     if (!activada.equals("A")) {
                         desactivadaRdb.setSelected(true);
@@ -102,7 +109,7 @@ public class FormularioMalla extends javax.swing.JDialog {
                     }
 
                 }
-            } catch (SQLException | NumberFormatException e) {
+            } catch (SQLException |ParseException |NumberFormatException e) {
             }
 
         }
@@ -138,15 +145,17 @@ public class FormularioMalla extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         gurdarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        validarBtn = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         creditosNotaEmpresaTxt = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        valorMinimoPromedioNota = new javax.swing.JTextField();
+        valorMinimoPromedioNotaTxt = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         valorMinimoAsistenciaTxt = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         valorIngresoNotaTxt = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        valorMinimoRecuperacionTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("FORMULARIO DE MALLA");
@@ -292,17 +301,17 @@ public class FormularioMalla extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
-        jButton1.setText("Validar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        validarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
+        validarBtn.setText("Validar");
+        validarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                validarBtnActionPerformed(evt);
             }
         });
 
         jLabel11.setText("Creditos Nota Empresa");
 
-        jLabel12.setText("Valor Minimo Promedio Nota");
+        jLabel12.setText("Valor Minimo Promedio Materia");
 
         jLabel13.setText("Valor Minimo Asistencia");
 
@@ -314,6 +323,8 @@ public class FormularioMalla extends javax.swing.JDialog {
 
         jLabel14.setText("Valor de Ingreso Nota");
 
+        jLabel15.setText("Valor Minimo Promedio Recuperacion");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -322,141 +333,169 @@ public class FormularioMalla extends javax.swing.JDialog {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(porcentajeTutoriaIntegrada, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(porcentajePonderadoNota, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(porcentajeNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(porcentajeNotaTeorica, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(29, 29, 29)
-                        .addComponent(nombreMallaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel7)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(217, 217, 217)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                                .addComponent(totalCreditosTeoricaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)))))
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(valorMinimoPromedioNota, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                            .addComponent(creditosNotaEmpresaTxt)
-                            .addComponent(valorMinimoAsistenciaTxt)
-                            .addComponent(valorIngresoNotaTxt))
-                        .addGap(106, 106, 106))
+                        .addComponent(nombreMallaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel11)
+                        .addGap(85, 85, 85)
+                        .addComponent(creditosNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(84, 84, 84)
+                        .addComponent(porcentajePonderadoNota, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel14)
+                        .addGap(95, 95, 95)
+                        .addComponent(valorIngresoNotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(77, 77, 77)
+                        .addComponent(porcentajeTutoriaIntegrada, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel12)
+                        .addGap(50, 50, 50)
+                        .addComponent(valorMinimoPromedioNotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(101, 101, 101)
+                        .addComponent(porcentajeNotaTeorica, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel13))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(valorMinimoAsistenciaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(gurdarBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(cancelarBtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8))
-                                .addGap(53, 53, 53)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(periodoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(35, Short.MAX_VALUE))))
+                                .addComponent(valorMinimoRecuperacionTxt)
+                                .addGap(3, 3, 3))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(95, 95, 95)
+                        .addComponent(porcentajeNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel8)
+                        .addGap(66, 66, 66)
+                        .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(periodoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(125, 125, 125)
+                        .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(102, 102, 102)
+                        .addComponent(totalCreditosTeoricaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(validarBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(gurdarBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelarBtn))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreMallaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(creditosNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(creditosNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(valorMinimoPromedioNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(nombreMallaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(porcentajePonderadoNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(porcentajeTutoriaIntegrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13)
-                            .addComponent(valorMinimoAsistenciaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(porcentajeNotaTeorica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14)
-                    .addComponent(valorIngresoNotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(porcentajeNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(25, 25, 25)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(3, 3, 3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(periodoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel11))))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(totalCreditosTeoricaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
+                        .addGap(6, 6, 6)
+                        .addComponent(porcentajePonderadoNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel14))
+                    .addComponent(valorIngresoNotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(porcentajeTutoriaIntegrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel12))
+                    .addComponent(valorMinimoPromedioNotaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(porcentajeNotaTeorica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel15)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(valorMinimoRecuperacionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(gurdarBtn)
-                            .addComponent(cancelarBtn))))
-                .addContainerGap(55, Short.MAX_VALUE))
+                            .addComponent(valorMinimoAsistenciaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel5))
+                    .addComponent(porcentajeNotaEmpresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel8))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(periodoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel7))
+                    .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(totalCreditosTeoricaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(validarBtn)
+                    .addComponent(gurdarBtn)
+                    .addComponent(cancelarBtn)))
         );
 
         pack();
@@ -470,11 +509,12 @@ public class FormularioMalla extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
         crud = new Crud();
         if (validaForm()) {
             if (validaValor()) {
                 ocultaForm();
+                validarBtn.setEnabled(false);
                 this.gurdarBtn.setEnabled(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Error en configuracion de la Malla", "Error", JOptionPane.ERROR_MESSAGE);
@@ -483,7 +523,7 @@ public class FormularioMalla extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_validarBtnActionPerformed
     private void ocultaForm() {
         nombreMallaTxt.setEnabled(false);
         porcentajeNotaEmpresaTxt.setEnabled(false);
@@ -492,12 +532,16 @@ public class FormularioMalla extends javax.swing.JDialog {
         porcentajeTutoriaIntegrada.setEnabled(false);
         totalCreditosCiclo.setEnabled(false);
         totalCreditosTeoricaTxt.setEnabled(false);
-        valorMinimoPromedioNota.setEnabled(false);
+        valorMinimoPromedioNotaTxt.setEnabled(false);
         semestreCmb.setEnabled(false);
         especialidadCmb.setEnabled(false);
         periodoCmb.setEnabled(false);
         activadaRdb.setEnabled(false);
         desactivadaRdb.setEnabled(false);
+        valorIngresoNotaTxt.setEnabled(false);
+        valorMinimoAsistenciaTxt.setEnabled(false);
+        valorMinimoPromedioNotaTxt.setEnabled(false);
+        valorMinimoRecuperacionTxt.setEnabled(false);
     }
     private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
         activada = "A";
@@ -513,7 +557,7 @@ public class FormularioMalla extends javax.swing.JDialog {
             crud.insertarM("malla", campos);
             this.dispose();
         } else {
-            crud.actualizar("malla", "id_malla", idMalla, campos);
+            crud.actualizarM("malla", "id_malla", idMalla, campos);
             this.dispose();
         }
 
@@ -572,20 +616,29 @@ public class FormularioMalla extends javax.swing.JDialog {
         malla.setPorcentajeTutoriaIntegrada(Integer.parseInt(porcentajeTutoriaIntegrada.getText()));
         malla.setPorcentajeNotaTeorica(Integer.parseInt(porcentajeNotaTeorica.getText()));
         malla.setPorcentajeNotaEmpresa(Integer.parseInt(porcentajeNotaEmpresaTxt.getText()));
-        malla.setValorMinimoPromedioMateria(Integer.parseInt(valorMinimoPromedioNota.getText()));
+        malla.setValorMinimoPromedioMateria(Double.valueOf((valorMinimoPromedioNotaTxt.getText().replaceAll(",", "."))));
         malla.setCreditoCiclo(Integer.parseInt(totalCreditosCiclo.getText()));
         malla.setCreditoTeoria(Integer.parseInt(totalCreditosTeoricaTxt.getText()));
         malla.setValorMinimoAsistencia(Integer.parseInt(valorMinimoAsistenciaTxt.getText()));
-        malla.setValorNota(Integer.parseInt(valorIngresoNotaTxt.getText()));
-        malla.setValorMinimoPromedioMateria(Integer.valueOf(valorMinimoPromedioNota.getText()));
+        malla.setValorNota(Double.valueOf((valorIngresoNotaTxt.getText().replaceAll(",", "."))));
+        malla.setValorRecuperacion(Double.valueOf((valorMinimoRecuperacionTxt.getText().replaceAll(",", "."))));
         int valorNotaEmpresa = malla.getCreditoCiclo() - malla.getCreditoTeoria();
         int sumaNotaPonderada = malla.getPorcentajePonderacionNota() + malla.getPorcentajeTutoriaIntegrada();
         int sumaNotaFinal = malla.getPorcentajeNotaEmpresa() + malla.getPorcentajeNotaTeorica();
-        if (malla.getValorMinimoPromedioMateria() > 20 || malla.getValorMinimoPromedioMateria() <= 0) {
+
+        if (valorIngresoNotaTxt.getText().compareTo("20") != 0 && valorIngresoNotaTxt.getText().compareTo("10") != 0) {
+            resultado = false;
+        } else if (malla.getValorNota() != 20 && malla.getValorNota() != 10) {
             resultado = false;
         } else if (malla.getValorMinimoAsistencia() >= 100 || malla.getValorMinimoAsistencia() <= 0) {
             resultado = false;
-        } else if (malla.getValorNota() > 20 || malla.getValorNota() < 20 || malla.getValorNota() > 10 || malla.getValorNota() < 20) {
+        } else if (malla.getValorNota() == 20 && malla.getValorMinimoPromedioMateria() > 20) {
+            resultado = false;
+        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10) {
+            resultado = false;
+        } else if (malla.getValorNota() == 20 && malla.getValorRecuperacion() > 20) {
+            resultado = false;
+        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10) {
             resultado = false;
         } else if (valorNotaEmpresa <= 0) {
             resultado = false;
@@ -620,15 +673,20 @@ public class FormularioMalla extends javax.swing.JDialog {
         campos.put("cred_nota_empresa", malla.getCreditoNotaEmpresa());
         campos.put("valor_min_promedio", malla.getValorMinimoPromedioMateria());
         campos.put("cred_teorica_disp", malla.getCreditoCiclo());
-        campos.put("valor_min_promedio",malla.getValorMinimoPromedioMateria());
         campos.put("valor_min_asistencia", malla.getValorMinimoAsistencia());
-        campos.put("valor_nota",malla.getValorNota());
+        campos.put("valor_min_recuperacion", malla.getValorRecuperacion());
+        campos.put("valor_calf_nota", malla.getValorNota());
         campos.put("porcentaje", "100");
         campos.put("id1_especialidad", especialidad.getIdEspecialidad());
         campos.put("id1_periodo", periodo.getIdPeriodo());
         campos.put("id1_semestre", semestre.getIdSemestre());
         campos.put("estado", malla.getEstado());
-        campos.put("fecha_creacion", cal.getTime());
+        if (idMalla == 0) {
+            campos.put("fecha_creacion", cal.getTime());
+        } else {
+            campos.put("fecha_creacion", malla.getFechaCreacion());
+        }
+        campos.put("fecha_modificacion", cal.getTime());
         return campos;
     }
 
@@ -685,9 +743,10 @@ public class FormularioMalla extends javax.swing.JDialog {
             porcentajeNotaTeorica,
             totalCreditosCiclo,
             totalCreditosTeoricaTxt,
-            valorMinimoPromedioNota,
+            valorMinimoPromedioNotaTxt,
             valorMinimoAsistenciaTxt,
-            valorIngresoNotaTxt};
+            valorIngresoNotaTxt,
+            valorMinimoRecuperacionTxt};
 
         for (JTextField yu1 : yu) {
             if (yu1.getText().isEmpty() || yu1.getText().compareTo("0") == 0) {
@@ -761,13 +820,13 @@ public class FormularioMalla extends javax.swing.JDialog {
     private javax.swing.JComboBox especialidadCmb;
     private javax.swing.ButtonGroup estadoMallaGroup;
     private javax.swing.JButton gurdarBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -786,8 +845,10 @@ public class FormularioMalla extends javax.swing.JDialog {
     private javax.swing.JComboBox semestreCmb;
     private javax.swing.JTextField totalCreditosCiclo;
     private javax.swing.JTextField totalCreditosTeoricaTxt;
+    private javax.swing.JButton validarBtn;
     private javax.swing.JTextField valorIngresoNotaTxt;
     private javax.swing.JTextField valorMinimoAsistenciaTxt;
-    private javax.swing.JTextField valorMinimoPromedioNota;
+    private javax.swing.JTextField valorMinimoPromedioNotaTxt;
+    private javax.swing.JTextField valorMinimoRecuperacionTxt;
     // End of variables declaration//GEN-END:variables
 }

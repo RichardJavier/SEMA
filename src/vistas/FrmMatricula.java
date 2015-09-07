@@ -26,6 +26,7 @@ import logica.MatriculaDao;
 import logica.MetodosGeneralesDao;
 import modelo.Alumno;
 import modelo.Especialidad;
+import modelo.Estado;
 import modelo.Materia;
 import modelo.Matricula;
 import modelo.Paralelo;
@@ -541,7 +542,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos.put("id_alumno", alumno.getIdAlumno());
         campos.put("cedula", alumno.getCedula());
         campos.put("nombre_completo", nombresBuscadosTxt.getText());
-        campos.put("tipo_matricula", "ORDINARIA");
+        campos.put("tipo_matricula",Estado.ORDINARIA.name());
         campos.put("fecha_creacion", cal.getTime());
         campos.put("id_semestre", semestre.getIdSemestre());
         campos.put("id_especialidad", especialidad.getIdEspecialidad());

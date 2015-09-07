@@ -1315,79 +1315,79 @@ public class FormularioMateria extends javax.swing.JDialog {
     private ConfiguracionMateria cargaConfigMateria(int numCampos) {
         switch (numCampos) {
             case 1:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
                 break;
             case 2:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
                 break;
             case 3:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
                 break;
             case 4:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
                 break;
             case 5:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
                 break;
             case 6:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
-                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Double.valueOf(aporteTxt6.getText()));
                 break;
             case 7:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
-                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
-                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Double.valueOf(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Double.valueOf(aporteTxt7.getText()));
                 break;
             case 8:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
-                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
-                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
-                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Double.valueOf(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Double.valueOf(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Double.valueOf(aporteTxt8.getText()));
                 break;
             case 9:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
-                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
-                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
-                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
-                configuracionMateria.setAporte9(Integer.parseInt(aporteTxt9.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Double.valueOf(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Double.valueOf(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Double.valueOf(aporteTxt8.getText()));
+                configuracionMateria.setAporte9(Double.valueOf(aporteTxt9.getText()));
                 break;
             case 10:
-                configuracionMateria.setAporte1(Integer.parseInt(aporteTxt1.getText()));
-                configuracionMateria.setAporte2(Integer.parseInt(aporteTxt2.getText()));
-                configuracionMateria.setAporte3(Integer.parseInt(aporteTxt3.getText()));
-                configuracionMateria.setAporte4(Integer.parseInt(aporteTxt4.getText()));
-                configuracionMateria.setAporte5(Integer.parseInt(aporteTxt5.getText()));
-                configuracionMateria.setAporte6(Integer.parseInt(aporteTxt6.getText()));
-                configuracionMateria.setAporte7(Integer.parseInt(aporteTxt7.getText()));
-                configuracionMateria.setAporte8(Integer.parseInt(aporteTxt8.getText()));
-                configuracionMateria.setAporte9(Integer.parseInt(aporteTxt9.getText()));
-                configuracionMateria.setAporte10(Integer.parseInt(aporteTxt10.getText()));
+                configuracionMateria.setAporte1(Double.valueOf(aporteTxt1.getText()));
+                configuracionMateria.setAporte2(Double.valueOf(aporteTxt2.getText()));
+                configuracionMateria.setAporte3(Double.valueOf(aporteTxt3.getText()));
+                configuracionMateria.setAporte4(Double.valueOf(aporteTxt4.getText()));
+                configuracionMateria.setAporte5(Double.valueOf(aporteTxt5.getText()));
+                configuracionMateria.setAporte6(Double.valueOf(aporteTxt6.getText()));
+                configuracionMateria.setAporte7(Double.valueOf(aporteTxt7.getText()));
+                configuracionMateria.setAporte8(Double.valueOf(aporteTxt8.getText()));
+                configuracionMateria.setAporte9(Double.valueOf(aporteTxt9.getText()));
+                configuracionMateria.setAporte10(Double.valueOf(aporteTxt10.getText()));
                 break;
         }
 
@@ -1648,17 +1648,17 @@ public class FormularioMateria extends javax.swing.JDialog {
     private List<Campo> cargarDatosMateriaLista(int numCampos) {
         cargaConfigMateria(numCampos);
         lista = new ArrayList<>();
-        Integer[] dato = {configuracionMateria.getAporte1(), configuracionMateria.getAporte2(), configuracionMateria.getAporte3(), configuracionMateria.getAporte4(), configuracionMateria.getAporte5(),
+        Double[] dato = {configuracionMateria.getAporte1(), configuracionMateria.getAporte2(), configuracionMateria.getAporte3(), configuracionMateria.getAporte4(), configuracionMateria.getAporte5(),
             configuracionMateria.getAporte6(), configuracionMateria.getAporte7(), configuracionMateria.getAporte8(),
             configuracionMateria.getAporte9(), configuracionMateria.getAporte10()};
         String[] llave = {"aporte1", "aporte2", "aporte3", "aporte4", "aporte5", "aporte6",
             "aporte7", "aporte8", "aporte9", "aporte10"};
         int i = 0;
-        for (String llave1 : llave) {
+        for (Double dato1 : dato) {
             if (i < numCampos) {
                 campo = new Campo();
-                campo.setLlave(llave1);
-                campo.setObjeto(dato[i]);
+                campo.setLlave(llave[i]);
+                campo.setObjeto(dato1);
                 lista.add(campo);
             }
             if (i >= numCampos) {
@@ -1840,7 +1840,6 @@ public class FormularioMateria extends javax.swing.JDialog {
                     respuesta = "descripcion";
                 }
             }
-
             i++;
         }
         return resultado;

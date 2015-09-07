@@ -3,12 +3,10 @@ package modelo;
 public class Campo {
 
     private String llave;
-    private Integer objeto;
+    private Double objeto;
     private String objeto1;
 
-    public Campo(String llave, Integer objeto) {
-        this.llave = llave;
-        this.objeto = objeto;
+    public Campo() {
     }
 
     public String getLlave() {
@@ -19,11 +17,11 @@ public class Campo {
         this.llave = llave;
     }
 
-    public Integer getObjeto() {
+    public Double getObjeto() {
         return objeto;
     }
 
-    public void setObjeto(Integer objeto) {
+    public void setObjeto(Double objeto) {
         this.objeto = objeto;
     }
 
@@ -35,7 +33,6 @@ public class Campo {
         this.objeto1 = objeto1;
     }
 
-    public Campo() {
-    }
 
+   
 }
