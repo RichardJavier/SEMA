@@ -72,21 +72,11 @@ public final class Conexion1 {
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println(e);
              JOptionPane.showMessageDialog(null, "No existe conexion,por favor comuniquese con el administrador del sistema");
-
         }
         return con;
 
     }
 
-//    public Connection Conectar() {
-//        if (onectar() == null) {
-//           
-//            JFrame fr = Instance.getInstance();
-//            fr.setVisible(true);
-//            fr.pack();
-//        }
-//        return onectar();
-//    }
 
     public void desconectar() throws SQLException {
         if (smt != null) {

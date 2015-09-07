@@ -199,6 +199,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         activaRecuperacionCkb = new javax.swing.JCheckBox();
         recuperacionTxt = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -466,6 +467,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 .addComponent(recuperacionTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
         );
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -499,6 +507,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(56, 56, 56))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,7 +528,9 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(cancelarBtn)
@@ -688,6 +702,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        metodosGeneralesDao=new MetodosGeneralesDao();
+        metodosGeneralesDao.calculaResumen("1717349409", 1);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void revisaEstado() {
         if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {
             nota.setEstadoAsistencia(Estado.RP.name());
@@ -1228,6 +1248,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField cedulaTxt;
     private javax.swing.JButton guardarBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
