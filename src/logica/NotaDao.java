@@ -55,8 +55,7 @@ public class NotaDao {
         return null;
     }
 
-    public ResultSet cargarValoresMateria(String codigo,Integer idNota, Integer idMateria) {
-        Nota nota = new Nota();
+    public ResultSet cargarValoresMateria(String codigo, Integer idNota, Integer idMateria) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -67,7 +66,7 @@ public class NotaDao {
                     + "ON nota.id_config_materia = config.id_config_materia "
                     + "LEFT JOIN desc_materia AS dm "
                     + "ON nota.id_desc_materia=dm.id_desc_materia "
-                    + "WHERE nota.id_nota "+"="+"'"+idNota+"'"+" and nota.id_materia " + "=" + "'" + idMateria + "'" + ";";
+                    + "WHERE nota.id_nota " + "=" + "'" + idNota + "'" + " and nota.id_materia " + "=" + "'" + idMateria + "'" + ";";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             return rs;
@@ -75,9 +74,10 @@ public class NotaDao {
         }
         return null;
     }
-    public synchronized Integer actualizarNota(String tabla,String periodo, String pkTabla, Integer pkDato, Map datos) {
+
+    public synchronized Integer actualizarNota(String tabla, String periodo, String pkTabla, Integer pkDato, Map datos) {
         try {
-             Conexion cc = Conexion.getInstance();
+            Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             StringBuilder campos = new StringBuilder();
             StringBuilder coma = new StringBuilder();
@@ -90,12 +90,13 @@ public class NotaDao {
                     campos.append("'").append(datos.get(llave).toString()).append("',");
                 }
             }
-            String sql = "UPDATE" + "  " + tabla +"_"+periodo+ " " + "SET" + " "
+            String sql = "UPDATE" + "  " + tabla + "_" + periodo + " " + "SET" + " "
                     + campos.toString().substring(0, campos.toString().length() - 1) + " "
                     + "where" + " " + pkTabla + "=" + "'" + pkDato + "'" + ";";
-            
+
             Statement st = cn.createStatement();
             int registrosAfectados = st.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Registros ingresados");
             cc.desconectar();
             return registrosAfectados;
 
@@ -103,6 +104,6 @@ public class NotaDao {
             System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error en la actualizacion:" + e.toString());
         }
-   return 0;
+        return 0;
     }
 }

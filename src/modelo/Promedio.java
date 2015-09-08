@@ -9,8 +9,8 @@ public class Promedio {
  private Integer idMateria;
  private BigDecimal porcentaje;
  private BigDecimal promedio;
- private BigDecimal valor;
-
+ private BigDecimal valorPonderado;
+ private BigDecimal valorEmpresa;
     public Promedio() {
     }
 
@@ -38,12 +38,20 @@ public class Promedio {
         this.promedio = promedio;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValorPonderado() {
+        return valorPonderado;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValorPonderado(BigDecimal valorPonderado) {
+        this.valorPonderado = valorPonderado;
+    }
+
+    public BigDecimal getValorEmpresa() {
+        return valorEmpresa;
+    }
+
+    public void setValorEmpresa(BigDecimal valorEmpresa) {
+        this.valorEmpresa = valorEmpresa;
     }
 
     @Override
@@ -52,7 +60,7 @@ public class Promedio {
         hash = 97 * hash + Objects.hashCode(this.idMateria);
         hash = 97 * hash + Objects.hashCode(this.porcentaje);
         hash = 97 * hash + Objects.hashCode(this.promedio);
-        hash = 97 * hash + Objects.hashCode(this.valor);
+        hash = 97 * hash + Objects.hashCode(this.valorPonderado);
         return hash;
     }
 
@@ -74,7 +82,7 @@ public class Promedio {
         if (!Objects.equals(this.promedio, other.promedio)) {
             return false;
         }
-        if (!Objects.equals(this.valor, other.valor)) {
+        if (!Objects.equals(this.valorPonderado, other.valorPonderado)) {
             return false;
         }
         return true;

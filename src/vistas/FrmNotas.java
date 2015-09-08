@@ -72,6 +72,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         this.nombresTxt.setEnabled(false);
         promedioTxt.setEnabled(false);
         recuperacionTxt.setEnabled(false);
+        periodo = metodosGeneralesDao.codigoPeriodoActivo();
         ocultaCampos();
 
     }
@@ -569,7 +570,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
-        periodo = metodosGeneralesDao.codigoPeriodoActivo();
+
         ocultaCampos();
         limpiaCampos();
         if (!cedulaTxt.getText().trim().isEmpty() && semestreCmb.getSelectedIndex() != 0) {
@@ -599,7 +600,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         asistenciaTxt.setEnabled(true);
         int i = notasTabla.getSelectedRow();
         metodosGeneralesDao = new MetodosGeneralesDao();
-        periodo = metodosGeneralesDao.codigoPeriodoActivo();
+//        periodo = metodosGeneralesDao.codigoPeriodoActivo();
         nota.setIdNota((Integer) notasTabla.getValueAt(i, 0));
         nota.setIdMateria((Integer) notasTabla.getValueAt(i, 5));
         nota.setNombreMateria((String) notasTabla.getValueAt(i, 2));
@@ -623,13 +624,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(FrmNotas.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
-        }finally {
-                    try {
-                        cc.desconectar();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-                }
+        } finally {
+            try {
+                cc.desconectar();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }//GEN-LAST:event_notasTablaMouseClicked
 
     private void calcularBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularBtnActionPerformed
@@ -689,24 +690,26 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 campos.put(lista1.getLlave(), lista1.getObjeto());
             }
             if (!recuperacionTxt.getText().trim().isEmpty()) {
+                nota.setRecuperacion(Double.valueOf(recuperacionTxt.getText()));
                 campos.put("recuperacion", nota.getRecuperacion());
             }
+            campos.put("promedio",nota.getPromedio());
             campos.put("fecha_modificacion", cal.getTime());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             revisaEstado();
             campos.put("estado_nota", nota.getEstadoNota());
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
-            System.out.println(campos);
-            notaDao.actualizarNota("nota", periodo.getNombrePeriodo(), "id_nota", nota.getIdNota(), campos);
+            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
+            limpiaCampos();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        metodosGeneralesDao=new MetodosGeneralesDao();
+        metodosGeneralesDao = new MetodosGeneralesDao();
         metodosGeneralesDao.calculaResumen("1717349409", 1);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
     private void revisaEstado() {
         if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {

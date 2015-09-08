@@ -12,10 +12,10 @@ public class Resumen {
   private String nombreCompleto;
   private BigDecimal promedioPonderadoNota;
   private Double notaTutoria;
-  private Double notaTotalTeorica;
-  private Double notaEmpresa;
+  private BigDecimal notaTotalTeorica;
+  private BigDecimal notaEmpresa;
   private Integer asistencia;
-  private Double notaFinal;
+  private BigDecimal notaFinal;
   private String aprobacion;
   private Date fechaCreacion;
   private Date fechaModificacion;
@@ -75,19 +75,19 @@ public class Resumen {
         this.notaTutoria = notaTutoria;
     }
 
-    public Double getNotaTotalTeorica() {
+    public BigDecimal getNotaTotalTeorica() {
         return notaTotalTeorica;
     }
 
-    public void setNotaTotalTeorica(Double notaTotalTeorica) {
+    public void setNotaTotalTeorica(BigDecimal notaTotalTeorica) {
         this.notaTotalTeorica = notaTotalTeorica;
     }
 
-    public Double getNotaEmpresa() {
+    public BigDecimal getNotaEmpresa() {
         return notaEmpresa;
     }
 
-    public void setNotaEmpresa(Double notaEmpresa) {
+    public void setNotaEmpresa(BigDecimal notaEmpresa) {
         this.notaEmpresa = notaEmpresa;
     }
 
@@ -99,11 +99,11 @@ public class Resumen {
         this.asistencia = asistencia;
     }
 
-    public Double getNotaFinal() {
+    public BigDecimal getNotaFinal() {
         return notaFinal;
     }
 
-    public void setNotaFinal(Double notaFinal) {
+    public void setNotaFinal(BigDecimal notaFinal) {
         this.notaFinal = notaFinal;
     }
 
