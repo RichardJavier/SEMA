@@ -19,7 +19,6 @@ import modelo.Malla;
 import modelo.Periodo;
 import modelo.Semestre;
 
-
 public class FormularioMalla extends javax.swing.JDialog {
 
     private static FrmMalla frmMalla;
@@ -109,7 +108,7 @@ public class FormularioMalla extends javax.swing.JDialog {
                     }
 
                 }
-            } catch (SQLException |ParseException |NumberFormatException e) {
+            } catch (SQLException | ParseException | NumberFormatException e) {
             }
 
         }
@@ -632,13 +631,13 @@ public class FormularioMalla extends javax.swing.JDialog {
             resultado = false;
         } else if (malla.getValorMinimoAsistencia() >= 100 || malla.getValorMinimoAsistencia() <= 0) {
             resultado = false;
-        } else if (malla.getValorNota() == 20 && malla.getValorMinimoPromedioMateria() > 20) {
+        } else if (malla.getValorNota() == 20 && malla.getValorMinimoPromedioMateria() > 20 || malla.getValorNota() == 20 && malla.getValorMinimoPromedioMateria() <= 0) {
             resultado = false;
-        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10) {
+        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10 || malla.getValorNota() == 10 && malla.getValorMinimoPromedioMateria() <= 0) {
             resultado = false;
-        } else if (malla.getValorNota() == 20 && malla.getValorRecuperacion() > 20) {
+        } else if (malla.getValorNota() == 20 && malla.getValorRecuperacion() > 20 || malla.getValorNota() == 20 && malla.getValorRecuperacion() <= 0) {
             resultado = false;
-        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10) {
+        } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10 || malla.getValorNota() == 10 && malla.getValorRecuperacion() <= 0) {
             resultado = false;
         } else if (valorNotaEmpresa <= 0) {
             resultado = false;

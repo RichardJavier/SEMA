@@ -7,6 +7,7 @@ package vistas;
 
 import conectar.Conexion;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -200,7 +202,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         activaRecuperacionCkb = new javax.swing.JCheckBox();
         recuperacionTxt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -222,6 +223,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda de Alumno"));
 
         jLabel1.setText("Cedula");
+
+        cedulaTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cedulaTxtKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Semestre");
 
@@ -291,6 +298,17 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         nota1Lbl.setText("nota1");
 
+        nota1Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota1TxtMouseClicked(evt);
+            }
+        });
+        nota1Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota1TxtKeyTyped(evt);
+            }
+        });
+
         nota5Lbl.setText("nota5");
 
         nota7Lbl.setText("nota7");
@@ -298,6 +316,17 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         nota9Lbl.setText("nota9");
 
         jLabel4.setText("Asignatura");
+
+        nota2Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota2TxtMouseClicked(evt);
+            }
+        });
+        nota2Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota2TxtKeyTyped(evt);
+            }
+        });
 
         nota2Lbl.setText("nota2");
 
@@ -468,13 +497,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 .addComponent(recuperacionTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -508,10 +530,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(56, 56, 56))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,9 +547,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(cancelarBtn)
@@ -638,10 +654,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             cargaNota(Integer.parseInt(configuracionMateria.getNumeroAportes()));
             if (calculaNotas(Integer.parseInt(configuracionMateria.getNumeroAportes()))) {
                 ocultaCampos();
+
                 guardarBtn.setEnabled(true);
                 activaRecuperacionCkb.setEnabled(true);
             } else {
                 ocultaCampos();
+                limpiaCampos();
                 guardarBtn.setEnabled(false);
                 calcularBtn.setEnabled(true);
             }
@@ -657,7 +675,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void activaRecuperacionCkbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activaRecuperacionCkbActionPerformed
-        if (nota.getPromedio().compareTo(new BigDecimal("12.5")) > 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorRecuperacion())) > 0) {
             if (activaRecuperacionCkb.isSelected() == true) {
                 recuperacionTxt.setEnabled(true);
                 calcularBtn.setEnabled(true);
@@ -666,14 +684,11 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 recuperacionTxt.setEnabled(false);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Error valor minimo de promedio invalido para acceder a recuperacion", "Error", JOptionPane.ERROR_MESSAGE);
-            activaRecuperacionCkb.setEnabled(false);
-            activaRecuperacionCkb.setSelected(false);
+            JOptionPane.showMessageDialog(null, "Estimado usuario, le informamos que el valor minimo para acceder a la recuperacion es:" + " " + malla.getValorRecuperacion(), "Informacion", JOptionPane.WARNING_MESSAGE);
+            recuperacionTxt.setEnabled(true);
+            calcularBtn.setEnabled(true);
             guardarBtn.setEnabled(false);
-            recuperacionTxt.setEnabled(false);
-
         }
-
 
     }//GEN-LAST:event_activaRecuperacionCkbActionPerformed
 
@@ -693,7 +708,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 nota.setRecuperacion(Double.valueOf(recuperacionTxt.getText()));
                 campos.put("recuperacion", nota.getRecuperacion());
             }
-            campos.put("promedio",nota.getPromedio());
+            campos.put("promedio", nota.getPromedio());
             campos.put("fecha_modificacion", cal.getTime());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             revisaEstado();
@@ -701,16 +716,53 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
             notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
             limpiaCampos();
+            ocultaCampos();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        metodosGeneralesDao = new MetodosGeneralesDao();
-        metodosGeneralesDao.calculaResumen("1717349409", 1);
+    private void nota1TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota1TxtMouseClicked
+        limpiaTexto(nota1Txt);
+    }//GEN-LAST:event_nota1TxtMouseClicked
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void nota1TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota1TxtKeyTyped
+        validaNum(evt, nota1Txt);
+    }//GEN-LAST:event_nota1TxtKeyTyped
+
+    private void cedulaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedulaTxtKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0') || (c > '9')) {
+            evt.consume();
+        } else if (cedulaTxt.getText().length() > 14) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cedulaTxtKeyTyped
+
+    private void nota2TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota2TxtKeyTyped
+        validaNum(evt, nota2Txt);
+    }//GEN-LAST:event_nota2TxtKeyTyped
+
+    private void nota2TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota2TxtMouseClicked
+        limpiaTexto(nota2Txt);
+    }//GEN-LAST:event_nota2TxtMouseClicked
+    private void limpiaTexto(JTextField field) {
+        if (field.getText().equals("0")) {
+            field.setText(null);
+        }
+    }
+
+    private void validaNum(java.awt.event.KeyEvent evt, JTextField field) {
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '.')) {
+            evt.consume();
+        } else if (c == '.' && field.getText().contains(".")) {
+            evt.consume();
+        } else if (field.getText().length() >= 5) {
+            evt.consume();
+        }
+    }
+
     private void revisaEstado() {
         if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {
             nota.setEstadoAsistencia(Estado.RP.name());
@@ -737,12 +789,14 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             }
             i++;
         }
-        int val = Integer.parseInt(asistenciaTxt.getText().trim());
-        if (val > 100) {
-            JOptionPane.showMessageDialog(null, "Error valor invalido para asistencia", "Error", JOptionPane.ERROR_MESSAGE);
-            resultado = false;
-        } else if (val < 0) {
-            JOptionPane.showMessageDialog(null, "Error valor invalido para asistencia", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!asistenciaTxt.getText().trim().isEmpty()) {
+            int val = Integer.parseInt(asistenciaTxt.getText().trim());
+            if (val > 100) {
+                JOptionPane.showMessageDialog(null, "Error valor invalido para asistencia", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (val < 0) {
+                JOptionPane.showMessageDialog(null, "Error valor invalido para asistencia", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
             resultado = false;
         }
 
@@ -756,45 +810,64 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         Double[] porcentaje = {configuracionMateria.getAporte1(), configuracionMateria.getAporte2(), configuracionMateria.getAporte3(), configuracionMateria.getAporte4(), configuracionMateria.getAporte5(), configuracionMateria.getAporte6(),
             configuracionMateria.getAporte7(), configuracionMateria.getAporte8(), configuracionMateria.getAporte9(),
             configuracionMateria.getAporte10()};
+        String[] des = {nota1Lbl.getText(), nota2Lbl.getText(), nota3Txt.getText(), nota4Lbl.getText(), nota5Lbl.getText(),
+            nota6Lbl.getText(), nota7Lbl.getText(), nota8Lbl.getText(), nota9Lbl.getText(), nota10Lbl.getText()};
         int i = 0;
         double recu;
         try {
             BigDecimal promedio = new BigDecimal(BigInteger.ZERO);
             double temp = 0;
             double por = 0;
-            for (Double valor1 : valor) {
-                if (i < numeroCampos) {
-                    por = porcentaje[i];
-                    temp = valor1 * por;
-                    promedio = promedio.add(new BigDecimal(temp));
-                    promedio = promedio.setScale(2, RoundingMode.HALF_UP);
-                    promedioTxt.setText(String.valueOf(promedio));
-                    nota.setPromedio(promedio);
-                    resultado = true;
-
-                    i++;
-
-                } else {
-                    if (activaRecuperacionCkb.isSelected() == true && i == numeroCampos) {
-                        if (recuperacionTxt.getText().trim().length() != 0) {
-                            promedio = promedio.subtract(new BigDecimal(temp));
-                            recu = Double.valueOf(recuperacionTxt.getText()) * por;
-                            promedio = promedio.add(new BigDecimal(recu));
-                            promedio = promedio.setScale(2, RoundingMode.HALF_UP);
-                            promedioTxt.setText(String.valueOf(promedio));
-                            nota.setPromedio(promedio);
-                            resultado = true;
-                            break;
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Error campo recuperacion vacio", "Error", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        }
-                    }
-                    resultado = true;
+            int y = 0;
+            for (Double valor2 : valor) {
+                if (valor2 > malla.getValorNota()) {
+                    JOptionPane.showMessageDialog(null, "Error valor de nota : " + des[y] + "no admitido por la configuracion ", "Error", JOptionPane.ERROR_MESSAGE);
+                    resultado = false;
                     break;
                 }
-
+                y++;
             }
+            if (resultado != false) {
+                for (Double valor1 : valor) {
+                    if (i < numeroCampos) {
+                        por = porcentaje[i];
+                        temp = valor1 * por;
+                        promedio = promedio.add(new BigDecimal(temp));
+                        promedio = promedio.setScale(2, RoundingMode.HALF_UP);
+                        promedioTxt.setText(String.valueOf(promedio));
+                        nota.setPromedio(promedio);
+                        resultado = true;
+                        i++;
+
+                    } else {
+                        if (activaRecuperacionCkb.isSelected() == true && i == numeroCampos) {
+                            if (recuperacionTxt.getText().trim().length() != 0) {
+                                promedio = promedio.subtract(new BigDecimal(temp));
+                                recu = Double.valueOf(recuperacionTxt.getText());
+                                if (recu <= malla.getValorNota()) {
+                                    recu = recu * por;
+                                    promedio = promedio.add(new BigDecimal(recu));
+                                    promedio = promedio.setScale(2, RoundingMode.HALF_UP);
+                                    promedioTxt.setText(String.valueOf(promedio));
+                                    nota.setPromedio(promedio);
+                                    resultado = true;
+                                    break;
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Error valor de campo recuperacion invalido por la configuracion", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error campo recuperacion vacio", "Error", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+                        }
+                        resultado = true;
+                        break;
+                    }
+
+                }
+            }
+
             return resultado;
         } catch (NumberFormatException | HeadlessException e) {
             System.out.println(e);
@@ -937,7 +1010,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         calcularBtn.setEnabled(false);
         guardarBtn.setEnabled(false);
         activaRecuperacionCkb.setEnabled(false);
-
     }
 
     private void limpiaCampos() {
@@ -1251,7 +1323,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField cedulaTxt;
     private javax.swing.JButton guardarBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
