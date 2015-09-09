@@ -28,6 +28,7 @@ import javax.swing.table.TableRowSorter;
 import logica.MallaDao;
 import logica.MetodosGeneralesDao;
 import logica.NotaDao;
+import logica.ResumenDao;
 import modelo.Alumno;
 import modelo.Campo;
 import modelo.ConfiguracionMateria;
@@ -200,7 +201,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         activaRecuperacionCkb = new javax.swing.JCheckBox();
         recuperacionTxt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -468,13 +468,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 .addComponent(recuperacionTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -508,10 +501,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(56, 56, 56))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,9 +518,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(cancelarBtn)
@@ -604,6 +591,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         nota.setIdNota((Integer) notasTabla.getValueAt(i, 0));
         nota.setIdMateria((Integer) notasTabla.getValueAt(i, 5));
         nota.setNombreMateria((String) notasTabla.getValueAt(i, 2));
+        nota.setCedula((String)notasTabla.getValueAt(i, 1));
         asignaturaTxt.setText(nota.getNombreMateria());
         resultSet1 = notaDao.cargarValoresMateria(periodo.getCodigoPeriodo(), nota.getIdNota(), nota.getIdMateria());
         try {
@@ -615,6 +603,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 materia.setIdConfiguracionMateria(Integer.parseInt(resultSet1.getString("id_config_materia")));
                 materia.setIdDescripcionMateria(Integer.parseInt(resultSet1.getString("id_desc_materia")));
                 materia.setIdMalla(Integer.parseInt(resultSet1.getString("id_malla")));
+                materia.setIdEspecialidad(Integer.parseInt(resultSet1.getString("id1_especialidad")));
+                materia.setIdSemestre(Integer.valueOf(resultSet1.getString("id1_semestre")));
                 cargaCampo(Integer.parseInt(configuracionMateria.getNumeroAportes()));
                 setNota(resultSet1, configuracionMateria.getNumeroAportes());
                 setDescripcion(resultSet1, configuracionMateria.getNumeroAportes());
@@ -698,19 +688,18 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             revisaEstado();
             campos.put("estado_nota", nota.getEstadoNota());
+            
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
+            nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
+            campos.put("asistencia", nota.getAsistencia());
             notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
+            ResumenDao resumenDao = new ResumenDao();
+            resumenDao.calculaResumen(periodo.getCodigoPeriodo(),nota.getCedula(),malla.getIdMalla(),periodo.getIdPeriodo(),materia.getIdSemestre(),materia.getIdEspecialidad());
             limpiaCampos();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        metodosGeneralesDao = new MetodosGeneralesDao();
-        metodosGeneralesDao.calculaResumen("1717349409", 1);
-
-    }//GEN-LAST:event_jButton1ActionPerformed
     private void revisaEstado() {
         if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {
             nota.setEstadoAsistencia(Estado.RP.name());
@@ -1251,7 +1240,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField cedulaTxt;
     private javax.swing.JButton guardarBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;

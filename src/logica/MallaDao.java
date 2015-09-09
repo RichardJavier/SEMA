@@ -68,6 +68,7 @@ public class MallaDao {
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
+                malla.setIdMalla(Integer.valueOf(resultado.getString("id_malla")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultado.getString("valor_min_asistencia")));
                 malla.setValorMinimoPromedioMateria(Double.valueOf((resultado.getString("valor_min_promedio"))));
                 malla.setValorNota(Double.valueOf((resultado.getString("valor_calf_nota"))));
