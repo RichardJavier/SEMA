@@ -197,7 +197,7 @@ public class MetodosGeneralesDao {
             //setear
             System.out.println(resumen.getAsistencia());
             //variables de calculo
-            BigDecimal nt, pnt,pne;
+            BigDecimal nt, pnt,pnem;
             //promedio ponderada de nota calculado ya 
             System.out.println(resumen.getPromedioPonderadoNota());
             //calculo nota total teorica       
@@ -211,14 +211,14 @@ public class MetodosGeneralesDao {
             pnt = new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
             pnt = resumen.getNotaTotalTeorica().multiply(pnt);
             pnt = pnt.setScale(2, RoundingMode.HALF_UP);
-            pne=new BigDecimal(malla.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
-            pne=pne.multiply(resumen.getNotaEmpresa());
-            pne=pne.setScale(2, RoundingMode.HALF_UP);
-            resumen.setNotaEmpresa(pne);
+            pnem=new BigDecimal(malla.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
+            pnem=pnem.multiply(resumen.getNotaEmpresa());
+            pnem=pnem.setScale(2, RoundingMode.HALF_UP);
+            resumen.setNotaEmpresa(pnem);
             //setear 
             System.out.println(resumen.getNotaEmpresa());
             //nota final de calculada
-            resumen.setNotaFinal(pnt.add(pne));
+            resumen.setNotaFinal(pnt.add(pnem));
             System.out.println(resumen.getNotaFinal());
             
         } catch (SQLException | NumberFormatException e) {
