@@ -654,7 +654,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             cargaNota(Integer.parseInt(configuracionMateria.getNumeroAportes()));
             if (calculaNotas(Integer.parseInt(configuracionMateria.getNumeroAportes()))) {
                 ocultaCampos();
-
                 guardarBtn.setEnabled(true);
                 activaRecuperacionCkb.setEnabled(true);
             } else {
@@ -820,11 +819,17 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             double por = 0;
             int y = 0;
             for (Double valor2 : valor) {
-                if (valor2 > malla.getValorNota()) {
-                    JOptionPane.showMessageDialog(null, "Error valor de nota : " + des[y] + "no admitido por la configuracion ", "Error", JOptionPane.ERROR_MESSAGE);
-                    resultado = false;
+                if (y < numeroCampos) {
+                    if (valor2 > malla.getValorNota()) {
+                        JOptionPane.showMessageDialog(null, "Error valor de nota : " + des[y] + "no admitido por la configuracion ", "Error", JOptionPane.ERROR_MESSAGE);
+                        resultado = false;
+                        break;
+                    }
+                } else {
+                    resultado = true;
                     break;
                 }
+
                 y++;
             }
             if (resultado != false) {
@@ -1010,6 +1015,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         calcularBtn.setEnabled(false);
         guardarBtn.setEnabled(false);
         activaRecuperacionCkb.setEnabled(false);
+        recuperacionTxt.setEnabled(false);
     }
 
     private void limpiaCampos() {
