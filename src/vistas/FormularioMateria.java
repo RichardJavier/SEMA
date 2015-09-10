@@ -2,6 +2,7 @@ package vistas;
 
 import control.Crud;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -245,6 +246,12 @@ public class FormularioMateria extends javax.swing.JDialog {
         setUndecorated(true);
 
         jLabel1.setText("Nombre Materia");
+
+        nombreMateriaTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombreMateriaTxtKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Creditos");
 
@@ -1736,6 +1743,10 @@ public class FormularioMateria extends javax.swing.JDialog {
     private void horasTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_horasTxtKeyTyped
         validaNumero(evt);
     }//GEN-LAST:event_horasTxtKeyTyped
+
+    private void nombreMateriaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreMateriaTxtKeyTyped
+        validaLetras(evt);
+    }//GEN-LAST:event_nombreMateriaTxtKeyTyped
     private void validaNumero(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
@@ -1745,7 +1756,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void validaLetras(java.awt.event.KeyEvent evt) {
         char car = evt.getKeyChar();
-        if ((car < 'a' || car > 'z') && (car < 'A' || car > 'Z')) {
+        if ((car < 'a' || car > 'z') && (car < 'A' || car > 'Z') && (car == KeyEvent.VK_BACK_SPACE)) {
             evt.consume();
         }
     }

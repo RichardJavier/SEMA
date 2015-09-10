@@ -144,6 +144,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="cedulaTxt">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cedulaTxtKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -412,6 +415,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nota1Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota1TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota1TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="nota5Lbl">
               <Properties>
@@ -444,6 +451,10 @@
             <Component class="javax.swing.JTextField" name="nota9Txt">
             </Component>
             <Component class="javax.swing.JTextField" name="nota2Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota2TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota2TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="nota2Lbl">
               <Properties>
