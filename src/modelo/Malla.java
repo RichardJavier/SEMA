@@ -16,7 +16,7 @@ public class Malla extends Semestre {
     private Integer creditosTeoricaDisponibles;
     private Integer creditoCiclo;
     private Integer creditoNotaEmpresa;
-    private Double valorMinimoPromedioMateria;
+    private Double valorMinimoPromedio;
     private Integer valorMinimoAsistencia;
     private Double valorNota;
     private Double valorRecuperacion;
@@ -129,12 +129,12 @@ public class Malla extends Semestre {
         this.creditoNotaEmpresa = creditoNotaEmpresa;
     }
 
-    public Double getValorMinimoPromedioMateria() {
-        return valorMinimoPromedioMateria;
+    public Double getValorMinimoPromedio() {
+        return valorMinimoPromedio;
     }
 
-    public void setValorMinimoPromedioMateria(Double valorMinimoPromedioMateria) {
-        this.valorMinimoPromedioMateria = valorMinimoPromedioMateria;
+    public void setValorMinimoPromedio(Double valorMinimoPromedio) {
+        this.valorMinimoPromedio = valorMinimoPromedio;
     }
     
     public Integer getValorMinimoAsistencia() {

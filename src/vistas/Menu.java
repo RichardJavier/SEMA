@@ -300,9 +300,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-//        FrmResumen fr = new FrmResumen();
-//        escritorio.add(fr);
-//        fr.show();
+        FrmResumen fr = new FrmResumen();
+        escritorio.add(fr);
+        fr.show();
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

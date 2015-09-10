@@ -23,12 +23,18 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="730" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="730" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
           </Group>
@@ -39,12 +45,12 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jPanel2" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="300" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="336" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
@@ -258,7 +264,7 @@
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                  <EmptySpace pref="54" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="guardarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancelarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -443,12 +449,28 @@
             <Component class="javax.swing.JTextField" name="asignaturaTxt">
             </Component>
             <Component class="javax.swing.JTextField" name="nota3Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota3TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota3TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nota5Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota5TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota5TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nota7Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota7TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota7TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nota9Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota9TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota9TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nota2Txt">
               <Events>
@@ -467,13 +489,24 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nota4Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota4TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota4TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="nota6Lbl">
               <Properties>
                 <Property name="text" type="java.lang.String" value="nota6"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota6LblKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nota6Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota6TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota6TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="nota8Lbl">
               <Properties>
@@ -481,6 +514,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nota8Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota8TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota8TxtKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="nota10Lbl">
               <Properties>
@@ -488,6 +525,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nota10Txt">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nota10TxtMouseClicked"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nota10TxtKeyTyped"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -497,6 +538,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="asistenciaTxt">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="asistenciaTxtKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
@@ -582,6 +626,7 @@
             <Component class="javax.swing.JTextField" name="recuperacionTxt">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recuperacionTxtActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="recuperacionTxtKeyTyped"/>
               </Events>
             </Component>
           </SubComponents>

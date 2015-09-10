@@ -552,7 +552,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
 
     private List<Map> cargaListaMaterias() {
         mapMaterias = new ArrayList<>();
-        matricula.setIdMatricula(matriculaDao.cargaIdMatricuala());
+        matricula.setIdMatricula(matriculaDao.cargaIdMatricula());
         for (Materia listaMateria : listaMaterias) {
             campos1 = new HashMap();
             campos1.put("cedula", alumno.getCedula());
@@ -580,6 +580,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos2.put("id_semestre", semestre.getIdSemestre());
         campos2.put("id_especialidad", especialidad.getIdEspecialidad());
         campos2.put("id_malla", listaMaterias.get(0).getIdMalla());
+        campos2.put("id_matricula",matricula.getIdMatricula());
         return campos2;
     }
 

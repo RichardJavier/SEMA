@@ -318,6 +318,50 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Asignatura");
 
+        nota3Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota3TxtMouseClicked(evt);
+            }
+        });
+        nota3Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota3TxtKeyTyped(evt);
+            }
+        });
+
+        nota5Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota5TxtMouseClicked(evt);
+            }
+        });
+        nota5Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota5TxtKeyTyped(evt);
+            }
+        });
+
+        nota7Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota7TxtMouseClicked(evt);
+            }
+        });
+        nota7Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota7TxtKeyTyped(evt);
+            }
+        });
+
+        nota9Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota9TxtMouseClicked(evt);
+            }
+        });
+        nota9Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota9TxtKeyTyped(evt);
+            }
+        });
+
         nota2Txt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nota2TxtMouseClicked(evt);
@@ -333,11 +377,60 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         nota4Lbl.setText("nota4");
 
+        nota4Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota4TxtMouseClicked(evt);
+            }
+        });
+        nota4Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota4TxtKeyTyped(evt);
+            }
+        });
+
         nota6Lbl.setText("nota6");
+        nota6Lbl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota6LblKeyTyped(evt);
+            }
+        });
+
+        nota6Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota6TxtMouseClicked(evt);
+            }
+        });
+        nota6Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota6TxtKeyTyped(evt);
+            }
+        });
 
         nota8Lbl.setText("nota8");
 
+        nota8Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota8TxtMouseClicked(evt);
+            }
+        });
+        nota8Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota8TxtKeyTyped(evt);
+            }
+        });
+
         nota10Lbl.setText("nota10");
+
+        nota10Txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nota10TxtMouseClicked(evt);
+            }
+        });
+        nota10Txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nota10TxtKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -438,6 +531,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Asistencia");
 
+        asistenciaTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                asistenciaTxtKeyTyped(evt);
+            }
+        });
+
         jLabel16.setText("Promedio");
 
         calcularBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Calculator.png"))); // NOI18N
@@ -476,6 +575,11 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         recuperacionTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 recuperacionTxtActionPerformed(evt);
+            }
+        });
+        recuperacionTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                recuperacionTxtKeyTyped(evt);
             }
         });
 
@@ -548,7 +652,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(cancelarBtn)
@@ -561,11 +665,15 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
@@ -576,10 +684,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(77, 77, 77))
         );
 
@@ -587,7 +695,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
-
+       
         ocultaCampos();
         limpiaCampos();
         if (!cedulaTxt.getText().trim().isEmpty() && semestreCmb.getSelectedIndex() != 0) {
@@ -621,7 +729,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         nota.setIdNota((Integer) notasTabla.getValueAt(i, 0));
         nota.setIdMateria((Integer) notasTabla.getValueAt(i, 5));
         nota.setNombreMateria((String) notasTabla.getValueAt(i, 2));
-        nota.setCedula((String)notasTabla.getValueAt(i, 1));
+        nota.setCedula((String) notasTabla.getValueAt(i, 1));
         asignaturaTxt.setText(nota.getNombreMateria());
         resultSet1 = notaDao.cargarValoresMateria(periodo.getCodigoPeriodo(), nota.getIdNota(), nota.getIdMateria());
         try {
@@ -635,6 +743,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 materia.setIdMalla(Integer.parseInt(resultSet1.getString("id_malla")));
                 materia.setIdEspecialidad(Integer.parseInt(resultSet1.getString("id1_especialidad")));
                 materia.setIdSemestre(Integer.valueOf(resultSet1.getString("id1_semestre")));
+                asistenciaTxt.setText(resultSet1.getString("asistencia"));
+                nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
                 cargaCampo(Integer.parseInt(configuracionMateria.getNumeroAportes()));
                 setNota(resultSet1, configuracionMateria.getNumeroAportes());
                 setDescripcion(resultSet1, configuracionMateria.getNumeroAportes());
@@ -716,13 +826,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             revisaEstado();
             campos.put("estado_nota", nota.getEstadoNota());
-            
+
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             campos.put("asistencia", nota.getAsistencia());
             notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
             ResumenDao resumenDao = new ResumenDao();
-            resumenDao.calculaResumen(periodo.getCodigoPeriodo(),nota.getCedula(),malla.getIdMalla(),periodo.getIdPeriodo(),materia.getIdSemestre(),materia.getIdEspecialidad());
+            resumenDao.calculaResumen(periodo.getCodigoPeriodo(), nota.getCedula(), malla.getIdMalla(), periodo.getIdPeriodo(), materia.getIdSemestre(), materia.getIdEspecialidad());
             limpiaCampos();
             ocultaCampos();
         } catch (Exception e) {
@@ -754,6 +864,88 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void nota2TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota2TxtMouseClicked
         limpiaTexto(nota2Txt);
     }//GEN-LAST:event_nota2TxtMouseClicked
+
+    private void nota3TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota3TxtKeyTyped
+        validaNum(evt, nota3Txt);
+    }//GEN-LAST:event_nota3TxtKeyTyped
+
+    private void nota3TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota3TxtMouseClicked
+        limpiaTexto(nota3Txt);
+    }//GEN-LAST:event_nota3TxtMouseClicked
+
+    private void nota4TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota4TxtKeyTyped
+        validaNum(evt, nota4Txt);
+    }//GEN-LAST:event_nota4TxtKeyTyped
+
+    private void nota4TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota4TxtMouseClicked
+        limpiaTexto(nota4Txt);
+    }//GEN-LAST:event_nota4TxtMouseClicked
+
+    private void nota6LblKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota6LblKeyTyped
+
+    }//GEN-LAST:event_nota6LblKeyTyped
+
+    private void nota5TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota5TxtKeyTyped
+        validaNum(evt, nota5Txt);
+    }//GEN-LAST:event_nota5TxtKeyTyped
+
+    private void nota5TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota5TxtMouseClicked
+        limpiaTexto(nota5Txt);
+    }//GEN-LAST:event_nota5TxtMouseClicked
+
+    private void nota6TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota6TxtKeyTyped
+        validaNum(evt, nota6Txt);
+    }//GEN-LAST:event_nota6TxtKeyTyped
+
+    private void nota6TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota6TxtMouseClicked
+        limpiaTexto(nota6Txt);
+    }//GEN-LAST:event_nota6TxtMouseClicked
+
+    private void nota7TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota7TxtKeyTyped
+        validaNum(evt, nota7Txt);
+    }//GEN-LAST:event_nota7TxtKeyTyped
+
+    private void nota7TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota7TxtMouseClicked
+        limpiaTexto(nota7Txt);
+    }//GEN-LAST:event_nota7TxtMouseClicked
+
+    private void nota8TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota8TxtKeyTyped
+        validaNum(evt, nota8Txt);
+    }//GEN-LAST:event_nota8TxtKeyTyped
+
+    private void nota8TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota8TxtMouseClicked
+        limpiaTexto(nota8Txt);
+    }//GEN-LAST:event_nota8TxtMouseClicked
+
+    private void nota9TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota9TxtKeyTyped
+        validaNum(evt, nota9Txt);
+    }//GEN-LAST:event_nota9TxtKeyTyped
+
+    private void nota9TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota9TxtMouseClicked
+        limpiaTexto(nota9Txt);
+    }//GEN-LAST:event_nota9TxtMouseClicked
+
+    private void nota10TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota10TxtKeyTyped
+        validaNum(evt, nota10Txt);
+    }//GEN-LAST:event_nota10TxtKeyTyped
+
+    private void nota10TxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nota10TxtMouseClicked
+        limpiaTexto(nota10Txt);
+    }//GEN-LAST:event_nota10TxtMouseClicked
+
+    private void asistenciaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_asistenciaTxtKeyTyped
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        } else if (asistenciaTxt.getText().length() >= 3) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_asistenciaTxtKeyTyped
+
+    private void recuperacionTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_recuperacionTxtKeyTyped
+        validaNum(evt, recuperacionTxt);
+    }//GEN-LAST:event_recuperacionTxtKeyTyped
     private void limpiaTexto(JTextField field) {
         if (field.getText().equals("0")) {
             field.setText(null);
@@ -777,7 +969,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         } else {
             nota.setEstadoAsistencia(Estado.AP.name());
         }
-        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorMinimoPromedioMateria())) <= 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) <= 0) {
             nota.setEstadoNota(Estado.RP.name());
         } else {
             nota.setEstadoNota(Estado.AP.name());
@@ -1041,6 +1233,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         nota10Txt.setText(null);
         promedioTxt.setText(null);
         recuperacionTxt.setText(null);
+        asistenciaTxt.setText(null);
         activaRecuperacionCkb.setSelected(false);
         nota1Lbl.setText("nota1");
         nota2Lbl.setText("nota2");

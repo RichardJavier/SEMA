@@ -7,5 +7,10 @@ public enum Estado {
     ORDINARIA,
     EXTRAORDOINARIA,
     RP,
-    AP
+    AP,
+    APRUEBA,
+    PIERDE,
+    AC,
+    DS
+   
 }

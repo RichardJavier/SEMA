@@ -331,12 +331,9 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Error al ingresar", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e);
             }
-
         } else {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void activaMatriculaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activaMatriculaRdbActionPerformed

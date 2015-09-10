@@ -60,7 +60,7 @@ public class MatriculaDao {
 
         return null;
     } 
-    public Integer cargaIdMatricuala(){
+    public Integer cargaIdMatricula(){
     Matricula matricula = new Matricula();
         try {
             Conexion cc = Conexion.getInstance();

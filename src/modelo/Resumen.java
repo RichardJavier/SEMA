@@ -1,28 +1,27 @@
-
 package modelo;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
+public class Resumen extends Matricula {
 
-public class Resumen {
-  private Integer idResumen;
-  private Integer idAlumno;
-  private String cedula;
-  private String nombreCompleto;
-  private BigDecimal promedioPonderadoNota;
-  private Double notaTutoria;
-  private BigDecimal notaTotalTeorica;
-  private BigDecimal notaEmpresa;
-  private Integer asistencia;
-  private BigDecimal notaFinal;
-  private String aprobacion;
-  private Date fechaCreacion;
-  private Date fechaModificacion;
-  private Integer idPeriodo;
-  private Integer idSemestre;
-  private Integer idEspecialidad;
-  private Integer idMalla;
+    private Integer idResumen;
+    private Integer idAlumno;
+    private String cedula;
+    private String nombreCompleto;
+    private BigDecimal promedioPonderadoNota;
+    private Double notaTutoria;
+    private BigDecimal notaTotalTeorica;
+    private BigDecimal notaEmpresa;
+    private Integer asistencia;
+    private BigDecimal notaFinal;
+    private String aprobacion;
+    private Date fechaCreacion;
+    private Date fechaModificacion;
+    private Integer idPeriodo;
+    private Integer idSemestre;
+    private Integer idEspecialidad;
+    private Integer idMalla;
 
     public Resumen() {
     }
@@ -35,26 +34,32 @@ public class Resumen {
         this.idResumen = idResumen;
     }
 
+    @Override
     public Integer getIdAlumno() {
         return idAlumno;
     }
 
+    @Override
     public void setIdAlumno(Integer idAlumno) {
         this.idAlumno = idAlumno;
     }
 
+    @Override
     public String getCedula() {
         return cedula;
     }
 
+    @Override
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 
+    @Override
     public String getNombreCompleto() {
         return nombreCompleto;
     }
 
+    @Override
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
@@ -115,10 +120,12 @@ public class Resumen {
         this.aprobacion = aprobacion;
     }
 
+    @Override
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
+    @Override
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
@@ -139,18 +146,22 @@ public class Resumen {
         this.idPeriodo = idPeriodo;
     }
 
+    @Override
     public Integer getIdSemestre() {
         return idSemestre;
     }
 
+    @Override
     public void setIdSemestre(Integer idSemestre) {
         this.idSemestre = idSemestre;
     }
 
+    @Override
     public Integer getIdEspecialidad() {
         return idEspecialidad;
     }
 
+    @Override
     public void setIdEspecialidad(Integer idEspecialidad) {
         this.idEspecialidad = idEspecialidad;
     }
@@ -162,5 +173,5 @@ public class Resumen {
     public void setIdMalla(Integer idMalla) {
         this.idMalla = idMalla;
     }
-    
+
 }

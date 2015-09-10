@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import modelo.Estado;
 import modelo.Malla;
 import modelo.Materia;
 import modelo.Nota;
@@ -23,6 +24,44 @@ import modelo.Promedio;
 import modelo.Resumen;
 
 public class ResumenDao {
+
+    public ResultSet cargarResumen(String cedula) {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "select * from resumen as r "
+                    + "left  join matricula as m  "
+                    + "on r.id_matricula = m.id_matricula "
+                    + "left join semestre as s "
+                    + "on r.id_semestre=s.id1_semestre "
+                    + "left join especialidad as e  "
+                    + "on r.id_especialidad = e.id1_especialidad "
+                    + "where r.cedula" + "=" + "'" + cedula + "'";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (Exception e) {
+            System.out.println("Error en la actualizacion: " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error al cargar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    public ResultSet cargarValores(Integer idResumen) {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "select * from resumen "
+                         + "where id_resumen" + "=" + "'" + idResumen + "'";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (Exception e) {
+            System.out.println("Error en la actualizacion: " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error al cargar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
 
     public synchronized Integer actualizarResumen(String cedula, int idPeriodo, int idSemestre, int idEspecialidad, Map datos) {
         try {
@@ -87,6 +126,7 @@ public class ResumenDao {
                 malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
                 malla.setPorcentajeNotaTeorica(Integer.valueOf(rs.getString("porc_nota_teorica")));
                 malla.setPorcentajeNotaEmpresa(Integer.valueOf(rs.getString("porc_nota_empresa")));
+                malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) malla.getCreditoTeoria());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
                 promedio.setPromedio(nota.getPromedio().multiply(promedio.getPorcentaje()));
@@ -113,18 +153,18 @@ public class ResumenDao {
             resumen.setAsistencia(asistencia / i);
 
             //setear
-           // System.out.println(resumen.getAsistencia());
+            // System.out.println(resumen.getAsistencia());
             //variables de calculo
             BigDecimal nt, pnt, pne;
             //promedio ponderada de nota calculado ya 
-           // System.out.println(resumen.getPromedioPonderadoNota());
+            // System.out.println(resumen.getPromedioPonderadoNota());
             //calculo nota total teorica       
             nt = new BigDecimal(malla.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
             nt = nt.multiply(resumen.getPromedioPonderadoNota());
             nt = nt.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaTotalTeorica(nt);
             //setear
-           // System.out.println(resumen.getNotaTotalTeorica().toString());
+            // System.out.println(resumen.getNotaTotalTeorica().toString());
             //calculo de porcentaje de la nota empresa
             pnt = new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
             pnt = resumen.getNotaTotalTeorica().multiply(pnt);
@@ -134,17 +174,23 @@ public class ResumenDao {
             pne = pne.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaEmpresa(pne);
             //setear 
-           // System.out.println(resumen.getNotaEmpresa());
+            // System.out.println(resumen.getNotaEmpresa());
             //nota final de calculada
             resumen.setNotaFinal(pnt.add(pne));
             //System.out.println(resumen.getNotaFinal());
+            if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) > 0) {
+                resumen.setAprobacion(Estado.APRUEBA.name());
+            } else {
+                resumen.setAprobacion(Estado.PIERDE.name());
+            }
             Map campos = new HashMap();
-            campos.put("nota_empresa",resumen.getNotaEmpresa());
+            campos.put("nota_empresa", resumen.getNotaEmpresa());
             campos.put("pro_ponderado_nota", resumen.getPromedioPonderadoNota());
             campos.put("nota_total_teorica", resumen.getNotaTotalTeorica());
             campos.put("asistencia", resumen.getAsistencia());
             campos.put("nota_final", resumen.getNotaFinal());
-            actualizarResumen( cedula, idPeriodo, idSemestre, idEspecialidad, campos);
+            campos.put("aprobacion", resumen.getAprobacion());
+            actualizarResumen(cedula, idPeriodo, idSemestre, idEspecialidad, campos);
         } catch (SQLException | NumberFormatException e) {
             System.out.println(e);
         }

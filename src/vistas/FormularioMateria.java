@@ -26,6 +26,7 @@ import modelo.ConfiguracionMateria;
 import modelo.DescripcionMateria;
 import modelo.Eje;
 import modelo.Especialidad;
+import modelo.Estado;
 import modelo.Malla;
 import modelo.Materia;
 import modelo.Profesor;
@@ -116,7 +117,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     nombreMateriaTxt.setText(resultSet.getString("materia"));
                     creditosTxt.setText(resultSet.getString("creditos"));
                     estado = resultSet.getString("activa_mat");
-                    if (estado.equals("A")) {
+                    if (estado.equals(Estado.AC)) {
                         activadaRdb.setSelected(true);
                     } else {
                         desactivadaRdb.setSelected(true);
@@ -1245,7 +1246,6 @@ public class FormularioMateria extends javax.swing.JDialog {
             materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
             materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
             materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
-            materia.setEstado(estado);
             materia.setIdMalla(malla.getIdMalla());
             materia.setIdSemestre(semestre.getIdSemestre());
             materia.setIdEspecialidad(especialidad.getIdEspecialidad());
@@ -1713,13 +1713,11 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_especialidadCmbItemStateChanged
 
     private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
-        estado = "A";
-        materia.setEstado(estado);
+        materia.setEstado(Estado.AC.name());
     }//GEN-LAST:event_activadaRdbActionPerformed
 
     private void desactivadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desactivadaRdbActionPerformed
-        estado = "D";
-        materia.setEstado(estado);
+        materia.setEstado(Estado.DS.name());
     }//GEN-LAST:event_desactivadaRdbActionPerformed
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed

@@ -70,7 +70,7 @@ public class MallaDao {
             while (resultado.next()) {
                 malla.setIdMalla(Integer.valueOf(resultado.getString("id_malla")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultado.getString("valor_min_asistencia")));
-                malla.setValorMinimoPromedioMateria(Double.valueOf((resultado.getString("valor_min_promedio"))));
+                malla.setValorMinimoPromedio(Double.valueOf((resultado.getString("valor_min_promedio"))));
                 malla.setValorNota(Double.valueOf((resultado.getString("valor_calf_nota"))));
                 malla.setValorRecuperacion(Double.valueOf(resultado.getString("valor_min_recuperacion")));
             }

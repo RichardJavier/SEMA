@@ -81,7 +81,7 @@ public class MetodosGeneralesDao {
         try {
             cc = Conexion.getInstance();
             cn = cc.Conectar();
-            String sql = "SELECT * FROM datos_profesor where estado != 'D' ORDER BY id1_profe  ";
+            String sql = "SELECT * FROM datos_profesor where estado != 'DS' ORDER BY id1_profe  ";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
