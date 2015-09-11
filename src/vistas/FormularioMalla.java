@@ -508,9 +508,9 @@ public class FormularioMalla extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(totalCreditosCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(totalCreditosTeoricaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -652,12 +652,9 @@ public class FormularioMalla extends javax.swing.JDialog {
         malla.setPorcentajeNotaTeorica(Integer.parseInt(porcentajeNotaTeorica.getText()));
         malla.setPorcentajeNotaEmpresa(Integer.parseInt(porcentajeNotaEmpresaTxt.getText()));
         malla.setValorMinimoPromedio(Double.valueOf((valorMinimoPromedioNotaTxt.getText().replaceAll(",", "."))));
-        malla.setCreditoCiclo(Integer.parseInt(totalCreditosCiclo.getText()));
-        malla.setCreditoTeoria(Integer.parseInt(totalCreditosTeoricaTxt.getText()));
         malla.setValorMinimoAsistencia(Integer.parseInt(valorMinimoAsistenciaTxt.getText()));
         malla.setValorNota(Double.valueOf((valorIngresoNotaTxt.getText().replaceAll(",", "."))));
         malla.setValorRecuperacion(Double.valueOf((valorMinimoRecuperacionTxt.getText().replaceAll(",", "."))));
-        int valorNotaEmpresa = malla.getCreditoCiclo() - malla.getCreditoTeoria();
         int sumaNotaPonderada = malla.getPorcentajePonderacionNota() + malla.getPorcentajeTutoriaIntegrada();
         int sumaNotaFinal = malla.getPorcentajeNotaEmpresa() + malla.getPorcentajeNotaTeorica();
 
@@ -675,15 +672,10 @@ public class FormularioMalla extends javax.swing.JDialog {
             resultado = false;
         } else if (malla.getValorNota() == 10 && malla.getValorRecuperacion() > 10 || malla.getValorNota() == 10 && malla.getValorRecuperacion() <= 0) {
             resultado = false;
-        } else if (valorNotaEmpresa <= 0) {
-            resultado = false;
         } else if (sumaNotaPonderada > valor || sumaNotaPonderada < valor) {
             resultado = false;
         } else if (sumaNotaFinal > valor || sumaNotaFinal < valor) {
             resultado = false;
-        } else {
-            creditosNotaEmpresaTxt.setText(String.valueOf(valorNotaEmpresa));
-            malla.setCreditoNotaEmpresa(valorNotaEmpresa);
         }
 
         return resultado;
@@ -695,19 +687,12 @@ public class FormularioMalla extends javax.swing.JDialog {
         Calendar cal = Calendar.getInstance();
         malla.setNombreMalla(nombreMallaTxt.getText().toUpperCase());
         malla.setEstado(activada);
-        malla.setCreditoCiclo(Integer.valueOf(totalCreditosCiclo.getText()));
-        malla.setCreditoTeoria(Integer.parseInt(totalCreditosTeoricaTxt.getText()));
-
         campos.put("nombre_malla", malla.getNombreMalla());
         campos.put("porc_nota_empresa", malla.getPorcentajeNotaEmpresa());
         campos.put("porc_nota_teorica", malla.getPorcentajeNotaTeorica());
         campos.put("porc_ponderado_nota", malla.getPorcentajePonderacionNota());
         campos.put("porc_integrada", malla.getPorcentajeTutoriaIntegrada());
-        campos.put("cred_teorica", malla.getCreditoTeoria());
-        campos.put("cred_ciclo", malla.getCreditoCiclo());
-        campos.put("cred_nota_empresa", malla.getCreditoNotaEmpresa());
         campos.put("valor_min_promedio", malla.getValorMinimoPromedio());
-        campos.put("cred_teorica_disp", malla.getCreditoCiclo());
         campos.put("valor_min_asistencia", malla.getValorMinimoAsistencia());
         campos.put("valor_min_recuperacion", malla.getValorRecuperacion());
         campos.put("valor_calf_nota", malla.getValorNota());

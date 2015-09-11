@@ -1,12 +1,14 @@
 package logica;
 
 import conectar.Conexion;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import modelo.Matricula;
@@ -100,10 +102,11 @@ public class NotaDao {
             cc.desconectar();
             return registrosAfectados;
 
-        } catch (Exception e) {
+        } catch (SQLException | HeadlessException e) {
             System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error en la actualizacion:" + e.toString());
         }
         return 0;
     }
+    
 }

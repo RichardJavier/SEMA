@@ -9,6 +9,8 @@ public class Resumen extends Matricula {
     private Integer idAlumno;
     private String cedula;
     private String nombreCompleto;
+    private Integer numeroCreditosCiclo;
+    private Integer numeroCreditosTeorica;
     private BigDecimal promedioPonderadoNota;
     private BigDecimal notaTutoria;
     private BigDecimal notaTotalTeorica;
@@ -62,6 +64,22 @@ public class Resumen extends Matricula {
     @Override
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
+    }
+
+    public Integer getNumeroCreditosCiclo() {
+        return numeroCreditosCiclo;
+    }
+
+    public void setNumeroCreditosCiclo(Integer numeroCreditosCiclo) {
+        this.numeroCreditosCiclo = numeroCreditosCiclo;
+    }
+
+    public Integer getNumeroCreditosTeorica() {
+        return numeroCreditosTeorica;
+    }
+
+    public void setNumeroCreditosTeorica(Integer numeroCreditosTeorica) {
+        this.numeroCreditosTeorica = numeroCreditosTeorica;
     }
 
     public BigDecimal getPromedioPonderadoNota() {

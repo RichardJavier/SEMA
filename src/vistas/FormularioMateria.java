@@ -76,7 +76,6 @@ public class FormularioMateria extends javax.swing.JDialog {
         malla = new Malla();
         semestreCmb.setEnabled(false);
         especialidadCmb.setEnabled(false);
-        creditosDisponiblesTxt.setEnabled(false);
         materia = new Materia();
         profesor = new Profesor();
         descripcionMateria = new DescripcionMateria();
@@ -98,7 +97,6 @@ public class FormularioMateria extends javax.swing.JDialog {
         this.guardarBtn.setEnabled(false);
         this.validarBtn.setEnabled(false);
         this.calcularBtn.setEnabled(false);
-        creditosDisponiblesTxt.setEnabled(false);
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
@@ -128,7 +126,6 @@ public class FormularioMateria extends javax.swing.JDialog {
                     malla.setIdMalla(Integer.valueOf(resultSet.getString("id_malla")));
                     malla.setNombreMalla(resultSet.getString("nombre_malla"));
                     mallaCmb.setSelectedItem(malla);
-                    malla.setCreditoCiclo(Integer.parseInt(resultSet.getString("cred_ciclo")));
                     malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
 
                     semestre.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
@@ -238,8 +235,6 @@ public class FormularioMateria extends javax.swing.JDialog {
         cancelarBtn = new javax.swing.JButton();
         mallaCmb = new javax.swing.JComboBox();
         calcularBtn = new javax.swing.JButton();
-        creditosDispLbl = new javax.swing.JLabel();
-        creditosDisponiblesTxt = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         profesoCmb = new javax.swing.JComboBox();
 
@@ -807,10 +802,6 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
         });
 
-        creditosDispLbl.setText("Creditos Disponibles");
-
-        creditosDisponiblesTxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-
         jLabel10.setText("Profesor");
 
         profesoCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
@@ -827,10 +818,6 @@ public class FormularioMateria extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(creditosDispLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -919,12 +906,8 @@ public class FormularioMateria extends javax.swing.JDialog {
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(creditosDispLbl)
-                            .addComponent(creditosDisponiblesTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -936,69 +919,14 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
         if (validaForm()) {
-            calculaCreditos();
+            guardarBtn.setEnabled(true);
+            validarBtn.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Error verifique que el formulario este correcto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_validarBtnActionPerformed
-    @SuppressWarnings({"BoxedValueEquality", "NumberEquality", "element-type-mismatch"})
-    private void calculaCreditos() {
-        if (idMateria == 0) {
-            if (malla.getCreditosTeoricaDisponibles() == 0) {
-                JOptionPane.showMessageDialog(null, "Error no existe creditos disponibles para la materia", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                numeroCreditos = malla.getCreditosTeoricaDisponibles() - Integer.parseInt(creditosTxt.getText());
-                if (numeroCreditos < 0) {
-                    JOptionPane.showMessageDialog(null, "Error numero de creditos no aceptable", "Error", JOptionPane.ERROR_MESSAGE);
-                    creditosTxt.setText(null);
-                } else {
-                    malla.setCreditosTeoricaDisponibles(numeroCreditos);
-                    creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
-                    guardarBtn.setEnabled(true);
-                    ocultaForm();
-                    validarBtn.setEnabled(false);
-                }
-            }
-        } else {
-            MateriaDao materiaDao = new MateriaDao();
-            try {
-                int val1 = 0;
-                @SuppressWarnings("UnusedAssignment")
-                List<Materia> listaTemp = new ArrayList<>();
-                listaTemp = materiaDao.valorCreditos(malla.getIdMalla());
-                for (Materia listaTemp1 : listaTemp) {
-                    int v = listaTemp1.getIdMateria();
-                    int h = materia.getIdMateria();
-                    if (v != h) {
-                        val1 = listaTemp1.getCreditos() + val1;
-                    }
-                }
-                if (activadaRdb.isSelected() == true) {
-                    int u = Integer.parseInt(creditosTxt.getText());
-                    val1 = val1 + u;
-                    if (val1 > malla.getCreditoCiclo()) {
-                        JOptionPane.showMessageDialog(null, "Error numero no admitido de creditos", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        malla.setCreditosTeoricaDisponibles(malla.getCreditoCiclo() - val1);
-                        creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
-                        guardarBtn.setEnabled(true);
-                        ocultaForm();
-                        validarBtn.setEnabled(false);
-                    }
-                } else {
-                    creditosDisponiblesTxt.setText(String.valueOf(malla.getCreditosTeoricaDisponibles()));
-                    malla.setCreditosTeoricaDisponibles(materia.getCreditos());
-                    guardarBtn.setEnabled(true);
-                    ocultaForm();
-                    validarBtn.setEnabled(false);
-                }
 
-            } catch (NumberFormatException | HeadlessException e) {
-                System.out.println(e);
-            }
 
-        }
-    }
     private void aporteTxt8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aporteTxt8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_aporteTxt8ActionPerformed
@@ -1217,12 +1145,6 @@ public class FormularioMateria extends javax.swing.JDialog {
                 crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1);
             }
 
-            //actualiza los crditos disponibles de malla
-            malla.setCreditosTeoricaDisponibles(malla.getCreditosTeoricaDisponibles());
-            Map mal = new HashMap();
-            mal.put("cred_teorica_disp", malla.getCreditosTeoricaDisponibles());
-            crud.actualizar("malla", "id_malla", malla.getIdMalla(), mal);
-
             //inicia carga de datos para tabla materia
             cargaDatos();
             if (idMateria == 0) {
@@ -1301,7 +1223,6 @@ public class FormularioMateria extends javax.swing.JDialog {
                 resultSet = mallaDao.consulta(malla.getIdMalla());
                 while (resultSet.next()) {
                     this.malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
-                    creditosDisponiblesTxt.setText(String.valueOf(this.malla.getCreditosTeoricaDisponibles()));
                     especialidad.setEspecialidad(resultSet.getString("especialidad"));
                     especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
                     especialidadCmb.setSelectedItem(especialidad);
@@ -2027,8 +1948,6 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JButton calcularBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JButton cargarBtn;
-    private javax.swing.JLabel creditosDispLbl;
-    private javax.swing.JTextField creditosDisponiblesTxt;
     private javax.swing.JTextField creditosTxt;
     private javax.swing.JLabel desLbl1;
     private javax.swing.JLabel desLbl10;

@@ -126,4 +126,25 @@ public class MetodosGeneralesDao {
         return null;
     }
 
-                }
+    public String codigoPeriodoBusacado(Integer idPeriodo) {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            Periodo periodo = new Periodo();
+            String sql = "SELECT * FROM periodo_semestre  WHERE id1_periodo " + "=" + "'" + idPeriodo + "'";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                periodo.setCodigoPeriodo(resultado.getString("id_periodo"));
+
+            }
+            return periodo.getCodigoPeriodo();
+
+        } catch (SQLException | NumberFormatException | NullPointerException e) {
+
+            System.out.println("Error en la consulta  codigo" + e);
+
+        }
+        return null;
+    }
+}

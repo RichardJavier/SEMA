@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Materia;
-import modelo.Matricula;
+import modelo.Periodo;
 
 public class MateriaDao {
 
@@ -104,8 +104,9 @@ public class MateriaDao {
                 Materia mat = new Materia();
                 mat.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
                 mat.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_config_materia")));
-                mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia" )));
+                mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia")));
                 mat.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
+                mat.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
                 listaMaterias.add(mat);
             }
             return listaMaterias;
@@ -114,5 +115,37 @@ public class MateriaDao {
         }
         return null;
     }
-  
+
+    public List<Materia> listaMateriasArrastre(String antesPeriodo,int idEspecialidad, int idSemestreAntes) {
+        List<Materia> listaMateriasArrastre = new ArrayList<>();
+        try {
+            Periodo periodo;
+            MetodosGeneralesDao dao = new MetodosGeneralesDao();
+            periodo = dao.codigoPeriodoActivo();
+            int p = periodo.getIdPeriodo() - 1;
+            PeriodoDao pe = new PeriodoDao();
+
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "select * from nota_" + antesPeriodo + " as n "
+                    + "inner join nombre_materia as nm "
+                    + "on n.id_materia=nm.id1_nombre_materia "
+                    + "where estado_nota = 'RP' ";
+            Statement st = cn.createStatement();
+            resultSet = st.executeQuery(sql);
+            while (resultSet.next()) {
+                Materia mat = new Materia();
+                mat.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
+                mat.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_config_materia")));
+                mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia")));
+                mat.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
+                mat.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
+                listaMateriasArrastre.add(mat);
+            }
+            return listaMateriasArrastre;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

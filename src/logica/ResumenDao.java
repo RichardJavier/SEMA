@@ -124,13 +124,14 @@ public class ResumenDao {
                 materia = new Materia();
                 materia.setNombreMateria(rs.getString("materia"));
                 materia.setCreditos(Integer.valueOf(rs.getString("creditos")));
-                malla.setCreditoTeoria(Integer.valueOf(rs.getString("cred_teorica")));
+               // malla.setCreditoTeoria(Integer.valueOf(rs.getString("cred_teorica")));
                 malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
                 malla.setPorcentajeNotaTeorica(Integer.valueOf(rs.getString("porc_nota_teorica")));
                 malla.setPorcentajeNotaEmpresa(Integer.valueOf(rs.getString("porc_nota_empresa")));
                 malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
-                porTemp = (double) ((materia.getCreditos() * 100) / (double) malla.getCreditoTeoria());
-                promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
+                
+             //   porTemp = (double) ((materia.getCreditos() * 100) / (double) malla.getCreditoTeoria());
+               // promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
                 promedio.setPromedio(nota.getPromedio().multiply(promedio.getPorcentaje()));
                 promedio.setPromedio(promedio.getPromedio().divide(new BigDecimal(100)));
                 promedio.setPromedio(promedio.getPromedio().setScale(2, RoundingMode.HALF_UP));

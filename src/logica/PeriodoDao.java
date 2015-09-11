@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import modelo.Periodo;
 
 public class PeriodoDao {
 
@@ -50,4 +51,6 @@ public class PeriodoDao {
 
         return null;
     }
+
+  
 }
