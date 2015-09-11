@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `sismodes_1`.`nota` (
   `promedio` DOUBLE NULL DEFAULT '0',
   `estado_nota` CHAR(2) NULL DEFAULT ' ',
   `estado_asistencia` CHAR(2) NULL DEFAULT ' ',
+  `tipo_nota` VARCHAR(20) NOT NULL,
   `fecha_ingreso` DATE NOT NULL,
   `fecha_modificacion` DATE NOT NULL,
   `id_alumno` INT(10) NOT NULL,
