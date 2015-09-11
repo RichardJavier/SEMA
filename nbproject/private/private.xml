@@ -4,10 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/ResumenDao.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FormularioMalla.java</file>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmResumen.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmMalla.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmNotas.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/modelo/Resumen.java</file>
         </group>
     </open-files>
 </project-private>

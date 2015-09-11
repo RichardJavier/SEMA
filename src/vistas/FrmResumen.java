@@ -397,6 +397,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 malla.setValorNota(Double.valueOf(resultSet1.getString("valor_calf_nota")));
                 malla.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultSet1.getString("valor_min_asistencia")));
+                malla.setPorcentajePonderacionNota(Integer.parseInt(resultSet1.getString("porc_ponderado_nota")));
             }
             tutoriaIntegradaTxt.setEnabled(true);
             validarBtn.setEnabled(true);
@@ -455,13 +456,17 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 resumen.setNotaEmpresa(new BigDecimal(notaEmpresa.getText()));
                 resumen.setAsistencia(Integer.parseInt(asistencia.getText()));
                 resumen.setNotaFinal(new BigDecimal(notaFinal.getText()));
-                Double val;
+                Double val,pon;
                 double cons = 100;
                 val = (double) (malla.getPorcentajeTutoriaIntegrada() / cons);
+                pon=(double)(malla.getPorcentajePonderacionNota()/cons);
                 BigDecimal ti = new BigDecimal(val);
                 ti = resumen.getNotaTutoria().multiply(ti);
                 ti = ti.setScale(2, RoundingMode.HALF_UP);
-                resumen.setNotaTotalTeorica(ti.add(resumen.getNotaTotalTeorica()));
+                BigDecimal pp = new BigDecimal(pon);
+                pp=resumen.getPromedioPonderadoNota().multiply(pp);
+                pp=pp.setScale(2, RoundingMode.HALF_UP);
+                resumen.setNotaTotalTeorica(ti.add(resumen.getNotaTotalTeorica()).add(pp));
                 notaTotalTeorica.setText(String.valueOf(resumen.getNotaTotalTeorica()));
                 BigDecimal io = new BigDecimal(malla.getPorcentajeNotaTeorica());
                 io = io.divide(new BigDecimal(100));
