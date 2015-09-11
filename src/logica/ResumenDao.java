@@ -51,8 +51,10 @@ public class ResumenDao {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "select * from resumen "
-                         + "where id_resumen" + "=" + "'" + idResumen + "'";
+            String sql = "select * from resumen as r "
+                    + "inner join malla as m "
+                    + "on r.id_malla=m.id_malla "
+                    + "where id_resumen" + "=" + "'" + idResumen + "'";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
@@ -178,7 +180,7 @@ public class ResumenDao {
             //nota final de calculada
             resumen.setNotaFinal(pnt.add(pne));
             //System.out.println(resumen.getNotaFinal());
-            if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) > 0) {
+            if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() >= malla.getValorMinimoAsistencia()) {
                 resumen.setAprobacion(Estado.APRUEBA.name());
             } else {
                 resumen.setAprobacion(Estado.PIERDE.name());

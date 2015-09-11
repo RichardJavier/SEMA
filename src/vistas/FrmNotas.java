@@ -83,7 +83,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void cargarDatos(final String periodo, final String cedula, final Integer idSemestre) {
         String[] col = {"PK", "CEDULA", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col);
+        modelo = new DefaultTableModel(data, col){
+            @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         this.notasTabla.setModel(modelo);
         notasTabla.getColumnModel().getColumn(0).setMaxWidth(40);

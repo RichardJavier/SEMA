@@ -77,7 +77,13 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
     private void cargarDatos() {
         String[] col = {"PK", "CEDULA", "NOMBRES COMPLETOS", "TIPO MATRICULA", "SEMESTRE", "ESPECIALIDAD", "PARALELO"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col);
+        modelo = new DefaultTableModel(data, col){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
 
         this.matriculaTabla.setModel(modelo);

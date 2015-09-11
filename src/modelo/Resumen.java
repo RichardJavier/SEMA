@@ -10,7 +10,7 @@ public class Resumen extends Matricula {
     private String cedula;
     private String nombreCompleto;
     private BigDecimal promedioPonderadoNota;
-    private Double notaTutoria;
+    private BigDecimal notaTutoria;
     private BigDecimal notaTotalTeorica;
     private BigDecimal notaEmpresa;
     private Integer asistencia;
@@ -72,11 +72,11 @@ public class Resumen extends Matricula {
         this.promedioPonderadoNota = promedioPonderadoNota;
     }
 
-    public Double getNotaTutoria() {
+    public BigDecimal getNotaTutoria() {
         return notaTutoria;
     }
 
-    public void setNotaTutoria(Double notaTutoria) {
+    public void setNotaTutoria(BigDecimal notaTutoria) {
         this.notaTutoria = notaTutoria;
     }
 

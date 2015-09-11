@@ -38,7 +38,13 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
     private void cargarDatos() {
         String[] col = {"PK", "CODIGO", "ESPECIALIDAD"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col);
+        modelo = new DefaultTableModel(data, col){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         especialidadTabla.setModel(modelo);
         new Thread(new Runnable() {

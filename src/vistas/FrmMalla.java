@@ -37,7 +37,13 @@ public class FrmMalla extends javax.swing.JInternalFrame {
     private void cargarDatos() {
         String[] culumnas = {"PK", "NOMBRE MALLA", "SEMESTRE"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, culumnas);
+        modelo = new DefaultTableModel(data, culumnas){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         this.mallaTabla.setModel(modelo);
         mallaTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));

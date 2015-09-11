@@ -35,7 +35,13 @@ public final class FrmAlumno extends javax.swing.JInternalFrame {
     public void cargaDatos() {
         String[] columnas = {"PK", "CEDULA", "NOMBRE COMPLETOS", "SEXO", "FECHA NACIMIENTO"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, columnas);
+        modelo = new DefaultTableModel(data, columnas){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         this.alumnoTabla.setModel(modelo);
         alumnoTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));

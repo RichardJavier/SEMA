@@ -47,7 +47,13 @@ public class FrmPeriodo extends javax.swing.JInternalFrame {
     private void cargarDatos() {
         String[] culumnas = {"PK", "NOMBRE PERIODO", "CODIGO PERIODO"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, culumnas);
+        modelo = new DefaultTableModel(data, culumnas){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         this.periodoTabla.setModel(modelo);
         periodoTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));

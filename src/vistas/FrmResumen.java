@@ -6,17 +6,24 @@
 package vistas;
 
 import conectar.Conexion;
+import control.Crud;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import logica.ResumenDao;
+import modelo.Estado;
+import modelo.Malla;
 import modelo.Resumen;
 
 public class FrmResumen extends javax.swing.JInternalFrame {
@@ -28,16 +35,23 @@ public class FrmResumen extends javax.swing.JInternalFrame {
     Resumen resumen;
     ResultSet resultSet, resultSet1;
     ResumenDao resumenDao;
+    Malla malla;
 
     public FrmResumen() {
         initComponents();
         ocultaCampos();
+        guardarBtn.setEnabled(false);
     }
 
     private void cargaDatos(final String cedula) {
         String[] col = {"PK", "NOMBRES COMPLETOS", "TIPO MATRICULA", "APROBACION", "SEMESTRE", "ESPECIALIDAD"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col);
+        modelo = new DefaultTableModel(data, col) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
 
         modelo.setRowCount(0);
         this.resumenTabla.setModel(modelo);
@@ -70,6 +84,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         resumenTabla.getColumnModel().getColumn(5).setMinWidth(235);
         resumenTabla.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(235);
         resumenTabla.getTableHeader().getColumnModel().getColumn(5).setMinWidth(235);
+
         resumenTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
         new Thread(new Runnable() {
             @Override
@@ -179,6 +194,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 .addComponent(buscarBtn))
         );
 
+        resumenTabla.setAutoCreateRowSorter(true);
         resumenTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -187,6 +203,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
 
             }
         ));
+        resumenTabla.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         resumenTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resumenTablaMouseClicked(evt);
@@ -226,9 +243,19 @@ public class FrmResumen extends javax.swing.JInternalFrame {
 
         validarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
         validarBtn.setText("Validar ");
+        validarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validarBtnActionPerformed(evt);
+            }
+        });
 
         guardarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/CD.png"))); // NOI18N
         guardarBtn.setText("Guardar");
+        guardarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarBtnActionPerformed(evt);
+            }
+        });
 
         cancelarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Delete.png"))); // NOI18N
         cancelarBtn.setText("Cancelar");
@@ -253,8 +280,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))
+                                    .addComponent(jLabel7))
                                 .addGap(45, 45, 45)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(asistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,8 +288,11 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                                     .addComponent(tutoriaIntegradaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(notaEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(notaTotalTeorica, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(notaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(aprobacionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(notaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(28, 28, 28)
+                                .addComponent(aprobacionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(cancelarBtn)))
@@ -351,8 +380,10 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         limpiaCampos();
         int i = resumenTabla.getSelectedRow();
         resumen.setIdResumen((Integer) resumenTabla.getValueAt(i, 0));
+
         try {
             resultSet1 = resumenDao.cargarValores(resumen.getIdResumen());
+            malla = new Malla();
             while (resultSet1.next()) {
                 promedioPonderadoTxt.setText(resultSet1.getString("pro_ponderado_nota"));
                 tutoriaIntegradaTxt.setText(resultSet1.getString("nota_tutoria"));
@@ -361,25 +392,15 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 asistencia.setText(resultSet1.getString("asistencia"));
                 notaFinal.setText(resultSet1.getString("nota_final"));
                 aprobacionTxt.setText(resultSet1.getString("aprobacion"));
+                malla.setPorcentajeTutoriaIntegrada(Integer.parseInt(resultSet1.getString("porc_integrada")));
+                malla.setValorMinimoPromedio(Double.valueOf(resultSet1.getString("valor_min_promedio")));
+                malla.setValorNota(Double.valueOf(resultSet1.getString("valor_calf_nota")));
+                malla.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
+                malla.setValorMinimoAsistencia(Integer.parseInt(resultSet1.getString("valor_min_asistencia")));
             }
             tutoriaIntegradaTxt.setEnabled(true);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        resumenTabla.getSelectedRow();
-        resumen.setIdResumen((Integer) resumenTabla.getValueAt(i, 0));
-        try {
-            resultSet1 = resumenDao.cargarValores(resumen.getIdResumen());
-            while (resultSet1.next()) {
-                promedioPonderadoTxt.setText(resultSet1.getString("pro_ponderado_nota"));
-                tutoriaIntegradaTxt.setText(resultSet1.getString("nota_tutoria"));
-                notaTotalTeorica.setText(resultSet1.getString("nota_total_teorica"));
-                notaEmpresa.setText(resultSet1.getString("nota_empresa"));
-                asistencia.setText(resultSet1.getString("asistencia").concat(" ").concat("%"));
-                notaFinal.setText(resultSet1.getString("nota_final"));
-                aprobacionTxt.setText(resultSet1.getString("aprobacion"));
-            }
-        } catch (Exception e) {
+            validarBtn.setEnabled(true);
+        } catch (SQLException | NumberFormatException e) {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_resumenTablaMouseClicked
@@ -395,7 +416,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tutoriaIntegradaTxtMouseClicked
 
     private void tutoriaIntegradaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tutoriaIntegradaTxtKeyTyped
-    char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '.')) {
             evt.consume();
         } else if (c == '.' && tutoriaIntegradaTxt.getText().contains(".")) {
@@ -405,6 +426,66 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_tutoriaIntegradaTxtKeyTyped
+
+    private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
+        calcularCampos();
+    }//GEN-LAST:event_validarBtnActionPerformed
+
+    private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
+        Map campos = new HashMap();
+        campos.put("nota_tutoria", tutoriaIntegradaTxt.getText());
+        campos.put("nota_total_teorica", notaTotalTeorica.getText());
+        campos.put("nota_final", notaFinal.getText());
+        campos.put("asistencia",asistencia.getText());
+        Crud crud=new Crud();
+        crud.actualizarM("resumen","id_resumen",resumen.getIdResumen(), campos);
+        limpiaCampos();
+        ocultaCampos();
+        
+    }//GEN-LAST:event_guardarBtnActionPerformed
+    private void calcularCampos() {
+        if (!tutoriaIntegradaTxt.getText().trim().isEmpty()) {
+            resumen.setNotaTutoria(new BigDecimal(tutoriaIntegradaTxt.getText()));
+            if (resumen.getNotaTutoria().compareTo(new BigDecimal(malla.getValorNota())) >= 0) {
+                JOptionPane.showMessageDialog(null, "Error valor de ingresado superior al adminitido maximo:" + " " + malla.getValorNota() + " ", "Error", JOptionPane.ERROR_MESSAGE);
+                tutoriaIntegradaTxt.setText(null);
+            } else {
+                resumen.setPromedioPonderadoNota(new BigDecimal(promedioPonderadoTxt.getText()));
+                resumen.setNotaTotalTeorica(new BigDecimal(notaTotalTeorica.getText()));
+                resumen.setNotaEmpresa(new BigDecimal(notaEmpresa.getText()));
+                resumen.setAsistencia(Integer.parseInt(asistencia.getText()));
+                resumen.setNotaFinal(new BigDecimal(notaFinal.getText()));
+                Double val;
+                double cons = 100;
+                val = (double) (malla.getPorcentajeTutoriaIntegrada() / cons);
+                BigDecimal ti = new BigDecimal(val);
+                ti = resumen.getNotaTutoria().multiply(ti);
+                ti = ti.setScale(2, RoundingMode.HALF_UP);
+                resumen.setNotaTotalTeorica(ti.add(resumen.getNotaTotalTeorica()));
+                notaTotalTeorica.setText(String.valueOf(resumen.getNotaTotalTeorica()));
+                BigDecimal io = new BigDecimal(malla.getPorcentajeNotaTeorica());
+                io = io.divide(new BigDecimal(100));
+                io = resumen.getNotaTotalTeorica().multiply(io);
+                io = io.add(resumen.getNotaEmpresa());
+                io = io.setScale(2, RoundingMode.HALF_UP);
+                resumen.setNotaFinal(io);
+                notaFinal.setText(String.valueOf(resumen.getNotaFinal()));
+                if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() > malla.getValorMinimoAsistencia()) {
+                    resumen.setAprobacion(Estado.APRUEBA.name());
+                    aprobacionTxt.setText(resumen.getAprobacion());
+                } else {
+                    resumen.setAprobacion(Estado.PIERDE.name());
+                    aprobacionTxt.setText(resumen.getAprobacion());
+                }
+                tutoriaIntegradaTxt.setEnabled(false);
+                guardarBtn.setEnabled(true);
+                validarBtn.setEnabled(false);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error campo de tutoria vacio", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void limpiaCampos() {
         promedioPonderadoTxt.setText(null);
         tutoriaIntegradaTxt.setText(null);
@@ -423,6 +504,8 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         asistencia.setEnabled(false);
         notaFinal.setEnabled(false);
         aprobacionTxt.setEnabled(false);
+        guardarBtn.setEnabled(false);
+        validarBtn.setEnabled(false);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField aprobacionTxt;

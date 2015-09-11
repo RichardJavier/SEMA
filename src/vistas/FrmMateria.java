@@ -46,7 +46,13 @@ public class FrmMateria extends javax.swing.JInternalFrame {
     private void cargarDatos() {
         String[] col = {"PK", "NOMBRE MATERIA", "ESPECIALIDAD", "SEMESTRE"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col);
+        modelo = new DefaultTableModel(data, col){
+        @Override
+                public boolean isCellEditable(int row, int col)
+                {
+                    return false;
+                }
+        };
         modelo.setRowCount(0);
         this.materiaTabla.setModel(modelo);
         materiaTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
