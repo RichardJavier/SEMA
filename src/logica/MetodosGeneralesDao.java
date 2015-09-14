@@ -55,7 +55,7 @@ public class MetodosGeneralesDao {
         try {
             cc = Conexion.getInstance();
             cn = cc.Conectar();
-            String sql = "SELECT * FROM malla";
+            String sql = "SELECT * FROM malla ";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
@@ -128,15 +128,14 @@ public class MetodosGeneralesDao {
 
     public String codigoPeriodoBusacado(Integer idPeriodo) {
         try {
-            Conexion cc = Conexion.getInstance();
-            Connection cn = cc.Conectar();
+            cc = Conexion.getInstance();
+            cn = cc.Conectar();
             Periodo periodo = new Periodo();
             String sql = "SELECT * FROM periodo_semestre  WHERE id1_periodo " + "=" + "'" + idPeriodo + "'";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
                 periodo.setCodigoPeriodo(resultado.getString("id_periodo"));
-
             }
             return periodo.getCodigoPeriodo();
 

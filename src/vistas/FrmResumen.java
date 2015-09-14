@@ -395,10 +395,10 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 malla.setPorcentajeTutoriaIntegrada(Integer.parseInt(resultSet1.getString("porc_integrada")));
                 malla.setValorMinimoPromedio(Double.valueOf(resultSet1.getString("valor_min_promedio")));
                 malla.setValorNota(Double.valueOf(resultSet1.getString("valor_calf_nota")));
-                malla.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultSet1.getString("valor_min_asistencia")));
                 malla.setPorcentajePonderacionNota(Integer.parseInt(resultSet1.getString("porc_ponderado_nota")));
-            }
+                malla.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
+           }
             tutoriaIntegradaTxt.setEnabled(true);
             validarBtn.setEnabled(true);
         } catch (SQLException | NumberFormatException e) {
@@ -456,35 +456,28 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 resumen.setNotaEmpresa(new BigDecimal(notaEmpresa.getText()));
                 resumen.setAsistencia(Integer.parseInt(asistencia.getText()));
                 resumen.setNotaFinal(new BigDecimal(notaFinal.getText()));
-                Double val,pon;
-                double cons = 100;
-                val = (double) (malla.getPorcentajeTutoriaIntegrada() / cons);
-                pon=(double)(malla.getPorcentajePonderacionNota()/cons);
-                BigDecimal ti = new BigDecimal(val);
-                ti = resumen.getNotaTutoria().multiply(ti);
-                ti = ti.setScale(2, RoundingMode.HALF_UP);
-                BigDecimal pp = new BigDecimal(pon);
-                pp=resumen.getPromedioPonderadoNota().multiply(pp);
-                pp=pp.setScale(2, RoundingMode.HALF_UP);
-                resumen.setNotaTotalTeorica(ti.add(resumen.getNotaTotalTeorica()).add(pp));
+                
+                BigDecimal ppn,nti,ntt,nf;
+                ppn=new BigDecimal(malla.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
+                ppn=ppn.multiply(resumen.getPromedioPonderadoNota());
+                       
+                nti=new BigDecimal(malla.getPorcentajeTutoriaIntegrada()).divide(new BigDecimal(100));
+                nti=nti.multiply(resumen.getNotaTutoria());
+                
+                ntt=ppn.add(nti);
+                ntt=ntt.setScale(2, RoundingMode.HALF_UP);
+                resumen.setNotaTotalTeorica(ntt);
                 notaTotalTeorica.setText(String.valueOf(resumen.getNotaTotalTeorica()));
-                BigDecimal io = new BigDecimal(malla.getPorcentajeNotaTeorica());
-                io = io.divide(new BigDecimal(100));
-                io = resumen.getNotaTotalTeorica().multiply(io);
-                io = io.add(resumen.getNotaEmpresa());
-                io = io.setScale(2, RoundingMode.HALF_UP);
-                resumen.setNotaFinal(io);
+                
+                nf=new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
+                nf=nf.multiply(resumen.getNotaTotalTeorica());
+                nf=nf.add(resumen.getNotaEmpresa());
+                nf=nf.setScale(2, RoundingMode.HALF_UP);
+                resumen.setNotaFinal(nf);
                 notaFinal.setText(String.valueOf(resumen.getNotaFinal()));
-                if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() > malla.getValorMinimoAsistencia()) {
-                    resumen.setAprobacion(Estado.APRUEBA.name());
-                    aprobacionTxt.setText(resumen.getAprobacion());
-                } else {
-                    resumen.setAprobacion(Estado.PIERDE.name());
-                    aprobacionTxt.setText(resumen.getAprobacion());
-                }
                 tutoriaIntegradaTxt.setEnabled(false);
-                guardarBtn.setEnabled(true);
                 validarBtn.setEnabled(false);
+                guardarBtn.setEnabled(true);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Error campo de tutoria vacio", "Error", JOptionPane.ERROR_MESSAGE);

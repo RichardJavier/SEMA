@@ -83,12 +83,11 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void cargarDatos(final String periodo, final String cedula, final Integer idSemestre) {
         String[] col = {"PK", "CEDULA", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col){
+        modelo = new DefaultTableModel(data, col) {
             @Override
-                public boolean isCellEditable(int row, int col)
-                {
-                    return false;
-                }
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
         };
         modelo.setRowCount(0);
         this.notasTabla.setModel(modelo);
@@ -701,7 +700,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
-       
+
         ocultaCampos();
         limpiaCampos();
         if (!cedulaTxt.getText().trim().isEmpty() && semestreCmb.getSelectedIndex() != 0) {
@@ -744,13 +743,16 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             MallaDao mallaDao = new MallaDao();
             while (resultSet1.next()) {
                 configuracionMateria.setNumeroAportes(resultSet1.getString("num_aporte"));
+                materia.setIdMateria(Integer.parseInt(resultSet1.getString("id_materia")));
                 materia.setIdConfiguracionMateria(Integer.parseInt(resultSet1.getString("id_config_materia")));
                 materia.setIdDescripcionMateria(Integer.parseInt(resultSet1.getString("id_desc_materia")));
                 materia.setIdMalla(Integer.parseInt(resultSet1.getString("id_malla")));
                 materia.setIdEspecialidad(Integer.parseInt(resultSet1.getString("id1_especialidad")));
                 materia.setIdSemestre(Integer.valueOf(resultSet1.getString("id1_semestre")));
+                materia.setTipoNota(resultSet1.getString("tipo_nota"));
                 asistenciaTxt.setText(resultSet1.getString("asistencia"));
                 nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
+                //nota.se
                 cargaCampo(Integer.parseInt(configuracionMateria.getNumeroAportes()));
                 setNota(resultSet1, configuracionMateria.getNumeroAportes());
                 setDescripcion(resultSet1, configuracionMateria.getNumeroAportes());
@@ -838,9 +840,17 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             campos.put("asistencia", nota.getAsistencia());
             notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
             ResumenDao resumenDao = new ResumenDao();
-            resumenDao.calculaResumen(periodo.getCodigoPeriodo(), nota.getCedula(), malla.getIdMalla(), periodo.getIdPeriodo(), materia.getIdSemestre(), materia.getIdEspecialidad());
-            limpiaCampos();
-            ocultaCampos();
+            if (materia.getTipoNota().equals(Estado.NORMAL.name())) {
+                resumenDao.calculaResumenNormal(nota.getCedula(),periodo.getCodigoPeriodo(),materia.getIdMalla(),materia.getIdEspecialidad(),materia.getIdSemestre());
+                limpiaCampos();
+                ocultaCampos();
+            }else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())){
+                resumenDao.calculaResumenArrastre(nota.getCedula(),periodo.getCodigoPeriodo(),materia.getIdMalla(),materia.getIdEspecialidad(),materia.getIdSemestre(),materia.getIdMateria());
+                limpiaCampos();
+                ocultaCampos();
+            
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }

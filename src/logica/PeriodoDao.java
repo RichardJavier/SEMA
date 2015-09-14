@@ -52,5 +52,20 @@ public class PeriodoDao {
         return null;
     }
 
-  
+    public Periodo codigoPeriodo(Integer idPeriodo, Connection cn) {
+        try {
+            Periodo p = new Periodo();
+            String sql = "SELECT * FROM periodo_semestre AS ps "
+                    + "WHERE id1_periodo" + "=" + "'" + idPeriodo+ "'" + ";";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                p.setCodigoPeriodo( rs.getString("id_periodo"));
+                p.setIdPeriodo(Integer.parseInt(rs.getString("id1_periodo")));
+            }
+            return p;
+        } catch (SQLException | NumberFormatException e) {
+        }
+        return null;
+    }
 }

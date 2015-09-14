@@ -22,6 +22,7 @@ public class Materia extends DescripcionMateria {
     private String semestre;
     private Integer idMalla;
     private String estado;
+    private String tipoNota;
 
     public Materia() {
     }
@@ -175,6 +176,15 @@ public class Materia extends DescripcionMateria {
         this.estado = estado;
     }
 
+    public String getTipoNota() {
+        return tipoNota;
+    }
+
+    public void setTipoNota(String tipoNota) {
+        this.tipoNota = tipoNota;
+    }
+
+    
     @Override
     public String toString() {
         return nombreMateria;

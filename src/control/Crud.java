@@ -209,6 +209,7 @@ public class Crud {
             return registrosAfectados;
 
         } catch (SQLException ex) {
+            System.out.println(ex);
            JOptionPane.showMessageDialog(null, "Ocurrion un error talvez los datos no se almacenaron correctamente ","Error",JOptionPane.ERROR_MESSAGE);
         }
         return 0;

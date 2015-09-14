@@ -481,7 +481,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 }
             } else {
                 String h = metodosGeneralesDao.codigoPeriodoBusacado(periodo.getIdPeriodo() - 1);
-                listaMateriasArrastre = materiaDao.listaMateriasArrastre("pe23", this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1);
+                listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1);
                 listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
                 if (!listaMateriasArrastre.isEmpty()) {
                     if (JOptionPane.showConfirmDialog(this, "¿Estimado usuario el alumno tiene materias de arraste del anterior periodo "
@@ -567,14 +567,25 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
             for (Map mapMateria : mapMaterias) {
                 crud.insertarMaterias("nota", periodo.getCodigoPeriodo(), mapMateria);
             }
-            cargaResumen();
-            crud.insertarM("resumen", campos2);
-            limpiaCampos();
-            cargarDatos();
+            if (valorMatricula == 0) {
+                cargaResumen();
+                crud.insertarM("resumen", campos2);
+                limpiaCampos();
+                cargarDatos();
+            }else if(valorMatricula==1){                
+                JOptionPane.showMessageDialog(null,"Registos ingresados");
+                limpiaCampos();
+                cargarDatos();
+            }else if(valorMatricula==2){
+                cargaResumen();
+                crud.insertarM("resumen", campos2);
+                limpiaCampos();
+                cargarDatos();
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }//GEN-LAST:event_matriculaBtnActionPerformed
 
     private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarMatriculaBtnActionPerformed
@@ -590,7 +601,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } else if (valorMatricula == 1) {
             campos.put("tipo_matricula", Estado.ARRASTRES.name());
         } else if (valorMatricula == 2) {
-            campos.put("tipo_matricula", Estado.EXTRAORDOINARIA.name());
+            campos.put("tipo_matricula", Estado.C_ARRASTRES.name());
         }
 
         campos.put("fecha_creacion", cal.getTime());
@@ -616,6 +627,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 campos1.put("cedula", alumno.getCedula());
                 campos1.put("fecha_ingreso", cal.getTime());
                 campos1.put("fecha_modificacion", cal.getTime());
+                campos1.put("tipo_nota", Estado.NORMAL.name());
                 campos1.put("id_alumno", alumno.getIdAlumno());
                 campos1.put("id_matricula", matricula.getIdMatricula());
                 campos1.put("id_materia", listaMateria.getIdMateria());
@@ -626,11 +638,11 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
             }
         } else if (valorMatricula == 1) {
             for (Materia listaMateriaArras : listaMateriasArrastre) {
-                numeroCreditos = numeroCreditos + listaMateriaArras.getCreditos();
                 campos1 = new HashMap();
                 campos1.put("cedula", alumno.getCedula());
                 campos1.put("fecha_ingreso", cal.getTime());
                 campos1.put("fecha_modificacion", cal.getTime());
+                campos1.put("tipo_nota", Estado.ARRASTRE.name());
                 campos1.put("id_alumno", alumno.getIdAlumno());
                 campos1.put("id_matricula", matricula.getIdMatricula());
                 campos1.put("id_materia", listaMateriaArras.getIdMateria());
@@ -650,6 +662,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 campos1.put("cedula", alumno.getCedula());
                 campos1.put("fecha_ingreso", cal.getTime());
                 campos1.put("fecha_modificacion", cal.getTime());
+                campos1.put("tipo_nota", Estado.NORMAL.name());
                 campos1.put("id_alumno", alumno.getIdAlumno());
                 campos1.put("id_matricula", matricula.getIdMatricula());
                 campos1.put("id_materia", listaMateria.getIdMateria());
@@ -659,13 +672,13 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 mapMaterias.add(campos1);
             }
             for (Materia listaMateriaArras : listaMateriasArrastre) {
-                numeroCreditos = numeroCreditos + listaMateriaArras.getCreditos();
                 campos1 = new HashMap();
                 campos1.put("cedula", alumno.getCedula());
                 campos1.put("fecha_ingreso", cal.getTime());
                 campos1.put("fecha_modificacion", cal.getTime());
                 campos1.put("id_alumno", alumno.getIdAlumno());
                 campos1.put("id_matricula", matricula.getIdMatricula());
+                campos1.put("estado_nota", Estado.ARRASTRE.name());
                 campos1.put("id_materia", listaMateriaArras.getIdMateria());
                 campos1.put("id_config_materia", listaMateriaArras.getIdConfiguracion());
                 campos1.put("id_malla", listaMateriaArras.getIdMalla());
@@ -684,19 +697,18 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos2.put("id_alumno", alumno.getIdAlumno());
         campos2.put("cedula", alumno.getCedula());
         campos2.put("nombre_completo", nombresBuscadosTxt.getText());
-        campos2.put("num_cred_ciclo", resumen.getNumeroCreditosCiclo());
-        campos.put("num_cred_teorica", resumen.getNumeroCreditosTeorica());
+        campos2.put("cred_ciclo", resumen.getNumeroCreditosCiclo());
+        campos2.put("cred_teorica", resumen.getNumeroCreditosTeorica());
         campos2.put("fecha_creacion", cal.getTime());
         campos2.put("fecha_modificacion", cal.getTime());
         campos2.put("id_periodo", periodo.getIdPeriodo());
         campos2.put("id_semestre", semestre.getIdSemestre());
         campos2.put("id_especialidad", especialidad.getIdEspecialidad());
-        if (valorMatricula == 0 || valorMatricula == 2) {
+        if (valorMatricula == 0) {
             campos2.put("id_malla", listaMaterias.get(0).getIdMalla());
-        } else {
-            campos2.put("id_malla", listaMateriasArrastre.get(0).getIdMalla());
+        } else if (valorMatricula == 2) {
+            campos2.put("id_malla", listaMaterias.get(0).getIdMalla());
         }
-
         campos2.put("id_matricula", matricula.getIdMatricula());
         return campos2;
     }

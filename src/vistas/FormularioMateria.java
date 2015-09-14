@@ -115,7 +115,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     nombreMateriaTxt.setText(resultSet.getString("materia"));
                     creditosTxt.setText(resultSet.getString("creditos"));
                     estado = resultSet.getString("activa_mat");
-                    if (estado.equals(Estado.AC)) {
+                    if (estado.equals(Estado.AC.name())) {
                         activadaRdb.setSelected(true);
                     } else {
                         desactivadaRdb.setSelected(true);
@@ -126,7 +126,6 @@ public class FormularioMateria extends javax.swing.JDialog {
                     malla.setIdMalla(Integer.valueOf(resultSet.getString("id_malla")));
                     malla.setNombreMalla(resultSet.getString("nombre_malla"));
                     mallaCmb.setSelectedItem(malla);
-                    malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
 
                     semestre.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
                     semestre.setSemestre(resultSet.getString("semestre"));
@@ -919,6 +918,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
         if (validaForm()) {
+            ocultaForm();
             guardarBtn.setEnabled(true);
             validarBtn.setEnabled(false);
         } else {
@@ -1222,11 +1222,9 @@ public class FormularioMateria extends javax.swing.JDialog {
                 this.malla.setNombreMalla(mall.getNombreMalla());
                 resultSet = mallaDao.consulta(malla.getIdMalla());
                 while (resultSet.next()) {
-                    this.malla.setCreditosTeoricaDisponibles(Integer.parseInt(resultSet.getString("cred_teorica_disp")));
                     especialidad.setEspecialidad(resultSet.getString("especialidad"));
                     especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
                     especialidadCmb.setSelectedItem(especialidad);
-
                     semestre.setIdSemestre(Integer.valueOf(resultSet.getString("id1_semestre")));
                     semestre.setSemestre(resultSet.getString("semestre"));
                     semestreCmb.setSelectedItem(semestre);

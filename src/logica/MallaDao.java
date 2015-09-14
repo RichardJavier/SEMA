@@ -73,6 +73,7 @@ public class MallaDao {
                 malla.setValorMinimoPromedio(Double.valueOf((resultado.getString("valor_min_promedio"))));
                 malla.setValorNota(Double.valueOf((resultado.getString("valor_calf_nota"))));
                 malla.setValorRecuperacion(Double.valueOf(resultado.getString("valor_min_recuperacion")));
+                malla.setIdPeriodo(Integer.parseInt(resultado.getString("id1_periodo")));
             }
             return malla;
         } catch (SQLException e) {

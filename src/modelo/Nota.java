@@ -22,6 +22,7 @@ public class Nota extends Materia {
     private String estadoAsistencia;
     private BigDecimal promedio;
     private String estadoNota;
+    private String tipoNota;
     private Date fechaIngreso;
     private Date fechaModificacion;
 
@@ -168,6 +169,14 @@ public class Nota extends Materia {
 
     public void setEstadoNota(String estadoNota) {
         this.estadoNota = estadoNota;
+    }
+
+    public String getTipoNota() {
+        return tipoNota;
+    }
+
+    public void setTipoNota(String tipoNota) {
+        this.tipoNota = tipoNota;
     }
 
     public Date getFechaIngreso() {

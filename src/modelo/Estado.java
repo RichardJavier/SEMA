@@ -5,13 +5,15 @@ package modelo;
 
 public enum Estado {
     ORDINARIA,
-    EXTRAORDOINARIA,
+    C_ARRASTRES,
     ARRASTRES,
-    RP,
-    AP,
-    APRUEBA,
-    PIERDE,
-    AC,
-    DS
+    NORMAL,//nota NORMAL
+    ARRASTRE,//nota arrastre
+    RP,//materia reprobaprobada
+    AP,//materia aprobada
+    APRUEBA,//resume
+    PIERDE,//resumen
+    AC,//activa
+    DS//desactivada
    
 }

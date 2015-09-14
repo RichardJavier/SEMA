@@ -97,12 +97,13 @@ public class MateriaDao {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             String sql = "select * from nombre_materia where id1_especialidad " + "=" + "'" + idEspecialidad + "'"
-                    + " and id1_semestre " + "=" + "'" + idSemestre + "'" + " and activa_mat = 'A' ";
+                    + " and id1_semestre " + "=" + "'" + idSemestre + "'" + " and activa_mat = 'AC' ";
             Statement st = cn.createStatement();
             resultSet = st.executeQuery(sql);
             while (resultSet.next()) {
                 Materia mat = new Materia();
                 mat.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
+                mat.setNombreMateria(resultSet.getString("materia"));
                 mat.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_config_materia")));
                 mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia")));
                 mat.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
@@ -119,12 +120,6 @@ public class MateriaDao {
     public List<Materia> listaMateriasArrastre(String antesPeriodo,int idEspecialidad, int idSemestreAntes) {
         List<Materia> listaMateriasArrastre = new ArrayList<>();
         try {
-            Periodo periodo;
-            MetodosGeneralesDao dao = new MetodosGeneralesDao();
-            periodo = dao.codigoPeriodoActivo();
-            int p = periodo.getIdPeriodo() - 1;
-            PeriodoDao pe = new PeriodoDao();
-
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             String sql = "select * from nota_" + antesPeriodo + " as n "
