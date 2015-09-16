@@ -25,7 +25,9 @@ import modelo.Promedio;
 import modelo.Resumen;
 
 public class ResumenDao {
-    List<Promedio>listaPromedio;
+
+    List<Promedio> listaPromedio;
+
     public ResultSet cargarResumen(String cedula) {
         try {
             Conexion cc = Conexion.getInstance();
@@ -111,6 +113,8 @@ public class ResumenDao {
                 resumen.setNotaTotalTeorica(new BigDecimal(rs.getString("nota_total_teorica")));
                 resumen.setNotaEmpresa(new BigDecimal(rs.getString("nota_empresa")));
                 resumen.setAsistencia(Integer.parseInt(rs.getString("asistencia")));
+                resumen.setPorcentajeNotaTeorica(Integer.parseInt(rs.getString("porc_nota_teorica")));
+                resumen.setPorcentajeNotaEmpresa(Integer.parseInt(rs.getString("porc_nota_empresa")));
             }
             return resumen;
         } catch (SQLException | NumberFormatException e) {
@@ -160,8 +164,7 @@ public class ResumenDao {
                 malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
                 malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
-                malla.setPorcentajeNotaTeorica(Integer.parseInt(rs.getString("porc_nota_teorica")));
-                malla.setPorcentajeNotaEmpresa(Integer.parseInt(rs.getString("porc_nota_empresa")));
+                
 
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
@@ -175,10 +178,10 @@ public class ResumenDao {
                 } else if (materia.getNombreMateria().contains("EMPRESA")) {
                     resumen.setNotaEmpresa(nota.getPromedio());
                 } else {
-                    
+
                 }
             }
-           BigDecimal vp = new BigDecimal(BigInteger.ZERO);
+            BigDecimal vp = new BigDecimal(BigInteger.ZERO);
             for (Promedio listaPrimedio1 : listaPromedio) {
                 //   System.out.println(listaPrimedio1.getPorcentaje().toString() + "promedio" + listaPrimedio1.getPromedio());
                 vp = vp.add(listaPrimedio1.getPromedio());
@@ -202,10 +205,10 @@ public class ResumenDao {
             //setear
             // System.out.println(resumen.getNotaTotalTeorica().toString());
             //  calculo de porcentaje de la nota empresa
-            pnt = new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
+            pnt = new BigDecimal(resumen.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
             pnt = resumen.getNotaTotalTeorica().multiply(pnt);
             pnt = pnt.setScale(2, RoundingMode.HALF_UP);
-            pne = new BigDecimal(malla.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
+            pne = new BigDecimal(resumen.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
             pne = pne.multiply(resumen.getNotaEmpresa());
             pne = pne.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaEmpresa(pne);
@@ -219,7 +222,7 @@ public class ResumenDao {
             } else {
                 resumen.setAprobacion(Estado.PIERDE.name());
             }
-            
+
             Map campos = new HashMap();
             campos.put("nota_empresa", resumen.getNotaEmpresa());
             campos.put("pro_ponderado_nota", resumen.getPromedioPonderadoNota());
@@ -274,8 +277,6 @@ public class ResumenDao {
                 malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
                 malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
-                malla.setPorcentajeNotaTeorica(Integer.parseInt(rs.getString("porc_nota_teorica")));
-                malla.setPorcentajeNotaEmpresa(Integer.parseInt(rs.getString("porc_nota_empresa")));
 
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
@@ -314,10 +315,10 @@ public class ResumenDao {
             //setear
             // System.out.println(resumen.getNotaTotalTeorica().toString());
             //  calculo de porcentaje de la nota empresa
-            pnt = new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
+            pnt = new BigDecimal(resumen.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
             pnt = resumen.getNotaTotalTeorica().multiply(pnt);
             pnt = pnt.setScale(2, RoundingMode.HALF_UP);
-            pne = new BigDecimal(malla.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
+            pne = new BigDecimal(resumen.getPorcentajeNotaEmpresa()).divide(new BigDecimal(100));
             pne = pne.multiply(resumen.getNotaEmpresa());
             pne = pne.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaEmpresa(pne);

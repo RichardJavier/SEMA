@@ -4,10 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/ResumenDao.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/NotaDao.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/MetodosGeneralesDao.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/modelo/Materia.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/control/CargarAlumnoWeb.java</file>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmResumen.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/modelo/Nota.java</file>
-            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/MallaDao.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/MateriaDao.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/Login.java</file>
+            <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FormularioPeriodo.java</file>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmNotas.java</file>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/logica/PeriodoDao.java</file>
             <file>file:/C:/Users/USER/Documents/WorkSpaceNetbeans/SEMA/src/vistas/FrmMatricula.java</file>

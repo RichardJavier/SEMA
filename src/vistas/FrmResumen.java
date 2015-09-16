@@ -397,7 +397,6 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 malla.setValorNota(Double.valueOf(resultSet1.getString("valor_calf_nota")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultSet1.getString("valor_min_asistencia")));
                 malla.setPorcentajePonderacionNota(Integer.parseInt(resultSet1.getString("porc_ponderado_nota")));
-                malla.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
            }
             tutoriaIntegradaTxt.setEnabled(true);
             validarBtn.setEnabled(true);
@@ -438,6 +437,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         campos.put("nota_total_teorica", notaTotalTeorica.getText());
         campos.put("nota_final", notaFinal.getText());
         campos.put("asistencia",asistencia.getText());
+        campos.put("aprobacion",aprobacionTxt.getText());
         Crud crud=new Crud();
         crud.actualizarM("resumen","id_resumen",resumen.getIdResumen(), campos);
         limpiaCampos();
@@ -469,12 +469,16 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 resumen.setNotaTotalTeorica(ntt);
                 notaTotalTeorica.setText(String.valueOf(resumen.getNotaTotalTeorica()));
                 
-                nf=new BigDecimal(malla.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
+                nf=new BigDecimal(resumen.getPorcentajeNotaTeorica()).divide(new BigDecimal(100));
                 nf=nf.multiply(resumen.getNotaTotalTeorica());
                 nf=nf.add(resumen.getNotaEmpresa());
                 nf=nf.setScale(2, RoundingMode.HALF_UP);
                 resumen.setNotaFinal(nf);
                 notaFinal.setText(String.valueOf(resumen.getNotaFinal()));
+                if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio()))>=0) {
+                    resumen.setAprobacion(Estado.APRUEBA.name());
+                    aprobacionTxt.setText(resumen.getAprobacion());
+                }
                 tutoriaIntegradaTxt.setEnabled(false);
                 validarBtn.setEnabled(false);
                 guardarBtn.setEnabled(true);

@@ -10,8 +10,6 @@ public class Malla extends Semestre {
     private String nombreMalla;
     private Integer porcentajePonderacionNota;
     private Integer porcentajeTutoriaIntegrada;
-    private Integer porcentajeNotaTeorica;
-    private Integer porcentajeNotaEmpresa;
     private Double valorMinimoPromedio;
     private Integer valorMinimoAsistencia;
     private Double valorNota;
@@ -75,22 +73,6 @@ public class Malla extends Semestre {
 
     public void setPorcentajeTutoriaIntegrada(Integer porcentajeTutoriaIntegrada) {
         this.porcentajeTutoriaIntegrada = porcentajeTutoriaIntegrada;
-    }
-
-    public Integer getPorcentajeNotaTeorica() {
-        return porcentajeNotaTeorica;
-    }
-
-    public void setPorcentajeNotaTeorica(Integer porcentajeNotaTeorica) {
-        this.porcentajeNotaTeorica = porcentajeNotaTeorica;
-    }
-
-    public Integer getPorcentajeNotaEmpresa() {
-        return porcentajeNotaEmpresa;
-    }
-
-    public void setPorcentajeNotaEmpresa(Integer porcentajeNotaEmpresa) {
-        this.porcentajeNotaEmpresa = porcentajeNotaEmpresa;
     }
 
     public Double getValorMinimoPromedio() {

@@ -39,7 +39,8 @@ public class PeriodoDao {
             String sql = "SELECT ps.id_periodo,ps.periodo,ps.id1_periodo,ps.matricula,ps.nueva_malla,"
                     + "IF(c.ciclo IS NULL OR c.ciclo = '', 'vacio', c.ciclo)AS ciclo,"
                     + "IF(ps.fecha_fin IS NULL OR ps.fecha_fin = '', '1970-01-01 00:00:00', ps.fecha_fin)AS fecha_fin "
-                    + "from periodo_semestre AS ps left join ciclo c on c.id_ciclo =ps.ciclo ORDER BY ps.id1_periodo ASC";
+                    + "from periodo_semestre AS ps left join ciclo c on c.id_ciclo =ps.ciclo "
+                    + "where id1_periodo > 36 ORDER BY ps.id1_periodo ASC";
 
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);

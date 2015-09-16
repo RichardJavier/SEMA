@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import modelo.Matricula;
-import modelo.Nota;
+
 
 public class NotaDao {
 
-    public ResultSet consultaNotas(String periodo, String cedula, Integer idSemestre) {
+    public ResultSet consultaNotas(String periodo, Integer idSemestre) {
         Conexion cc = Conexion.getInstance();
         Connection cn = cc.Conectar();
         try {
@@ -27,7 +26,9 @@ public class NotaDao {
                     + "ON m.id1_semestre = s.id1_semestre "
                     + "RIGHT JOIN especialidad AS e "
                     + "ON m.id1_especialidad=e.id1_especialidad "
-                    + "WHERE n.cedula " + "=" + "'" + cedula + "'" + "and "
+                    + "right join matricula as ma "
+                    + "on n.id_matricula=ma.id_matricula "
+                    + "WHERE "
                     + " m.id1_semestre" + "=" + "'" + idSemestre + "'" + " ORDER BY id_nota DESC";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);

@@ -11,6 +11,8 @@ public class Resumen extends Matricula {
     private String nombreCompleto;
     private Integer numeroCreditosCiclo;
     private Integer numeroCreditosTeorica;
+    private Integer porcentajeNotaTeorica;
+    private Integer porcentajeNotaEmpresa;
     private BigDecimal promedioPonderadoNota;
     private BigDecimal notaTutoria;
     private BigDecimal notaTotalTeorica;
@@ -80,6 +82,22 @@ public class Resumen extends Matricula {
 
     public void setNumeroCreditosTeorica(Integer numeroCreditosTeorica) {
         this.numeroCreditosTeorica = numeroCreditosTeorica;
+    }
+
+    public Integer getPorcentajeNotaTeorica() {
+        return porcentajeNotaTeorica;
+    }
+
+    public void setPorcentajeNotaTeorica(Integer porcentajeNotaTeorica) {
+        this.porcentajeNotaTeorica = porcentajeNotaTeorica;
+    }
+
+    public Integer getPorcentajeNotaEmpresa() {
+        return porcentajeNotaEmpresa;
+    }
+
+    public void setPorcentajeNotaEmpresa(Integer porcentajeNotaEmpresa) {
+        this.porcentajeNotaEmpresa = porcentajeNotaEmpresa;
     }
 
     public BigDecimal getPromedioPonderadoNota() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Materia;
-import modelo.Periodo;
+
 
 public class MateriaDao {
 
@@ -23,7 +23,7 @@ public class MateriaDao {
                     + "INNER JOIN especialidad AS e "
                     + "ON nm.id1_especialidad = e.id1_especialidad "
                     + "INNER JOIN semestre AS s "
-                    + "ON nm.id1_semestre = s.id1_semestre ORDER BY id1_nombre_materia DESC ";
+                    + "ON nm.id1_semestre = s.id1_semestre where activa_mat='AC' ORDER BY id1_nombre_materia DESC ";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;

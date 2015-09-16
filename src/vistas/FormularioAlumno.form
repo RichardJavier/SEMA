@@ -47,7 +47,7 @@
                       <Component id="cancelarBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="60" max="32767" attributes="0"/>
+              <EmptySpace pref="58" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -119,21 +119,25 @@
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="sexoTxt" max="32767" attributes="0"/>
-                              <Component id="estadoCivilTxt" max="32767" attributes="0"/>
+                              <Component id="etniaTxt" alignment="1" min="-2" pref="113" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="paisNacimientoTxt" max="32767" attributes="0"/>
+                                  <Component id="ciudadNacimientoTxt" min="-2" pref="111" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                          <Component id="etniaTxt" alignment="1" min="-2" pref="113" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="paisNacimientoTxt" max="32767" attributes="0"/>
-                              <Component id="ciudadNacimientoTxt" min="-2" pref="111" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="sexoCmb" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="estadoCivilCmb" min="-2" pref="129" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -145,18 +149,23 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="sexoCmb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="estadoCivilCmb" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
                               <Component id="cedulaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sexoTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="apellidoPaternoTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="estadoCivilTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -223,14 +232,10 @@
         </Component>
         <Component class="javax.swing.JTextField" name="nombresCompletosTxt">
         </Component>
-        <Component class="javax.swing.JTextField" name="sexoTxt">
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
             <Property name="text" type="java.lang.String" value="Estado Civil"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="estadoCivilTxt">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -259,6 +264,32 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="ciudadNacimientoTxt">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="sexoCmb">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="SELECCIONE"/>
+                <StringItem index="1" value="MASCULINO"/>
+                <StringItem index="2" value="FEMENINO"/>
+              </StringArray>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="estadoCivilCmb">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="7">
+                <StringItem index="0" value="SELECCIONE"/>
+                <StringItem index="1" value="CASADO"/>
+                <StringItem index="2" value="SOLTERO"/>
+                <StringItem index="3" value="VIUDO"/>
+                <StringItem index="4" value="DIVORCIADO"/>
+                <StringItem index="5" value="UNION DE HECHO"/>
+                <StringItem index="6" value="OTRO"/>
+              </StringArray>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

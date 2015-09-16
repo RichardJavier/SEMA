@@ -492,7 +492,6 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                         valorMatricula = 2;//valor para matricular todas las materias incluido los arrastres
                         if (!listaMaterias.isEmpty()) {
                             matriculaBtn.setEnabled(true);
-                            valorMatricula = 1;//valor matricula normal...
                             ocultaCampos();
                         } else {
                             JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
@@ -572,11 +571,11 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 crud.insertarM("resumen", campos2);
                 limpiaCampos();
                 cargarDatos();
-            }else if(valorMatricula==1){                
-                JOptionPane.showMessageDialog(null,"Registos ingresados");
+            } else if (valorMatricula == 1) {
+                JOptionPane.showMessageDialog(null, "Registos ingresados");
                 limpiaCampos();
                 cargarDatos();
-            }else if(valorMatricula==2){
+            } else if (valorMatricula == 2) {
                 cargaResumen();
                 crud.insertarM("resumen", campos2);
                 limpiaCampos();
@@ -598,14 +597,17 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos.put("nombre_completo", nombresBuscadosTxt.getText());
         if (valorMatricula == 0) {
             campos.put("tipo_matricula", Estado.ORDINARIA.name());
+            campos.put("id_semestre", semestre.getIdSemestre());
         } else if (valorMatricula == 1) {
             campos.put("tipo_matricula", Estado.ARRASTRES.name());
+            campos.put("id_semestre", semestre.getIdSemestre() - 1);
         } else if (valorMatricula == 2) {
             campos.put("tipo_matricula", Estado.C_ARRASTRES.name());
+            campos.put("id_semestre", semestre.getIdSemestre());
         }
 
         campos.put("fecha_creacion", cal.getTime());
-        campos.put("id_semestre", semestre.getIdSemestre());
+
         campos.put("id_especialidad", especialidad.getIdEspecialidad());
         campos.put("id_paralelo", paralelo.getIdParelelo());
         return campos;
@@ -614,13 +616,15 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
     private List<Map> cargaListaMaterias() {
         mapMaterias = new ArrayList<>();
         matricula.setIdMatricula(matriculaDao.cargaIdMatricula());
-        int numeroCreditos = 0;
-        int numeroTeorica = 0;
+        double numeroCreditos = 0;
+        double numeroTeorica = 0;
+        double ncem = 0;
         if (valorMatricula == 0) {
             for (Materia listaMateria : listaMaterias) {
                 numeroCreditos = numeroCreditos + listaMateria.getCreditos();
                 if (listaMateria.getNombreMateria().contains("EMPRESA")) {
                     numeroTeorica = numeroCreditos - listaMateria.getCreditos();
+                    ncem = listaMateria.getCreditos();
                 }
 
                 campos1 = new HashMap();
@@ -676,9 +680,9 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 campos1.put("cedula", alumno.getCedula());
                 campos1.put("fecha_ingreso", cal.getTime());
                 campos1.put("fecha_modificacion", cal.getTime());
+                campos1.put("tipo_nota", Estado.ARRASTRE.name());
                 campos1.put("id_alumno", alumno.getIdAlumno());
                 campos1.put("id_matricula", matricula.getIdMatricula());
-                campos1.put("estado_nota", Estado.ARRASTRE.name());
                 campos1.put("id_materia", listaMateriaArras.getIdMateria());
                 campos1.put("id_config_materia", listaMateriaArras.getIdConfiguracion());
                 campos1.put("id_malla", listaMateriaArras.getIdMalla());
@@ -686,9 +690,14 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 mapMaterias.add(campos1);
             }
         }
-
-        resumen.setNumeroCreditosCiclo(numeroCreditos);
-        resumen.setNumeroCreditosTeorica(numeroTeorica);
+        double pnt =  numeroTeorica/numeroCreditos ;
+        pnt = pnt * 100;
+        double pnem = ncem / numeroCreditos;
+        pnem = pnem * 100;
+        resumen.setPorcentajeNotaEmpresa((int)pnem);
+        resumen.setPorcentajeNotaTeorica((int)pnt);
+        resumen.setNumeroCreditosCiclo((int)numeroCreditos);
+        resumen.setNumeroCreditosTeorica((int)numeroTeorica);
         return mapMaterias;
     }
 
@@ -699,6 +708,8 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos2.put("nombre_completo", nombresBuscadosTxt.getText());
         campos2.put("cred_ciclo", resumen.getNumeroCreditosCiclo());
         campos2.put("cred_teorica", resumen.getNumeroCreditosTeorica());
+        campos2.put("porc_nota_teorica", resumen.getPorcentajeNotaTeorica());
+        campos2.put("porc_nota_empresa", resumen.getPorcentajeNotaEmpresa());
         campos2.put("fecha_creacion", cal.getTime());
         campos2.put("fecha_modificacion", cal.getTime());
         campos2.put("id_periodo", periodo.getIdPeriodo());

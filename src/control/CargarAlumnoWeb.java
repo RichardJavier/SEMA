@@ -39,7 +39,6 @@ public class CargarAlumnoWeb extends Thread {
         } catch (ParseException ex) {
             Logger.getLogger(CargarAlumnoWeb.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void iniciaCarga() throws ParseException {

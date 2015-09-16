@@ -72,7 +72,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         semestre = new Semestre();
         notaDao = new NotaDao();
         cargarSemestre();
-        this.nombresTxt.setEnabled(false);
         promedioTxt.setEnabled(false);
         recuperacionTxt.setEnabled(false);
         periodo = metodosGeneralesDao.codigoPeriodoActivo();
@@ -80,8 +79,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
     }
 
-    private void cargarDatos(final String periodo, final String cedula, final Integer idSemestre) {
-        String[] col = {"PK", "CEDULA", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
+    private void cargarDatos(final String periodo, final Integer idSemestre) {
+        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -91,10 +90,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         };
         modelo.setRowCount(0);
         this.notasTabla.setModel(modelo);
-        notasTabla.getColumnModel().getColumn(0).setMaxWidth(40);
-        notasTabla.getColumnModel().getColumn(0).setMinWidth(40);
-        notasTabla.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(40);
-        notasTabla.getTableHeader().getColumnModel().getColumn(0).setMinWidth(40);
+        notasTabla.getColumnModel().getColumn(0).setMaxWidth(0);
+        notasTabla.getColumnModel().getColumn(0).setMinWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
 
         notasTabla.getColumnModel().getColumn(1).setMaxWidth(100);
         notasTabla.getColumnModel().getColumn(1).setMinWidth(100);
@@ -106,15 +105,15 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         notasTabla.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(260);
         notasTabla.getTableHeader().getColumnModel().getColumn(2).setMinWidth(260);
 
-        notasTabla.getColumnModel().getColumn(3).setMaxWidth(100);
-        notasTabla.getColumnModel().getColumn(3).setMinWidth(100);
-        notasTabla.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(100);
-        notasTabla.getTableHeader().getColumnModel().getColumn(3).setMinWidth(100);
+        notasTabla.getColumnModel().getColumn(4).setMaxWidth(100);
+        notasTabla.getColumnModel().getColumn(4).setMinWidth(100);
+        notasTabla.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(100);
+        notasTabla.getTableHeader().getColumnModel().getColumn(4).setMinWidth(100);
 
-        notasTabla.getColumnModel().getColumn(5).setMaxWidth(0);
-        notasTabla.getColumnModel().getColumn(5).setMinWidth(0);
-        notasTabla.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(0);
-        notasTabla.getTableHeader().getColumnModel().getColumn(5).setMinWidth(0);
+        notasTabla.getColumnModel().getColumn(6).setMaxWidth(0);
+        notasTabla.getColumnModel().getColumn(6).setMinWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
         notasTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
 
         new Thread(new Runnable() {
@@ -129,22 +128,33 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     listaNotas.clear();
                 }
                 try {
-                    resultSet = notaDao.consultaNotas(periodo, cedula, idSemestre);
+                    resultSet = notaDao.consultaNotas(periodo, idSemestre);
                     while (resultSet.next()) {
                         nota.setIdNota(Integer.parseInt(resultSet.getString("id_nota")));
                         nota.setCedula(resultSet.getString("cedula"));
+                        nota.setNombres(resultSet.getString("nombre_completo"));
                         nota.setNombreMateria(resultSet.getString("materia"));
                         nota.setSemestre(resultSet.getString("semestre"));
                         nota.setEspecialidad(resultSet.getString("especialidad"));
                         nota.setIdMateria(Integer.parseInt(resultSet.getString("id_materia")));
-                        modelo.insertRow(i, new Object[]{
+                        if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
+                            listaNotas.add(new Nota(nota.getIdNota(),
+                                    nota.getCedula(),
+                                    nota.getNombres(),
+                                    nota.getNombreMateria(),
+                                    nota.getSemestre(),
+                                    nota.getEspecialidad()));
+                                modelo.insertRow(i, new Object[]{
                             nota.getIdNota(),
                             nota.getCedula(),
+                            nota.getNombres(),
                             nota.getNombreMateria(),
                             nota.getSemestre(),
                             nota.getEspecialidad(),
                             nota.getIdMateria()
                         });
+                        }
+
                     }
                 } catch (SQLException | NumberFormatException e) {
                     System.out.println(e);
@@ -167,13 +177,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         notasTabla = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        cedulaTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         semestreCmb = new javax.swing.JComboBox();
         buscarBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         nombresTxt = new javax.swing.JTextField();
+        buscarBtn1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nota3Lbl = new javax.swing.JLabel();
@@ -226,17 +236,9 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(notasTabla);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda de Alumno"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda por Semestre"));
 
-        jLabel1.setText("Cedula");
-
-        cedulaTxt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                cedulaTxtKeyTyped(evt);
-            }
-        });
-
-        jLabel2.setText("Semestre");
+        jLabel2.setText("* Cargar todos los alumnos en el semestre seleccionado");
 
         semestreCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
         semestreCmb.addItemListener(new java.awt.event.ItemListener() {
@@ -245,8 +247,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             }
         });
 
-        buscarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
-        buscarBtn.setText("Buscar");
+        buscarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Lightning.png"))); // NOI18N
+        buscarBtn.setText("Cargar");
         buscarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarBtnActionPerformed(evt);
@@ -255,45 +257,65 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Nombres");
 
+        nombresTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nombresTxtKeyReleased(evt);
+            }
+        });
+
+        buscarBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
+        buscarBtn1.setText("Buscar");
+        buscarBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarBtn1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("* Filtrar por nombre del alumno en el semestre seleccionado");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(cedulaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(48, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nombresTxt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buscarBtn)
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nombresTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buscarBtn1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(buscarBtn))
+                            .addComponent(jLabel2))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cedulaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscarBtn)
+                    .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarBtn))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(nombresTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(nombresTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarBtn1))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Formulario de Ingreso de Notas"));
@@ -639,7 +661,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                .addGap(18, 18, 18))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,7 +679,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(cancelarBtn)
@@ -670,17 +692,14 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -690,11 +709,13 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(77, 77, 77))
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("Busqueda por Semestre\n");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -703,12 +724,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         ocultaCampos();
         limpiaCampos();
-        if (!cedulaTxt.getText().trim().isEmpty() && semestreCmb.getSelectedIndex() != 0) {
-            nombresTxt.setText(notaDao.nombreAlumno(cedulaTxt.getText(), semestre.getIdSemestre()));
-            cargarDatos(periodo.getCodigoPeriodo(), cedulaTxt.getText(), semestre.getIdSemestre());
-            if (nombresTxt.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No hay informacion de estos datos");
-            }
+        if (semestreCmb.getSelectedIndex() != 0) {
+            //  nombresTxt.setText(notaDao.nombreAlumno(cedulaTxt.getText(), semestre.getIdSemestre()));
+            cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
+
         } else {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -732,8 +751,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         metodosGeneralesDao = new MetodosGeneralesDao();
 //        periodo = metodosGeneralesDao.codigoPeriodoActivo();
         nota.setIdNota((Integer) notasTabla.getValueAt(i, 0));
-        nota.setIdMateria((Integer) notasTabla.getValueAt(i, 5));
-        nota.setNombreMateria((String) notasTabla.getValueAt(i, 2));
+        nota.setIdMateria((Integer) notasTabla.getValueAt(i, 6));
+        nota.setNombreMateria((String) notasTabla.getValueAt(i, 3));
         nota.setCedula((String) notasTabla.getValueAt(i, 1));
         asignaturaTxt.setText(nota.getNombreMateria());
         resultSet1 = notaDao.cargarValoresMateria(periodo.getCodigoPeriodo(), nota.getIdNota(), nota.getIdMateria());
@@ -841,14 +860,14 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
             ResumenDao resumenDao = new ResumenDao();
             if (materia.getTipoNota().equals(Estado.NORMAL.name())) {
-                resumenDao.calculaResumenNormal(nota.getCedula(),periodo.getCodigoPeriodo(),materia.getIdMalla(),materia.getIdEspecialidad(),materia.getIdSemestre());
+                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre());
                 limpiaCampos();
                 ocultaCampos();
-            }else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())){
-                resumenDao.calculaResumenArrastre(nota.getCedula(),periodo.getCodigoPeriodo(),materia.getIdMalla(),materia.getIdEspecialidad(),materia.getIdSemestre(),materia.getIdMateria());
+            } else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())) {
+                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria());
                 limpiaCampos();
                 ocultaCampos();
-            
+
             }
 
         } catch (Exception e) {
@@ -863,15 +882,6 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void nota1TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota1TxtKeyTyped
         validaNum(evt, nota1Txt);
     }//GEN-LAST:event_nota1TxtKeyTyped
-
-    private void cedulaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedulaTxtKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < '0') || (c > '9')) {
-            evt.consume();
-        } else if (cedulaTxt.getText().length() > 14) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_cedulaTxtKeyTyped
 
     private void nota2TxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota2TxtKeyTyped
         validaNum(evt, nota2Txt);
@@ -962,6 +972,18 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void recuperacionTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_recuperacionTxtKeyTyped
         validaNum(evt, recuperacionTxt);
     }//GEN-LAST:event_recuperacionTxtKeyTyped
+
+    private void buscarBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtn1ActionPerformed
+        cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
+    }//GEN-LAST:event_buscarBtn1ActionPerformed
+
+    private void nombresTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombresTxtKeyReleased
+        convertiraMayusculasEnJtextfield(nombresTxt);
+    }//GEN-LAST:event_nombresTxtKeyReleased
+     public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
+        String cadena = (jTextfieldS.getText()).toUpperCase();
+        jTextfieldS.setText(cadena);
+    }
     private void limpiaTexto(JTextField field) {
         if (field.getText().equals("0")) {
             field.setText(null);
@@ -1543,9 +1565,9 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField asignaturaTxt;
     private javax.swing.JTextField asistenciaTxt;
     private javax.swing.JButton buscarBtn;
+    private javax.swing.JButton buscarBtn1;
     private javax.swing.JButton calcularBtn;
     private javax.swing.JButton cancelarBtn;
-    private javax.swing.JTextField cedulaTxt;
     private javax.swing.JButton guardarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;

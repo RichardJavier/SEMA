@@ -7,6 +7,7 @@ public class Nota extends Materia {
 
     private Integer idNota;
     private String cedula;
+    private String nombres;
     private Double nota1;
     private Double nota2;
     private Double nota3;
@@ -29,10 +30,11 @@ public class Nota extends Materia {
     public Nota() {
     }
 
-    public Nota(Integer idNota, String cedula, String nombreMateria, String semestre, String especialidad) {
+    public Nota(Integer idNota, String cedula,String nombres, String nombreMateria, String semestre, String especialidad) {
         super(nombreMateria, semestre, especialidad);
         this.idNota = idNota;
         this.cedula = cedula;
+        this.nombres=nombres;
     }
 
     public Integer getIdNota() {
@@ -49,6 +51,14 @@ public class Nota extends Materia {
 
     public void setCedula(String cedula) {
         this.cedula = cedula;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
     public Double getNota1() {
