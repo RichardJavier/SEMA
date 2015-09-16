@@ -123,6 +123,59 @@ public class ResumenDao {
         return null;
     }
 
+    private List<Promedio> cargaMateriasArrastre(Connection cn, String cedula, String codigo, Integer idEspecialidad, Integer idSemestre,Integer idMalla) {
+        try {
+            String sql = "SELECT * FROM nota_" + codigo + " AS n "
+                    + " LEFT JOIN nombre_materia AS m "
+                    + " ON n.id_materia=m.id1_nombre_materia "
+                    + " LEFT JOIN malla AS ma  "
+                    + " ON n.id_malla=ma.id_malla "
+                    + " WHERE cedula" + "=" + "'" + cedula + "'" + " "
+                    + " AND ma.id1_semestre" + "=" + "'" + idSemestre + "'" + ""
+                    + " AND ma.id1_especialidad" + "=" + "'" + idEspecialidad + "'" + ""
+                    + "ORDER BY id_nota ASC";
+
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            Nota nota;
+            Promedio promedio;
+            Materia materia;
+            listaPromedio = new ArrayList<>();
+            Double porTemp;
+            Resumen resumen = valoresResumen(cedula, idSemestre, idEspecialidad, cn);
+            int i = 0;
+            int asistencia = 0;
+            while (rs.next()) {
+                nota = new Nota();
+                promedio = new Promedio();
+                nota.setPromedio(new BigDecimal(Double.valueOf(rs.getString("promedio"))));
+                nota.setAsistencia(Integer.parseInt(rs.getString("asistencia")));
+                materia = new Materia();
+                materia.setNombreMateria(rs.getString("materia"));
+                materia.setCreditos(Integer.valueOf(rs.getString("creditos")));         
+
+                porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
+                promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
+                promedio.setPromedio(nota.getPromedio().multiply(promedio.getPorcentaje()));
+                promedio.setPromedio(promedio.getPromedio().divide(new BigDecimal(100)));
+                promedio.setPromedio(promedio.getPromedio().setScale(2, RoundingMode.HALF_UP));
+                asistencia = asistencia + nota.getAsistencia();
+                if (!materia.getNombreMateria().contains("EMPRESA")) {
+                    listaPromedio.add(promedio);
+
+                } else {
+                    resumen.setNotaEmpresa(nota.getPromedio());
+                }
+                i++;
+           }
+            return  listaPromedio;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
     @SuppressWarnings({"BoxedValueEquality", "NumberEquality"})
     public void calculaResumenArrastre(String cedula, String codigo, Integer idMalla, Integer idEspecialidad, Integer idSemestre, Integer idMateria) {
         try {
@@ -130,6 +183,7 @@ public class ResumenDao {
             Malla malla = mallaDao.getMalla(idMalla);
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
+            //buscar materia antes para calculo
             PeriodoDao periodoDao = new PeriodoDao();
             Periodo p = periodoDao.codigoPeriodo(malla.getIdPeriodo(), cn);
             String sql = "SELECT * FROM nota_" + p.getCodigoPeriodo() + " AS n "
@@ -164,7 +218,6 @@ public class ResumenDao {
                 malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
                 malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
-                
 
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
@@ -174,13 +227,14 @@ public class ResumenDao {
                 asistencia = asistencia + nota.getAsistencia();
                 if (materia.getIdMateria() != idMateria) {
                     listaPromedio.add(promedio);
-                    i++;
                 } else if (materia.getNombreMateria().contains("EMPRESA")) {
                     resumen.setNotaEmpresa(nota.getPromedio());
                 } else {
 
                 }
+                i++;
             }
+            cargaMateriasArrastre(cn, cedula, codigo, idEspecialidad, idSemestre, idMalla);
             BigDecimal vp = new BigDecimal(BigInteger.ZERO);
             for (Promedio listaPrimedio1 : listaPromedio) {
                 //   System.out.println(listaPrimedio1.getPorcentaje().toString() + "promedio" + listaPrimedio1.getPromedio());
@@ -286,10 +340,11 @@ public class ResumenDao {
                 asistencia = asistencia + nota.getAsistencia();
                 if (!materia.getNombreMateria().contains("EMPRESA")) {
                     listaPromedio.add(promedio);
-                    i++;
+
                 } else {
                     resumen.setNotaEmpresa(nota.getPromedio());
                 }
+                i++;
             }
             BigDecimal vp = new BigDecimal(BigInteger.ZERO);
             for (Promedio listaPrimedio1 : listaPromedio) {
