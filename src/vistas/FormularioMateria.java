@@ -1,7 +1,6 @@
 package vistas;
 
 import control.Crud;
-import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
 import logica.DescripcionMateriaDao;
-import logica.MallaDao;
+import logica.ConfiguracionDao;
 import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
 import modelo.Campo;
@@ -27,7 +26,7 @@ import modelo.DescripcionMateria;
 import modelo.Eje;
 import modelo.Especialidad;
 import modelo.Estado;
-import modelo.Malla;
+import modelo.Configuracion;
 import modelo.Materia;
 import modelo.Profesor;
 import modelo.Semestre;
@@ -43,7 +42,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     ResultSet resultSet;
     Crud crud;
     Map campos, campos1, campos2;
-    Malla malla;
+    Configuracion malla;
     Especialidad especialidad;
     Semestre semestre;
     Eje eje;
@@ -68,12 +67,12 @@ public class FormularioMateria extends javax.swing.JDialog {
         cargarEspecialidad();
         cargarSemestre();
         cargarEje();
-        cargarMalla();
+        cargarConfiguracion();
         this.guardarBtn.setEnabled(false);
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
-        malla = new Malla();
+        malla = new Configuracion();
         semestreCmb.setEnabled(false);
         especialidadCmb.setEnabled(false);
         materia = new Materia();
@@ -92,7 +91,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         cargarEspecialidad();
         cargarSemestre();
         cargarEje();
-        cargarMalla();
+        cargarConfiguracion();
         cargaProfesor();
         this.guardarBtn.setEnabled(false);
         this.validarBtn.setEnabled(false);
@@ -100,7 +99,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
-        malla = new Malla();
+        malla = new Configuracion();
         semestreCmb.setEnabled(false);
         especialidadCmb.setEnabled(false);
         materia = new Materia();
@@ -123,7 +122,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     materia.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
                     materia.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("f_crea")));
                     materia.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
-                    malla.setIdMalla(Integer.valueOf(resultSet.getString("id_malla")));
+                    malla.setIdConfiguracion(Integer.valueOf(resultSet.getString("id_malla")));
                     malla.setNombreMalla(resultSet.getString("nombre_malla"));
                     mallaCmb.setSelectedItem(malla);
 
@@ -237,8 +236,8 @@ public class FormularioMateria extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         profesoCmb = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO DE REGISTRO DE MATERIA");
 
         jLabel1.setText("Nombre Materia");
 
@@ -330,7 +329,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         jLabel5.setText("Semestre");
 
-        jLabel4.setText("Malla");
+        jLabel4.setText("Configuracion");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuracion Materia"));
 
@@ -1168,7 +1167,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
             materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
             materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
-            materia.setIdMalla(malla.getIdMalla());
+            materia.setIdMalla(malla.getIdConfiguracion());
             materia.setIdSemestre(semestre.getIdSemestre());
             materia.setIdEspecialidad(especialidad.getIdEspecialidad());
             materia.setIdProfesor(profesor.getIdProfesor());
@@ -1202,7 +1201,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             campos2.put("id1_profe", profesor.getIdProfesor());
             campos2.put("alias", " ");
             campos2.put("materia_antes", materia.getNombreMateria());
-            campos2.put("id_malla", malla.getIdMalla());
+            campos2.put("id_malla", malla.getIdConfiguracion());
             campos2.put("id_config_materia", configuracionMateria.getIdConfiguracionMateria());
             campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
             return campos2;
@@ -1216,11 +1215,11 @@ public class FormularioMateria extends javax.swing.JDialog {
     private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
         if (idMateria == 0) {
             try {
-                MallaDao mallaDao = new MallaDao();
-                Malla mall = (Malla) mallaCmb.getSelectedItem();
-                this.malla.setIdMalla(mall.getIdMalla());
+                ConfiguracionDao mallaDao = new ConfiguracionDao();
+                Configuracion mall = (Configuracion) mallaCmb.getSelectedItem();
+                this.malla.setIdConfiguracion(mall.getIdConfiguracion());
                 this.malla.setNombreMalla(mall.getNombreMalla());
-                resultSet = mallaDao.consulta(malla.getIdMalla());
+                resultSet = mallaDao.consulta(malla.getIdConfiguracion());
                 while (resultSet.next()) {
                     especialidad.setEspecialidad(resultSet.getString("especialidad"));
                     especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
@@ -1233,8 +1232,8 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
 
         } else {
-            Malla mall = (Malla) mallaCmb.getSelectedItem();
-            malla.setIdMalla(mall.getIdMalla());
+            Configuracion mall = (Configuracion) mallaCmb.getSelectedItem();
+            malla.setIdConfiguracion(mall.getIdConfiguracion());
 
         }
     }//GEN-LAST:event_mallaCmbItemStateChanged
@@ -1809,16 +1808,15 @@ public class FormularioMateria extends javax.swing.JDialog {
         return resultado;
     }
 
-    private void cargarMalla() {
+    private void cargarConfiguracion() {
         try {
             resultSet = metodosGeneralesDao.cargaComboMalla();
             while (resultSet.next()) {
-                Malla mall = new Malla();
-                mall.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
-                mall.setNombreMalla(resultSet.getString("nombre_malla"));
-                mall.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
-                mall.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
-                mallaCmb.addItem(mall);
+                Configuracion co = new Configuracion();
+                co.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_configuracion")));
+                co.setNombreMalla(resultSet.getString("nombre_malla"));
+
+                mallaCmb.addItem(co);
             }
         } catch (SQLException | NumberFormatException e) {
         }

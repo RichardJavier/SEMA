@@ -22,7 +22,6 @@ public class Resumen extends Matricula {
     private String aprobacion;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private Integer idPeriodo;
     private Integer idSemestre;
     private Integer idEspecialidad;
     private Integer idMalla;
@@ -30,6 +29,12 @@ public class Resumen extends Matricula {
     public Resumen() {
     }
 
+    public Resumen(Integer idResumen, String nombreCompleto, String aprobacion, String semestre, String especialidad) {
+        super(semestre, especialidad);
+        this.idResumen = idResumen;
+        this.nombreCompleto = nombreCompleto;
+        this.aprobacion = aprobacion;
+    }
     public Integer getIdResumen() {
         return idResumen;
     }
@@ -172,14 +177,6 @@ public class Resumen extends Matricula {
 
     public void setFechaModificacion(Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
-    }
-
-    public Integer getIdPeriodo() {
-        return idPeriodo;
-    }
-
-    public void setIdPeriodo(Integer idPeriodo) {
-        this.idPeriodo = idPeriodo;
     }
 
     @Override

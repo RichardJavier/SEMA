@@ -1,0 +1,8 @@
+driver=com.mysql.jdbc.Driver
+jdbc=jdbc:mysql://
+host=localhost
+database=sismodes_1
+username=root
+password=root
+options=charSet=LATIN1
+mostrarpropiedades=si

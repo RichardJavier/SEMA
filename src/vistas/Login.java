@@ -10,16 +10,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import control.CargarAlumnoWeb;
+import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JTextField;
+import logica.LoginAuditoriaDao;
+import logica.UsuarioDao;
+import modelo.LoginAuditoria;
+import modelo.Usuario;
 
 public final class Login extends javax.swing.JDialog {
 
     CargarAlumnoWeb alumno;
+    public static Usuario usuario;
 
     public Login(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-    //    cargar();
+        //    cargar();
     }
 
     public void cargar() {
@@ -72,9 +85,11 @@ public final class Login extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        passwordTxt = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        usuarioTxt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
@@ -92,9 +107,14 @@ public final class Login extends javax.swing.JDialog {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lock1_1.png"))); // NOI18N
         jLabel1.setText("Password");
 
-        jPasswordField1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPasswordField1.setText("jPasswordField1");
-        jPasswordField1.setFocusCycleRoot(true);
+        passwordTxt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        passwordTxt.setText("jPasswordField1");
+        passwordTxt.setFocusCycleRoot(true);
+        passwordTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordTxtMouseClicked(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/user_unlock.png"))); // NOI18N
@@ -114,29 +134,49 @@ public final class Login extends javax.swing.JDialog {
             }
         });
 
+        usuarioTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                usuarioTxtKeyTyped(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Boss.png"))); // NOI18N
+        jLabel2.setText("Usuario");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
-                .addGap(47, 47, 47)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(usuarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel1))
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
+                    .addComponent(usuarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -163,20 +203,117 @@ public final class Login extends javax.swing.JDialog {
                 .addComponent(jLabel3)
                 .addGap(34, 34, 34)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//        if (usuarioTxt.getText().trim().isEmpty() && passwordTxt.getText().trim().isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+//            usuarioTxt.requestFocus();
+//        } else if (usuarioTxt.getText().trim().isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Error campo usuario vacio", "Error", JOptionPane.ERROR_MESSAGE);
+//            usuarioTxt.requestFocus();
+//        } else if (passwordTxt.getText().trim().isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Error campo password vacio", "Error", JOptionPane.ERROR_MESSAGE);
+//            passwordTxt.requestFocus();
+//        } else {
+//            Usuario temp = new Usuario();
+//            temp.setUsuario(usuarioTxt.getText().trim());
+//            temp.setClave(passwordTxt.getText().trim());
+//            usuario = UsuarioDao.login(temp.getUsuario());
+//            if (usuario.getUsuario() != null) {
+//                if (temp.getUsuario().compareTo(usuario.getUsuario()) != 0) {
+//                    JOptionPane.showMessageDialog(null, "Usuario incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+//                    usuarioTxt.setText(null);
+//                    usuarioTxt.requestFocus();
+//                } else if (temp.getClave().compareTo(usuario.getClave()) != 0) {
+//                    JOptionPane.showMessageDialog(null, "Estimado " + " " + usuario.getNombre() + " " + "su clave es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+//                    passwordTxt.setText(null);
+//                    passwordTxt.requestFocus();
+//                } else if (usuario.getEstado().compareTo("DS") == 0) {
+//                    JOptionPane.showMessageDialog(null, "Estimado" + "" + usuario.getNombre() + " " + "su usuario esta desactivado", "Informacion", JOptionPane.WARNING_MESSAGE);
+//                    System.exit(0);
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Bienvenido al sistema" + " " + usuario.getNombre());
+//                    if (usuario.getPerfil().compareTo("ADMINISTRADOR") == 0) {
+//                        Menu m = new Menu();
+//                        m.setVisible(true);
+//                        guardarLogin("MenuAdministrador", usuario);
+//                        this.dispose();
+//                    } else if (usuario.getPerfil().compareTo("PROFESOR") == 0) {
+//                        usuario.setNombre(usuario.getNombre());
+//                        usuario.setPerfil(usuario.getPerfil());
+//                        MenuProfesor mn = new MenuProfesor();
+//                        guardarLogin("MenuProfesor", usuario);
+//                        mn.setVisible(true);
+//                        this.dispose();
+//                    } else if (usuario.getPerfil().compareTo("ALUMNO") == 0) {
+//                        usuario.setNombre(usuario.getNombre());
+//                        usuario.setPerfil(usuario.getPerfil());
+//                        MenuAlumno ma = new MenuAlumno();
+//                        ma.setVisible(true);
+//                        guardarLogin("MenuAlumno", usuario);
+//                        this.dispose();
+//
+//                    }
+//
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
+//                usuarioTxt.setText(null);
+//                usuarioTxt.requestFocus();
+//            }
+//        }
+        Menu m = new Menu();
+        m.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void validaNum(java.awt.event.KeyEvent evt, JTextField field) {
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        } else if (field.getText().length() >= 10) {
+            evt.consume();
+        }
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         confirmarSalida();
 
     }//GEN-LAST:event_jButton2ActionPerformed
+    private void guardarLogin(String menu, Usuario usuario) {
+        Map campos = new HashMap();
+        SimpleDateFormat formato1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        Date fecha = cal.getTime();
+        LoginAuditoria log = new LoginAuditoria();
+        log.setFechaLogin(formato1.format(fecha));
+        log.setIngreso(Boolean.TRUE);
+        log.setUsuario(usuario.getUsuario());
+        log.setAplicacion(menu);
+        campos.put("fecha_login", log.getFechaLogin());
+        campos.put("ingresoexitoso", log.getIngreso());
+        campos.put("aplicacion", menu);
+        campos.put("usuario", log.getUsuario());
+        LoginAuditoriaDao.insertar("loginaudit", campos);
+    }
+    private void passwordTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordTxtMouseClicked
+        passwordTxt.setText(null);
+    }//GEN-LAST:event_passwordTxtMouseClicked
+
+    private void usuarioTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuarioTxtKeyTyped
+        validaNum(evt, usuarioTxt);
+    }//GEN-LAST:event_usuarioTxtKeyTyped
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+
+    public static void setUsuario(Usuario usuario) {
+        Login.usuario = usuario;
+    }
 
     /**
      * @param args the command line arguments
@@ -220,12 +357,16 @@ public final class Login extends javax.swing.JDialog {
             }
         });
     }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField passwordTxt;
+    private javax.swing.JTextField usuarioTxt;
     // End of variables declaration//GEN-END:variables
 }

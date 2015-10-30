@@ -99,3 +99,23 @@ public final class Conexion {
         }
     }
 }
+/*
+He pasado mil noches soñando contigo, 
+segundo a segundo, momento a momento,
+ tus besos, tu sonrisa, tu ser, 
+cada instante junto a ti es una ilusión 
+que va creciendo al paso del tiempo y 
+cuando menos te lo esperas se ha convertido en amor,
+ un amor sincero que ha nacido de la verdad,
+ confianza y confortándose día a día hasta la eternidad.
+
+Por eso amor mi hoy te pido que no te apartes 
+de mi que nunca dejes que este amor que ciento
+ se desvanezca como aquella estrella fugaz que 
+nace tan hermosa y deslumbrante en lo alto del cielo
+ pero desaparece sin dejar rastro alguno en la inmensidad 
+y yo quisiera que todo esto siguiera así como desde el 
+primer momento en me miraste aquella mirada que me mato y 
+ahora por esta mirada estoy muriendo no se que mas decirte....
+ya te lo e dicho todo....princesa de mi corazon....
+*/

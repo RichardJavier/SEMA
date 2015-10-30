@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import logica.MallaDao;
+import logica.ConfiguracionDao;
 import logica.MetodosGeneralesDao;
 import logica.NotaDao;
 import logica.ResumenDao;
@@ -35,7 +35,7 @@ import modelo.Alumno;
 import modelo.Campo;
 import modelo.ConfiguracionMateria;
 import modelo.Estado;
-import modelo.Malla;
+import modelo.Configuracion;
 import modelo.Materia;
 import modelo.Nota;
 import modelo.Periodo;
@@ -63,7 +63,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     List<Campo> lista;
     Campo campo;
     Map campos;
-    Malla malla;
+    Configuracion malla;
 
     public FrmNotas() {
         initComponents();
@@ -80,7 +80,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }
 
     private void cargarDatos(final String periodo, final Integer idSemestre) {
-        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
+        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD","PROMEDIO", "IDMATERIA"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -110,10 +110,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         notasTabla.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(100);
         notasTabla.getTableHeader().getColumnModel().getColumn(4).setMinWidth(100);
 
-        notasTabla.getColumnModel().getColumn(6).setMaxWidth(0);
-        notasTabla.getColumnModel().getColumn(6).setMinWidth(0);
-        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
-        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+////        notasTabla.getColumnModel().getColumn(8).setMaxWidth(0);
+////        notasTabla.getColumnModel().getColumn(8).setMinWidth(0);
+////        notasTabla.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(0);
+////        notasTabla.getTableHeader().getColumnModel().getColumn(8).setMinWidth(0);
         notasTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
 
         new Thread(new Runnable() {
@@ -136,6 +136,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         nota.setNombreMateria(resultSet.getString("materia"));
                         nota.setSemestre(resultSet.getString("semestre"));
                         nota.setEspecialidad(resultSet.getString("especialidad"));
+                        nota.setPromedio(new BigDecimal(resultSet.getString("promedio")));
                         nota.setIdMateria(Integer.parseInt(resultSet.getString("id_materia")));
                         if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
                             listaNotas.add(new Nota(nota.getIdNota(),
@@ -143,16 +144,18 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                                     nota.getNombres(),
                                     nota.getNombreMateria(),
                                     nota.getSemestre(),
-                                    nota.getEspecialidad()));
-                                modelo.insertRow(i, new Object[]{
-                            nota.getIdNota(),
-                            nota.getCedula(),
-                            nota.getNombres(),
-                            nota.getNombreMateria(),
-                            nota.getSemestre(),
-                            nota.getEspecialidad(),
-                            nota.getIdMateria()
-                        });
+                                    nota.getEspecialidad(),
+                                    nota.getPromedio()));
+                            modelo.insertRow(i, new Object[]{
+                                nota.getIdNota(),
+                                nota.getCedula(),
+                                nota.getNombres(),
+                                nota.getNombreMateria(),
+                                nota.getSemestre(),
+                                nota.getEspecialidad(),
+                                nota.getIdMateria(),
+                                nota.getPromedio()
+                            });
                         }
 
                     }
@@ -220,6 +223,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         recuperacionTxt = new javax.swing.JTextField();
 
         setClosable(true);
+        setTitle("REGISTRO DE NOTAS POR ALUMNO Y MATERIA");
 
         notasTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -558,6 +562,11 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Asistencia");
 
+        asistenciaTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                asistenciaTxtMouseClicked(evt);
+            }
+        });
         asistenciaTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 asistenciaTxtKeyTyped(evt);
@@ -759,7 +768,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         try {
             materia = new Materia();
             configuracionMateria = new ConfiguracionMateria();
-            MallaDao mallaDao = new MallaDao();
+            ConfiguracionDao mallaDao = new ConfiguracionDao();
             while (resultSet1.next()) {
                 configuracionMateria.setNumeroAportes(resultSet1.getString("num_aporte"));
                 materia.setIdMateria(Integer.parseInt(resultSet1.getString("id_materia")));
@@ -771,6 +780,9 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 materia.setTipoNota(resultSet1.getString("tipo_nota"));
                 asistenciaTxt.setText(resultSet1.getString("asistencia"));
                 nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
+                nota.setPromedio(new BigDecimal(resultSet1.getString("promedio")));
+                promedioTxt.setText(String.valueOf(nota.getPromedio()));
+
                 //nota.se
                 cargaCampo(Integer.parseInt(configuracionMateria.getNumeroAportes()));
                 setNota(resultSet1, configuracionMateria.getNumeroAportes());
@@ -980,10 +992,15 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     private void nombresTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombresTxtKeyReleased
         convertiraMayusculasEnJtextfield(nombresTxt);
     }//GEN-LAST:event_nombresTxtKeyReleased
-     public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
+
+    private void asistenciaTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_asistenciaTxtMouseClicked
+        limpiaTexto(asistenciaTxt);
+    }//GEN-LAST:event_asistenciaTxtMouseClicked
+    public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
         String cadena = (jTextfieldS.getText()).toUpperCase();
         jTextfieldS.setText(cadena);
     }
+
     private void limpiaTexto(JTextField field) {
         if (field.getText().equals("0")) {
             field.setText(null);

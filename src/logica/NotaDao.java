@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import modelo.Matricula;
 
-
 public class NotaDao {
 
     public ResultSet consultaNotas(String periodo, Integer idSemestre) {
@@ -109,5 +108,31 @@ public class NotaDao {
         }
         return 0;
     }
-    
+
+    public ResultSet consultaNotasProfesor(String periodo, Integer idSemestre, Integer idMateria) {
+        Conexion cc = Conexion.getInstance();
+        Connection cn = cc.Conectar();
+        try {
+            String sql = "SELECT * FROM nota" + "_" + periodo + " AS n "
+                    + "RIGHT JOIN nombre_materia m "
+                    + "ON  n.id_materia = m.id1_nombre_materia "
+                    + "RIGHT JOIN semestre AS s "
+                    + "ON m.id1_semestre = s.id1_semestre "
+                    + "RIGHT JOIN especialidad AS e "
+                    + "ON m.id1_especialidad=e.id1_especialidad "
+                    + "right join matricula as ma "
+                    + "on n.id_matricula=ma.id_matricula "
+                    + "WHERE "
+                    + " m.id1_semestre" + "=" + "'" + idSemestre + "'"
+                    + "AND "
+                    + "m.id1_nombre_materia" + "=" + "'" + idMateria + "'"
+                    + " ORDER BY id_nota DESC";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

@@ -30,11 +30,19 @@ public class Nota extends Materia {
     public Nota() {
     }
 
-    public Nota(Integer idNota, String cedula,String nombres, String nombreMateria, String semestre, String especialidad) {
+     public Nota(Integer idNota, String cedula,String nombres, String nombreMateria, String semestre, String especialidad) {
         super(nombreMateria, semestre, especialidad);
         this.idNota = idNota;
         this.cedula = cedula;
         this.nombres=nombres;
+     
+    }
+    public Nota(Integer idNota, String cedula,String nombres, String nombreMateria, String semestre, String especialidad,BigDecimal promedio) {
+        super(nombreMateria, semestre, especialidad);
+        this.idNota = idNota;
+        this.cedula = cedula;
+        this.nombres=nombres;
+        this.promedio=promedio;
     }
 
     public Integer getIdNota() {

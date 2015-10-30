@@ -76,6 +76,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         paralelo = new Paralelo();
         cal = Calendar.getInstance();
         resumen = new Resumen();
+        setTitle("LISTADO DE ALUMNOS MATRICULADOS");
     }
 
     private void cargarDatos() {
@@ -199,7 +200,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                                                    
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -223,16 +224,11 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         paraleloCmd = new javax.swing.JComboBox();
         matriculaBtn = new javax.swing.JButton();
         validarBtn = new javax.swing.JButton();
-
         setClosable(true);
 
         matriculaTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
+                new Object[][]{},
+                new String[]{}
         ));
         jScrollPane1.setViewportView(matriculaTabla);
 
@@ -273,37 +269,37 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cedulaBuscadaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buscarInscritoBtn))
-                    .addComponent(jLabel4)
-                    .addComponent(nombresBuscadosTxt))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cedulaBuscadaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(buscarInscritoBtn))
+                                .addComponent(jLabel4)
+                                .addComponent(nombresBuscadosTxt))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cedulaBuscadaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buscarInscritoBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nombresBuscadosTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cedulaBuscadaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buscarInscritoBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nombresBuscadosTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel5.setText("Semestre");
 
-        semestreCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        semestreCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Seleccione"}));
         semestreCmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 semestreCmbItemStateChanged(evt);
@@ -312,7 +308,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Especialidad");
 
-        especialidadCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        especialidadCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Seleccione"}));
         especialidadCmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 especialidadCmbItemStateChanged(evt);
@@ -321,7 +317,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Paralelo");
 
-        paraleloCmd.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        paraleloCmd.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Seleccione"}));
         paraleloCmd.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 paraleloCmdItemStateChanged(evt);
@@ -347,109 +343,109 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(matriculaBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(validarBtn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(semestreCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(paraleloCmd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(matriculaBtn)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(validarBtn))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(semestreCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel7))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(paraleloCmd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(paraleloCmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(validarBtn)
-                    .addComponent(matriculaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel7)
+                                .addComponent(paraleloCmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(validarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(matriculaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(buscarMatriculaBtn)
-                                .addGap(462, 462, 462)
-                                .addComponent(nuevaMatriculaBtn)
-                                .addGap(26, 26, 26))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                                .addComponent(jLabel1)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(29, 29, 29)
+                                                        .addComponent(buscarMatriculaBtn)
+                                                        .addGap(462, 462, 462)
+                                                        .addComponent(nuevaMatriculaBtn)
+                                                        .addGap(26, 26, 26))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buscarMatriculaBtn))
-                    .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(nuevaMatriculaBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(buscarMatriculaBtn))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGap(36, 36, 36)
+                                                        .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(nuevaMatriculaBtn)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                        .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                                                
 
-    private void nuevaMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaMatriculaBtnActionPerformed
+    private void nuevaMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
         activaCampos();
         periodo = metodosGeneralesDao.codigoPeriodoActivo();
-    }//GEN-LAST:event_nuevaMatriculaBtnActionPerformed
+    }
 
-    private void buscarInscritoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarInscritoBtnActionPerformed
+    private void buscarInscritoBtnActionPerformed(java.awt.event.ActionEvent evt) {
         if (!cedulaBuscadaTxt.getText().trim().isEmpty()) {
             alumnoDao = new AlumnoDao();
             alumno = alumnoDao.buscarAlumno(cedulaBuscadaTxt.getText().trim());
@@ -465,9 +461,9 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Error campo busqueda vacio", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_buscarInscritoBtnActionPerformed
+    }
 
-    private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
+    private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {
         MateriaDao materiaDao = new MateriaDao();
         if (validaForm()) {
             if (semestre.getIdSemestre() == 1) {
@@ -480,7 +476,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
                 }
             } else {
-                String h = metodosGeneralesDao.codigoPeriodoBusacado(periodo.getIdPeriodo() - 1);
+                String h = metodosGeneralesDao.codigoPeriodoBusacado();
                 listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1);
                 listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
                 if (!listaMateriasArrastre.isEmpty()) {
@@ -513,7 +509,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_validarBtnActionPerformed
+    }
 
     private boolean validaForm() {
         boolean resultado = false;
@@ -528,25 +524,26 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         }
         return resultado;
     }
-    private void semestreCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_semestreCmbItemStateChanged
+
+    private void semestreCmbItemStateChanged(java.awt.event.ItemEvent evt) {
         try {
             Semestre seme = (Semestre) semestreCmb.getSelectedItem();
             this.semestre.setIdSemestre(seme.getIdSemestre());
         } catch (Exception e) {
         }
 
-    }//GEN-LAST:event_semestreCmbItemStateChanged
+    }
 
-    private void especialidadCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_especialidadCmbItemStateChanged
+    private void especialidadCmbItemStateChanged(java.awt.event.ItemEvent evt) {
         try {
             Especialidad espe = (Especialidad) especialidadCmb.getSelectedItem();
             this.especialidad.setIdEspecialidad(espe.getIdEspecialidad());
         } catch (Exception e) {
         }
 
-    }//GEN-LAST:event_especialidadCmbItemStateChanged
+    }
 
-    private void paraleloCmdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_paraleloCmdItemStateChanged
+    private void paraleloCmdItemStateChanged(java.awt.event.ItemEvent evt) {
 
         try {
             Paralelo para = (Paralelo) paraleloCmd.getSelectedItem();
@@ -554,9 +551,9 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
 
-    }//GEN-LAST:event_paraleloCmdItemStateChanged
+    }
 
-    private void matriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matriculaBtnActionPerformed
+    private void matriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
             crud = new Crud();
@@ -585,32 +582,38 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
-    }//GEN-LAST:event_matriculaBtnActionPerformed
+    }
 
-    private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarMatriculaBtnActionPerformed
+    private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
         cargarDatos();
-    }//GEN-LAST:event_buscarMatriculaBtnActionPerformed
+    }
+
     private Map cargarCamposMatricula() {
-        campos = new HashMap();
-        campos.put("id_alumno", alumno.getIdAlumno());
-        campos.put("cedula", alumno.getCedula());
-        campos.put("nombre_completo", nombresBuscadosTxt.getText());
-        if (valorMatricula == 0) {
-            campos.put("tipo_matricula", Estado.ORDINARIA.name());
-            campos.put("id_semestre", semestre.getIdSemestre());
-        } else if (valorMatricula == 1) {
-            campos.put("tipo_matricula", Estado.ARRASTRES.name());
-            campos.put("id_semestre", semestre.getIdSemestre() - 1);
-        } else if (valorMatricula == 2) {
-            campos.put("tipo_matricula", Estado.C_ARRASTRES.name());
-            campos.put("id_semestre", semestre.getIdSemestre());
+        try {
+            campos = new HashMap();
+            campos.put("id_alumno", alumno.getIdAlumno());
+            campos.put("cedula", alumno.getCedula());
+            campos.put("nombre_completo", nombresBuscadosTxt.getText());
+            if (valorMatricula == 0) {
+                campos.put("tipo_matricula", Estado.ORDINARIA.name());
+                campos.put("id_semestre", semestre.getIdSemestre());
+            } else if (valorMatricula == 1) {
+                campos.put("tipo_matricula", Estado.RELEGADA.name());
+                campos.put("id_semestre", semestre.getIdSemestre() - 1);
+            } else if (valorMatricula == 2) {
+                campos.put("tipo_matricula", Estado.C_ARRASTRES.name());
+                campos.put("id_semestre", semestre.getIdSemestre());
+            }
+
+            campos.put("fecha_creacion", cal.getTime());
+            campos.put("id_periodo", periodo.getIdPeriodo());
+            campos.put("id_especialidad", especialidad.getIdEspecialidad());
+            campos.put("id_paralelo", paralelo.getIdParelelo());
+            return campos;
+        } catch (Exception e) {
+            System.out.println(e);
         }
-
-        campos.put("fecha_creacion", cal.getTime());
-
-        campos.put("id_especialidad", especialidad.getIdEspecialidad());
-        campos.put("id_paralelo", paralelo.getIdParelelo());
-        return campos;
+        return null;
     }
 
     private List<Map> cargaListaMaterias() {
@@ -690,14 +693,14 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 mapMaterias.add(campos1);
             }
         }
-        double pnt =  numeroTeorica/numeroCreditos ;
+        double pnt = numeroTeorica / numeroCreditos;
         pnt = pnt * 100;
         double pnem = ncem / numeroCreditos;
         pnem = pnem * 100;
-        resumen.setPorcentajeNotaEmpresa((int)pnem);
-        resumen.setPorcentajeNotaTeorica((int)pnt);
-        resumen.setNumeroCreditosCiclo((int)numeroCreditos);
-        resumen.setNumeroCreditosTeorica((int)numeroTeorica);
+        resumen.setPorcentajeNotaEmpresa((int) pnem);
+        resumen.setPorcentajeNotaTeorica((int) pnt);
+        resumen.setNumeroCreditosCiclo((int) numeroCreditos);
+        resumen.setNumeroCreditosTeorica((int) numeroTeorica);
         return mapMaterias;
     }
 
@@ -712,7 +715,6 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         campos2.put("porc_nota_empresa", resumen.getPorcentajeNotaEmpresa());
         campos2.put("fecha_creacion", cal.getTime());
         campos2.put("fecha_modificacion", cal.getTime());
-        campos2.put("id_periodo", periodo.getIdPeriodo());
         campos2.put("id_semestre", semestre.getIdSemestre());
         campos2.put("id_especialidad", especialidad.getIdEspecialidad());
         if (valorMatricula == 0) {
@@ -720,7 +722,6 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         } else if (valorMatricula == 2) {
             campos2.put("id_malla", listaMaterias.get(0).getIdMalla());
         }
-        campos2.put("id_matricula", matricula.getIdMatricula());
         return campos2;
     }
 
@@ -779,7 +780,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
     }
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                                          
     private javax.swing.JButton buscarInscritoBtn;
     private javax.swing.JButton buscarMatriculaBtn;
     private javax.swing.JTextField cedulaBuscadaTxt;
@@ -801,5 +802,5 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox paraleloCmd;
     private javax.swing.JComboBox semestreCmb;
     private javax.swing.JButton validarBtn;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                                      
 }

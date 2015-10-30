@@ -125,6 +125,7 @@ public class FrmMateria extends javax.swing.JInternalFrame {
         buscarBtn = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("LISTADO DE MATERIAS");
 
         materiaTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

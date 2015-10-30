@@ -6,7 +6,7 @@ package modelo;
 public enum Estado {
     ORDINARIA,
     C_ARRASTRES,
-    ARRASTRES,
+    RELEGADA,
     NORMAL,//nota NORMAL
     ARRASTRE,//nota arrastre
     RP,//materia reprobaprobada

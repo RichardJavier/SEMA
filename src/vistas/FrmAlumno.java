@@ -129,6 +129,7 @@ public final class FrmAlumno extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("LISTADO DE ALUMNOS INSCRITOS");
 
         alumnoTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -1,11 +1,9 @@
-
 package modelo;
 
 import java.util.Date;
 
+public class Matricula extends Alumno {
 
-
-public class Matricula extends Alumno{
     private Integer idMatricula;
     private String tipoMatricula;
     private Date fechaCreacion;
@@ -15,14 +13,20 @@ public class Matricula extends Alumno{
     private String paralelo;
     private Integer idEspecialidad;
     private String especialidad;
+    private Integer idPeriodo;
 
     public Matricula() {
     }
 
-    public Matricula(String semestre, String especialidad,String tipoMatricula) {
+    public Matricula(String semestre, String especialidad) {
         this.semestre = semestre;
         this.especialidad = especialidad;
-        this.tipoMatricula=tipoMatricula;
+    }
+
+    public Matricula(String semestre, String especialidad, String tipoMatricula) {
+        this.semestre = semestre;
+        this.especialidad = especialidad;
+        this.tipoMatricula = tipoMatricula;
     }
 
     public Matricula(Integer idMatricula, String tipoMatricula, String semestre, String paralelo, String especialidad, String cedula, String nombreCompleto) {
@@ -106,5 +110,12 @@ public class Matricula extends Alumno{
         this.especialidad = especialidad;
     }
 
+    public Integer getIdPeriodo() {
+        return idPeriodo;
+    }
+
+    public void setIdPeriodo(Integer idPeriodo) {
+        this.idPeriodo = idPeriodo;
+    }
 
 }

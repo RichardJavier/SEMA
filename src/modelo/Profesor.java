@@ -16,8 +16,18 @@ public class Profesor {
   private String magisterio;
   private String tipoProfesor;
   private String funcion;
-
+  private String estado;
     public Profesor() {
+    }
+
+    public Profesor(Integer idProfesor, String cedula, String nombreProfesor, String apellidoProfesor, String titulo, String tipoProfesor, String funcion) {
+        this.idProfesor = idProfesor;
+        this.cedula = cedula;
+        this.nombreProfesor = nombreProfesor;
+        this.apellidoProfesor = apellidoProfesor;
+        this.titulo = titulo;
+        this.tipoProfesor = tipoProfesor;
+        this.funcion = funcion;
     }
 
     public Profesor(Integer idProfesor, String cedula, String nombreProfesor, String apellidoProfesor, Date fechaNacimiento, Date fechaIngreso, String titulo, String categoria, String magisterio, String tipoProfesor, String funcion) {
@@ -122,6 +132,14 @@ public class Profesor {
         this.funcion = funcion;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
     @Override
     public String toString() {
         return nombreProfesor + " " + apellidoProfesor ;

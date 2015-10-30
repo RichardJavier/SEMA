@@ -147,7 +147,8 @@ public class FormularioAlumno extends javax.swing.JDialog {
         paisEstudioTxt = new javax.swing.JTextField();
         ciudadColegioTxt = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO DE REGISTRO DE ALUMNO");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Personales"));
 

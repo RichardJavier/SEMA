@@ -23,7 +23,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import logica.ResumenDao;
 import modelo.Estado;
-import modelo.Malla;
+import modelo.Configuracion;
 import modelo.Resumen;
 
 public class FrmResumen extends javax.swing.JInternalFrame {
@@ -35,16 +35,18 @@ public class FrmResumen extends javax.swing.JInternalFrame {
     Resumen resumen;
     ResultSet resultSet, resultSet1;
     ResumenDao resumenDao;
-    Malla malla;
+    Configuracion malla;
 
     public FrmResumen() {
         initComponents();
         ocultaCampos();
         guardarBtn.setEnabled(false);
+        this.setLocation(110, 60);
+        
     }
 
     private void cargaDatos(final String cedula) {
-        String[] col = {"PK", "NOMBRES COMPLETOS", "TIPO MATRICULA", "APROBACION", "SEMESTRE", "ESPECIALIDAD"};
+        String[] col = {"PK", "NOMBRES COMPLETOS","APROBACION", "SEMESTRE", "ESPECIALIDAD"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -75,15 +77,10 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         resumenTabla.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(90);
         resumenTabla.getTableHeader().getColumnModel().getColumn(3).setMinWidth(90);
 
-        resumenTabla.getColumnModel().getColumn(4).setMaxWidth(80);
-        resumenTabla.getColumnModel().getColumn(4).setMinWidth(80);
-        resumenTabla.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(80);
-        resumenTabla.getTableHeader().getColumnModel().getColumn(4).setMinWidth(80);
-
-        resumenTabla.getColumnModel().getColumn(5).setMaxWidth(235);
-        resumenTabla.getColumnModel().getColumn(5).setMinWidth(235);
-        resumenTabla.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(235);
-        resumenTabla.getTableHeader().getColumnModel().getColumn(5).setMinWidth(235);
+        resumenTabla.getColumnModel().getColumn(4).setMaxWidth(235);
+        resumenTabla.getColumnModel().getColumn(4).setMinWidth(235);
+        resumenTabla.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(235);
+        resumenTabla.getTableHeader().getColumnModel().getColumn(4).setMinWidth(235);
 
         resumenTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
         new Thread(new Runnable() {
@@ -102,14 +99,12 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                     while (resultSet.next()) {
                         resumen.setIdResumen(Integer.parseInt(resultSet.getString("id_resumen")));
                         resumen.setNombreCompleto(resultSet.getString("nombre_completo"));
-                        resumen.setTipoMatricula(resultSet.getString("tipo_matricula"));
                         resumen.setAprobacion(resultSet.getString("aprobacion"));
                         resumen.setSemestre(resultSet.getString("semestre"));
                         resumen.setEspecialidad(resultSet.getString("especialidad"));
                         modelo.insertRow(i, new Object[]{
                             resumen.getIdResumen(),
                             resumen.getNombreCompleto(),
-                            resumen.getTipoMatricula(),
                             resumen.getAprobacion(),
                             resumen.getSemestre(),
                             resumen.getEspecialidad()
@@ -157,6 +152,9 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         validarBtn = new javax.swing.JButton();
         guardarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
+
+        setClosable(true);
+        setTitle("REGISTRO DE NOTA FINAL POR ALUMNO");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda de Alumno"));
 
@@ -259,6 +257,11 @@ public class FrmResumen extends javax.swing.JInternalFrame {
 
         cancelarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Delete.png"))); // NOI18N
         cancelarBtn.setText("Cancelar");
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -347,14 +350,14 @@ public class FrmResumen extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(55, 55, 55)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +369,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -383,7 +386,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
 
         try {
             resultSet1 = resumenDao.cargarValores(resumen.getIdResumen());
-            malla = new Malla();
+            malla = new Configuracion();
             while (resultSet1.next()) {
                 promedioPonderadoTxt.setText(resultSet1.getString("pro_ponderado_nota"));
                 tutoriaIntegradaTxt.setText(resultSet1.getString("nota_tutoria"));
@@ -397,6 +400,8 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                 malla.setValorNota(Double.valueOf(resultSet1.getString("valor_calf_nota")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultSet1.getString("valor_min_asistencia")));
                 malla.setPorcentajePonderacionNota(Integer.parseInt(resultSet1.getString("porc_ponderado_nota")));
+                resumen.setPorcentajeNotaTeorica(Integer.parseInt(resultSet1.getString("porc_nota_teorica")));
+                resumen.setPorcentajeNotaEmpresa(Integer.parseInt(resultSet1.getString("porc_nota_empresa")));
            }
             tutoriaIntegradaTxt.setEnabled(true);
             validarBtn.setEnabled(true);
@@ -442,8 +447,14 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         crud.actualizarM("resumen","id_resumen",resumen.getIdResumen(), campos);
         limpiaCampos();
         ocultaCampos();
+        cargaDatos(cedulaTxt.getText());
+        cedulaTxt.setText(null);
         
     }//GEN-LAST:event_guardarBtnActionPerformed
+
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
     private void calcularCampos() {
         if (!tutoriaIntegradaTxt.getText().trim().isEmpty()) {
             resumen.setNotaTutoria(new BigDecimal(tutoriaIntegradaTxt.getText()));

@@ -31,19 +31,18 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
     public FrmEspecialidad() {
         initComponents();
         especialidad = new Especialidad();
-        this.setLocation(310, 110);
+        this.setLocation(330, 110);
         cargarDatos();
     }
 
     private void cargarDatos() {
         String[] col = {"PK", "CODIGO", "ESPECIALIDAD"};
         String[][] data = {{"", "", ""}};
-        modelo = new DefaultTableModel(data, col){
-        @Override
-                public boolean isCellEditable(int row, int col)
-                {
-                    return false;
-                }
+        modelo = new DefaultTableModel(data, col) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
         };
         modelo.setRowCount(0);
         especialidadTabla.setModel(modelo);
@@ -91,6 +90,7 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
         ingresarBtn = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("LISTADO DE ESPECIALIDADES");
 
         especialidadTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,8 +143,8 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ingresarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarBtnActionPerformed
-   idEspecialidad=0;
-   mostrarFormularioEspecialdad();
+        idEspecialidad = 0;
+        mostrarFormularioEspecialdad();
     }//GEN-LAST:event_ingresarBtnActionPerformed
 
     private void especialidadTablaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_especialidadTablaMouseEntered
@@ -153,7 +153,7 @@ public class FrmEspecialidad extends javax.swing.JInternalFrame {
 
     private void especialidadTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_especialidadTablaMouseClicked
         Integer i = especialidadTabla.getSelectedRow();
-        idEspecialidad=(Integer)especialidadTabla.getValueAt(i,0);
+        idEspecialidad = (Integer) especialidadTabla.getValueAt(i, 0);
         mostrarFormularioEspecialdad();
     }//GEN-LAST:event_especialidadTablaMouseClicked
     public void mostrarFormularioEspecialdad() {

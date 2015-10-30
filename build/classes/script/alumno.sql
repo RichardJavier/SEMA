@@ -31,8 +31,9 @@ CREATE TABLE IF NOT EXISTS `sismodes_1`.`nota` (
   `id_matricula` INT(11) NOT NULL,
   `id_materia` DOUBLE NOT NULL,
   `id_config_materia` INT(11) NOT NULL,
-  `id_malla` INT(11) NOT NULL,
   `id_desc_materia` INT(11) NOT NULL,
+  `id1_periodo` DOUBLE NOT NULL,
+  `id_configuracion` INT(11) NOT NULL,
   PRIMARY KEY (`id_nota`),
     FOREIGN KEY (`id_alumno`)
     REFERENCES `sismodes_1`.`maestro_alumno` (`id_alumno`)
@@ -50,12 +51,16 @@ CREATE TABLE IF NOT EXISTS `sismodes_1`.`nota` (
     REFERENCES `sismodes_1`.`config_materia` (`id_config_materia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-    FOREIGN KEY (`id_malla`)
-    REFERENCES `sismodes_1`.`malla` (`id_malla`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
     FOREIGN KEY (`id_desc_materia`)
     REFERENCES `sismodes_1`.`desc_materia` (`id_desc_materia`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`id1_periodo`)
+    REFERENCES `sismodes_1`.`periodo_semestre` (`id1_periodo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`id_configuracion`)
+    REFERENCES `sismodes_1`.`configuracion` (`id_configuracion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = INNODB;

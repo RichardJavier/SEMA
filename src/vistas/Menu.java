@@ -7,14 +7,11 @@ package vistas;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import control.Proceso;
-import modelo.Matricula;
+
 
 /**
  *
@@ -25,12 +22,13 @@ public class Menu extends javax.swing.JFrame {
     Proceso p;
 
     public Menu() {
-        Login lg = new Login(Menu.this, true);
-        lg.setLocationRelativeTo(Menu.this);
-        lg.setVisible(true);
+//        Login lg = new Login(Menu.this, true);
+//        lg.setLocationRelativeTo(Menu.this);
+//        lg.setVisible(true);
 
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
+//        usuarioLbl.setText(Login.getUsuario().getNombre());
         cerrar();
         p = new Proceso();
 
@@ -71,36 +69,54 @@ public class Menu extends javax.swing.JFrame {
 
         jCheckBox1 = new javax.swing.JCheckBox();
         escritorio = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
+        usuarioLbl = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
+        gestionEscolarMenu = new javax.swing.JMenu();
         alumnoMenu = new javax.swing.JMenuItem();
-        cursoMenu = new javax.swing.JMenuItem();
-        especialidadMenu = new javax.swing.JMenuItem();
-        profesorMenu = new javax.swing.JMenuItem();
-        materiaMenu = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        matriculaItem = new javax.swing.JMenuItem();
+        actualizarItem = new javax.swing.JMenuItem();
+        catalogosMenu = new javax.swing.JMenu();
+        periodoMenuItem = new javax.swing.JMenuItem();
+        especialidadMenuItem = new javax.swing.JMenuItem();
+        profesorMenuItem = new javax.swing.JMenuItem();
+        materiaMenuItem = new javax.swing.JMenuItem();
+        mallaMenuItem = new javax.swing.JMenuItem();
+        ejeItem = new javax.swing.JMenuItem();
+        paraleloItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        notasMenu = new javax.swing.JMenu();
+        notasPeriodoActualMenuItem = new javax.swing.JMenuItem();
+        ingresoPromedioMenuItem = new javax.swing.JMenuItem();
+        reportesMenu = new javax.swing.JMenu();
+        notaFinalMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/recursos/Icono.png")).getImage());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Male.png"))); // NOI18N
+        jLabel1.setText("Usuario");
+        escritorio.add(jLabel1);
+        jLabel1.setBounds(10, 10, 80, 24);
+
+        usuarioLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        usuarioLbl.setForeground(new java.awt.Color(255, 255, 255));
+        escritorio.add(usuarioLbl);
+        usuarioLbl.setBounds(10, 40, 160, 20);
+
         menuBar.setMaximumSize(new java.awt.Dimension(235, 32769));
 
-        fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/process.png"))); // NOI18N
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("Gestion Escolar");
-        fileMenu.setBorderPainted(true);
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        gestionEscolarMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/process.png"))); // NOI18N
+        gestionEscolarMenu.setMnemonic('f');
+        gestionEscolarMenu.setText("Gestion Escolar");
+        gestionEscolarMenu.setBorderPainted(true);
+        gestionEscolarMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         alumnoMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alumnoMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/user_add.png"))); // NOI18N
@@ -111,128 +127,176 @@ public class Menu extends javax.swing.JFrame {
                 alumnoMenuActionPerformed(evt);
             }
         });
-        fileMenu.add(alumnoMenu);
+        gestionEscolarMenu.add(alumnoMenu);
 
-        cursoMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cursoMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Wallet.png"))); // NOI18N
-        cursoMenu.setMnemonic('s');
-        cursoMenu.setText("Periodo");
-        cursoMenu.addActionListener(new java.awt.event.ActionListener() {
+        matriculaItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        matriculaItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Help book.png"))); // NOI18N
+        matriculaItem.setText("Matricula");
+        matriculaItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cursoMenuActionPerformed(evt);
+                matriculaItemActionPerformed(evt);
             }
         });
-        fileMenu.add(cursoMenu);
+        gestionEscolarMenu.add(matriculaItem);
 
-        especialidadMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        especialidadMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
-        especialidadMenu.setText("Especialidad");
-        especialidadMenu.addActionListener(new java.awt.event.ActionListener() {
+        actualizarItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        actualizarItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Sync.png"))); // NOI18N
+        actualizarItem.setText("Actualizacion de Datos");
+        actualizarItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                especialidadMenuActionPerformed(evt);
+                actualizarItemActionPerformed(evt);
             }
         });
-        fileMenu.add(especialidadMenu);
+        gestionEscolarMenu.add(actualizarItem);
 
-        profesorMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        profesorMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/business_user_add.png"))); // NOI18N
-        profesorMenu.setMnemonic('a');
-        profesorMenu.setText("Docente");
-        profesorMenu.addActionListener(new java.awt.event.ActionListener() {
+        menuBar.add(gestionEscolarMenu);
+
+        catalogosMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Table.png"))); // NOI18N
+        catalogosMenu.setText("Catalogos");
+        catalogosMenu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        periodoMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        periodoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Wallet.png"))); // NOI18N
+        periodoMenuItem.setMnemonic('s');
+        periodoMenuItem.setText("Periodo");
+        periodoMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profesorMenuActionPerformed(evt);
+                periodoMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(profesorMenu);
+        catalogosMenu.add(periodoMenuItem);
 
-        materiaMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        materiaMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
-        materiaMenu.setText("Materia");
-        materiaMenu.addActionListener(new java.awt.event.ActionListener() {
+        especialidadMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        especialidadMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
+        especialidadMenuItem.setText("Especialidad");
+        especialidadMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                materiaMenuActionPerformed(evt);
+                especialidadMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(materiaMenu);
+        catalogosMenu.add(especialidadMenuItem);
 
-        jMenuItem1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/List.png"))); // NOI18N
-        jMenuItem1.setText("Malla");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        profesorMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        profesorMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/business_user_add.png"))); // NOI18N
+        profesorMenuItem.setMnemonic('a');
+        profesorMenuItem.setText("Docente");
+        profesorMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                profesorMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem1);
+        catalogosMenu.add(profesorMenuItem);
 
-        jMenuItem4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Help book.png"))); // NOI18N
-        jMenuItem4.setText("Matricula");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        materiaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        materiaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
+        materiaMenuItem.setText("Materia");
+        materiaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                materiaMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem4);
+        catalogosMenu.add(materiaMenuItem);
 
-        menuBar.add(fileMenu);
-
-        editMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
-        editMenu.setMnemonic('e');
-        editMenu.setText("Busqueda");
-        editMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        editMenu.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Alumno");
-        editMenu.add(cutMenuItem);
-
-        menuBar.add(editMenu);
-
-        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/notes.png"))); // NOI18N
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Notas");
-        helpMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Notas Periodo Actual");
-        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        mallaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        mallaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/List.png"))); // NOI18N
+        mallaMenuItem.setText("Configuracion");
+        mallaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contentMenuItemActionPerformed(evt);
+                mallaMenuItemActionPerformed(evt);
             }
         });
-        helpMenu.add(contentMenuItem);
+        catalogosMenu.add(mallaMenuItem);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("Ingreso Promedio");
-        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        ejeItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ejeItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Briefcase.png"))); // NOI18N
+        ejeItem.setText("Eje");
+        ejeItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutMenuItemActionPerformed(evt);
+                ejeItemActionPerformed(evt);
             }
         });
-        helpMenu.add(aboutMenuItem);
+        catalogosMenu.add(ejeItem);
 
-        jMenuItem2.setText("Ingreso de Notas");
+        paraleloItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        paraleloItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Door.png"))); // NOI18N
+        paraleloItem.setText("Paralelo");
+        paraleloItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paraleloItemActionPerformed(evt);
+            }
+        });
+        catalogosMenu.add(paraleloItem);
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/notes.png"))); // NOI18N
+        jMenuItem2.setText("Malla");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        helpMenu.add(jMenuItem2);
+        catalogosMenu.add(jMenuItem2);
 
-        menuBar.add(helpMenu);
+        menuBar.add(catalogosMenu);
 
-        jMenu1.setText("Reportes");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        notasMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/notes.png"))); // NOI18N
+        notasMenu.setMnemonic('h');
+        notasMenu.setText("Notas");
+        notasMenu.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jMenuItem3.setText("Nota Final");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        notasPeriodoActualMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        notasPeriodoActualMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Notes_1.png"))); // NOI18N
+        notasPeriodoActualMenuItem.setMnemonic('c');
+        notasPeriodoActualMenuItem.setText("Notas Periodo Actual");
+        notasPeriodoActualMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                notasPeriodoActualMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        notasMenu.add(notasPeriodoActualMenuItem);
+
+        ingresoPromedioMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ingresoPromedioMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Address book.png"))); // NOI18N
+        ingresoPromedioMenuItem.setMnemonic('a');
+        ingresoPromedioMenuItem.setText("Ingreso Promedio");
+        ingresoPromedioMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ingresoPromedioMenuItemActionPerformed(evt);
+            }
+        });
+        notasMenu.add(ingresoPromedioMenuItem);
+
+        menuBar.add(notasMenu);
+
+        reportesMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Report.png"))); // NOI18N
+        reportesMenu.setText("Reportes");
+        reportesMenu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        notaFinalMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        notaFinalMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/3d bar chart.png"))); // NOI18N
+        notaFinalMenuItem.setText("Nota Final");
+        notaFinalMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notaFinalMenuItemActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(notaFinalMenuItem);
+
+        menuBar.add(reportesMenu);
+
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Boss.png"))); // NOI18N
+        jMenu1.setText("Usuarios");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/User group.png"))); // NOI18N
+        jMenuItem1.setText("Administrar Usuarios");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         menuBar.add(jMenu1);
 
@@ -252,31 +316,31 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void profesorMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorMenuActionPerformed
-//        FrmProfesor pr = new FrmProfesor();
-//        escritorio.add(pr);
-//        pr.show();
+    private void profesorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorMenuItemActionPerformed
+        FrmProfesor pr = new FrmProfesor();
+        escritorio.add(pr);
+        pr.show();
 
 
-    }//GEN-LAST:event_profesorMenuActionPerformed
+    }//GEN-LAST:event_profesorMenuItemActionPerformed
 
-    private void especialidadMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_especialidadMenuActionPerformed
+    private void especialidadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_especialidadMenuItemActionPerformed
         FrmEspecialidad es = new FrmEspecialidad();
         escritorio.add(es);
         es.show();
-    }//GEN-LAST:event_especialidadMenuActionPerformed
+    }//GEN-LAST:event_especialidadMenuItemActionPerformed
 
-    private void cursoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursoMenuActionPerformed
+    private void periodoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_periodoMenuItemActionPerformed
         FrmPeriodo fp = new FrmPeriodo();
         escritorio.add(fp);
         fp.show();
-    }//GEN-LAST:event_cursoMenuActionPerformed
+    }//GEN-LAST:event_periodoMenuItemActionPerformed
 
-    private void materiaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materiaMenuActionPerformed
+    private void materiaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materiaMenuItemActionPerformed
         FrmMateria fm = new FrmMateria();
         escritorio.add(fm);
         fm.show();
-    }//GEN-LAST:event_materiaMenuActionPerformed
+    }//GEN-LAST:event_materiaMenuItemActionPerformed
 
     private void alumnoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoMenuActionPerformed
 
@@ -286,40 +350,73 @@ public class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_alumnoMenuActionPerformed
 
-    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+    private void notasPeriodoActualMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notasPeriodoActualMenuItemActionPerformed
         FrmNotas fn = new FrmNotas();
         escritorio.add(fn);
         fn.show();
 
-    }//GEN-LAST:event_contentMenuItemActionPerformed
+    }//GEN-LAST:event_notasPeriodoActualMenuItemActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        FrmMalla fm = new FrmMalla();
+    private void mallaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mallaMenuItemActionPerformed
+        FrmConfiguracion fm = new FrmConfiguracion();
         escritorio.add(fm);
         fm.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mallaMenuItemActionPerformed
 
-    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+    private void ingresoPromedioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresoPromedioMenuItemActionPerformed
         FrmResumen fr = new FrmResumen();
         escritorio.add(fr);
         fr.show();
-    }//GEN-LAST:event_aboutMenuItemActionPerformed
+    }//GEN-LAST:event_ingresoPromedioMenuItemActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void notaFinalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notaFinalMenuItemActionPerformed
+        ReporteAlumno alumno = new ReporteAlumno();
+        escritorio.add(alumno);
+        alumno.show();
 
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_notaFinalMenuItemActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-//        ReporteNotaFinal notaFinal  = new ReporteNotaFinal();
-//        escritorio.add(notaFinal);
-//        notaFinal.show();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        FrmMatricula ma = new FrmMatricula();
+    private void matriculaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matriculaItemActionPerformed
+        FrmMatricu ma = new FrmMatricu();
         escritorio.add(ma);
         ma.show();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_matriculaItemActionPerformed
+
+    private void ejeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejeItemActionPerformed
+      FrmEje eje=new FrmEje();
+      escritorio.add(eje);
+      eje.show();
+    }//GEN-LAST:event_ejeItemActionPerformed
+
+    private void paraleloItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paraleloItemActionPerformed
+        FrmParalelo fp =new FrmParalelo();
+        escritorio.add(fp);
+        fp.setVisible(true);
+    }//GEN-LAST:event_paraleloItemActionPerformed
+
+    private void actualizarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarItemActionPerformed
+        ActualizacionDatos ad = new ActualizacionDatos();
+        escritorio.add(ad);
+        ad.setVisible(true);
+    }//GEN-LAST:event_actualizarItemActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+//        ActualizacionDatos ad = new ActualizacionDatos();
+//        escritorio.add(ad);
+//        ad.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       FrmUsuario fu = new FrmUsuario();
+       escritorio.add(fu);
+       fu.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       FrmMalla fm = new FrmMalla();
+       escritorio.add(fm);
+       fm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -357,24 +454,30 @@ public class Menu extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JMenuItem actualizarItem;
     private javax.swing.JMenuItem alumnoMenu;
-    private javax.swing.JMenuItem contentMenuItem;
-    private javax.swing.JMenuItem cursoMenu;
-    private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenu catalogosMenu;
+    private javax.swing.JMenuItem ejeItem;
     public javax.swing.JDesktopPane escritorio;
-    private javax.swing.JMenuItem especialidadMenu;
-    private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem especialidadMenuItem;
+    private javax.swing.JMenu gestionEscolarMenu;
+    private javax.swing.JMenuItem ingresoPromedioMenuItem;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem materiaMenu;
+    private javax.swing.JMenuItem mallaMenuItem;
+    private javax.swing.JMenuItem materiaMenuItem;
+    private javax.swing.JMenuItem matriculaItem;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem profesorMenu;
+    private javax.swing.JMenuItem notaFinalMenuItem;
+    private javax.swing.JMenu notasMenu;
+    private javax.swing.JMenuItem notasPeriodoActualMenuItem;
+    private javax.swing.JMenuItem paraleloItem;
+    private javax.swing.JMenuItem periodoMenuItem;
+    private javax.swing.JMenuItem profesorMenuItem;
+    private javax.swing.JMenu reportesMenu;
+    private javax.swing.JLabel usuarioLbl;
     // End of variables declaration//GEN-END:variables
 }

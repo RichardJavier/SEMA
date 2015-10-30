@@ -80,7 +80,8 @@ public class FormularioEspecialidad extends javax.swing.JDialog {
         guardarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO DE REGISTRO ESPECIALIDAD");
 
         jLabel1.setText("Codifo Especialidad");
 

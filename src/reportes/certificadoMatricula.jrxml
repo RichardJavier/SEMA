@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificadoMatricula" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98afb04f-67d9-4eed-9c7d-c36c177a2515">
+	<property name="ireport.callouts" value="##Mon Oct 05 20:03:52 COT 2015"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="46"/>
+	<parameter name="cedula" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1717349409]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idSemestre" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idEspecialidad" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[3]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idMatricula" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM  matricula AS ma
+LEFT JOIN maestro_alumno AS a
+ON ma.id_alumno=a.id_alumno
+LEFT JOIN periodo_semestre AS p
+ON ma.id_periodo=p.id1_periodo
+LEFT JOIN semestre AS s
+ON ma.id_semestre=s.id1_semestre
+LEFT JOIN especialidad AS e
+ON ma.id_especialidad=e.id1_especialidad
+LEFT JOIN paralelo AS pa
+ON ma.id_paralelo=pa.id1_paralelo
+WHERE ma.cedula=$P{cedula}
+AND ma.id_semestre=$P{semestre}
+AND ma.id_especialidad=$P{idEspecialidad}
+AND ma.id_matricula=$P{idMatricula}]]>
+	</queryString>
+	<field name="id_matricula" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_alumno" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_completo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_matricula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_creacion" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_periodo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_semestre" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_especialidad" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_paralelo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido_paterno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido_materno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado_civil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pais_nacimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_nacimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciudad_nacimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciudad_domicilio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion_domicilio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono_fijo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email_alumno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email_alternativo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="discapacidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_conadis" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="etnia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_colegio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pais_estudio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciudad_colegio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="persona_contacto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="parentesco" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_fijo_familiar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_celular_familiar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email_familiar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id1_periodo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="matricula" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciclo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_fin" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nueva_malla" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id1_semestre" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id1_semestreid" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_especial" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="especialidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id1_especialidad" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="paralelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id1_paralelo" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="122" y="16" width="330" height="27" uuid="a05f7a63-ac18-470c-aeab-948baf980d53"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instituto Tecnologico "Benito Juarez"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="45" width="145" height="20" uuid="8abcec5e-efbf-4a62-9e60-f1c4ab5b3d2b"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ficha de Matricula]]></text>
+			</staticText>
+			<image>
+				<reportElement x="3" y="38" width="116" height="40" uuid="c06cf1e1-c557-411f-bdfa-d3963b7d8cd7"/>
+				<imageExpression><![CDATA["reportes\\senecyt.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="482" y="0" width="72" height="78" uuid="615937b1-af22-4c95-a40c-a3416c0ff891"/>
+				<imageExpression><![CDATA["reportes\\colegio.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="182" y="0" width="191" height="35" uuid="764a0389-bd7d-4fec-94d9-4b29ef267c11"/>
+				<textElement textAlignment="Center">
+					<font size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos Matricula]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="306" splitType="Stretch">
+			<staticText>
+				<reportElement x="163" y="13" width="93" height="20" uuid="bd8d785e-1aaf-41a2-8358-7f0f08712c8f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo Semestral:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="263" y="13" width="200" height="20" uuid="3c97536c-60ac-4f89-ac2e-b88dace553fc"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="164" y="36" width="76" height="20" uuid="26557e35-409b-4dfb-b5b5-a01e2111ee74"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula N.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="264" y="36" width="100" height="20" uuid="7ab5f074-8fb6-4461-936d-7644ddb44021"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_matricula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="62" y="95" width="148" height="25" uuid="b73cbfe4-dc9e-49a2-9386-162f2d58bc9e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[ Certifico que el (la)Sr(ta)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="62" y="128" width="221" height="20" uuid="6cefe585-b595-4cf8-a9e2-8ef78b9b103a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="282" y="128" width="68" height="20" uuid="d38355cc-a2ba-4a51-b687-fdc015199ce5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[con cedula ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="349" y="128" width="100" height="20" uuid="579340c3-1704-4083-962a-4f4e062dc705"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="62" y="148" width="405" height="20" uuid="cca67830-b9bf-423e-ae80-09fa61762cc9"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Previo al cumplimiento de los requisitos legales y reglamentarios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="168" width="100" height="20" uuid="8f966cf7-b6bf-41a7-9872-0cca9de7dd43"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[se matriculó en el ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="168" width="63" height="20" uuid="bdfe27e8-f71d-4485-a9f8-47bc4f392e5a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[semestre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="161" y="168" width="84" height="20" uuid="35f03a83-92e1-4983-8589-6767e9752d0d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="306" y="168" width="60" height="20" uuid="038606a0-2fd7-4878-bffb-d2df7ba3ed7b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[paralelo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="365" y="168" width="32" height="20" uuid="0941f68f-3ffc-4192-b249-9a8828714060"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paralelo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="62" y="187" width="100" height="20" uuid="9410e5b3-782e-45cc-a683-6a2ad3be7ea7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[del ciclo Superior]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="187" width="78" height="20" uuid="ac07eb61-4aad-4b1c-bcba-dd7405628afc"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Especialidad]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="187" width="222" height="20" uuid="db8b54b7-677a-4013-b0b5-3ec18e04e9c6"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especialidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="62" y="211" width="137" height="20" uuid="1bcdb3c0-8ed5-439e-b01a-8d2c36886e59"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Asi consta en el folio No ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="199" y="211" width="41" height="20" uuid="e8266992-aaa8-42f0-9337-75826ca3130f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_matricula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="239" y="211" width="155" height="20" uuid="61682923-728b-49cd-80fc-a9ae10113f8b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[del libro respectivo]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="149" splitType="Stretch">
+			<line>
+				<reportElement x="134" y="64" width="100" height="1" uuid="08ac3e33-019b-4fa8-9b71-91a7887a4027"/>
+			</line>
+			<line>
+				<reportElement x="314" y="63" width="100" height="1" uuid="2b1563ea-c3e2-47dd-990d-b809f786d838"/>
+			</line>
+			<staticText>
+				<reportElement x="165" y="65" width="43" height="20" uuid="467d6e85-cbc9-465b-b520-3da82f3835a0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Rector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="65" width="71" height="20" uuid="69bfdd16-3d40-4c60-afb9-3cbfae79e97d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Secretario(a)]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

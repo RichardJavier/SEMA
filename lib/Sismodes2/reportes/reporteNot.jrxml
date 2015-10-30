@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d7ddc94f-9d75-4b9e-adef-623b7b13f284">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="7"/>
+	<parameter name="cedula" class="java.lang.String"/>
+	<parameter name="nombres" class="java.lang.String"/>
+	<parameter name="especialidad" class="java.lang.String"/>
+	<field name="promedio" class="java.lang.String"/>
+	<field name="porNota" class="java.lang.String"/>
+	<field name="notaTuto" class="java.lang.String"/>
+	<field name="porTuto" class="java.lang.String"/>
+	<field name="notaFinal" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="asistencia" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="144" y="16" width="278" height="20" uuid="e476ff5a-989e-4abd-9581-0a034b401340"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instituto Tecnologico "Benito Juarez"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="59" width="148" height="20" uuid="254d1083-1871-485e-b1e0-6676a53022d3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Notas]]></text>
+			</staticText>
+			<image>
+				<reportElement x="5" y="36" width="116" height="40" uuid="742984a9-cbce-405a-b785-3889a6c0eeeb"/>
+				<imageExpression><![CDATA["reportes\\senecyt.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="468" y="3" width="72" height="76" uuid="61d732ba-86c6-4dae-8039-f09d9c79ce96"/>
+				<imageExpression><![CDATA["reportes\\colegio.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement x="82" y="21" width="48" height="20" uuid="b699e96d-3f1c-4df0-ae27-a6393ba954ad"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cedula:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="21" width="74" height="20" uuid="d9b236d7-16fc-43c9-90ba-56409e502edc"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especilalidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="57" width="62" height="20" uuid="23fa1c39-a8d8-4cf3-a7f4-d274df44ff8f"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombres:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="21" width="100" height="20" uuid="80721d17-dd8f-477f-80a5-0ba244e0ac58"/>
+				<textFieldExpression><![CDATA[$P{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="57" width="148" height="20" uuid="bd6468de-0fe3-4057-a137-fed7eaea6bd6"/>
+				<textFieldExpression><![CDATA[$P{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="21" width="173" height="20" uuid="840987e0-4bd6-455d-9eb6-8eb2c993de1a"/>
+				<textFieldExpression><![CDATA[$P{especialidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="0" width="128" height="20" uuid="0007a7b1-a995-49e7-a21a-27a04c116602"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Promedio Ponderado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="0" width="100" height="20" uuid="9417cc51-5ca6-402e-ae85-b210a7a762f2"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Porcentaje Nota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="0" width="77" height="20" uuid="70bcf396-8134-4f40-b13f-49437a061c3e"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota Tutoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="0" width="71" height="20" uuid="c04f6aae-6fbb-4327-aab6-74c404fd3028"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota Final]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="0" width="80" height="20" uuid="21e5f8e3-9e10-476b-b050-b84a4c14cdfc"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="0" width="83" height="20" uuid="20e0e70d-65a4-49a1-bb00-753cd579e7e2"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asistencia]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="16" y="0" width="128" height="20" uuid="ab6f4f3b-30db-415a-b2ed-052159301781"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="0" width="100" height="20" uuid="0bcc92de-8a30-4ec2-a525-c70026c7a332"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{porNota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="0" width="71" height="20" uuid="b411f86e-f5d1-4f60-afb5-5d98234d9cc7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{notaFinal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="472" y="0" width="83" height="20" uuid="eb5b8ecc-d652-47c6-8b71-21956d7ece21"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{asistencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="392" y="0" width="80" height="20" uuid="66938cda-2025-4a90-9139-1942faa9b6a1"/>
+				<textElement textAlignment="Center">
+					<font isUnderline="false"/>
+					<paragraph lineSpacing="Proportional" lineSpacingSize="5.0" tabStopWidth="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="0" width="77" height="20" uuid="62e3ac2a-3d19-4136-9257-f003c0b510e1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{notaTuto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="22" width="100" height="20" uuid="7ce80887-c2d2-4480-a25c-82f48405165d"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="22" width="100" height="20" uuid="4017b517-2be0-49f7-bfd3-974b778bdc27"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

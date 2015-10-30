@@ -120,8 +120,8 @@ public class FormularioPeriodo extends javax.swing.JDialog {
         guardarBtn = new javax.swing.JButton();
         CancelarBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO DE REGISTRO DE PERIODO");
 
         jLabel1.setText("Codigo Periodo");
 
@@ -304,7 +304,6 @@ public class FormularioPeriodo extends javax.swing.JDialog {
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
         Map campos = new HashMap();
-
         if (validaForm()) {
             try {
                 cambiar();
@@ -411,26 +410,20 @@ public class FormularioPeriodo extends javax.swing.JDialog {
     }
 
     private void cambiarNombre() {
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
 
-                        try {
-                            cc = Conexion.getInstance();
-                            cn = cc.Conectar();
-                            String sql1 = "ALTER TABLE `sismodes_1`.`nota` RENAME TO nota_" + codigoPeriodoTxt.getText() + "";
-                            Statement st = cn.createStatement();
-                            st.executeUpdate(sql1);
-                        } catch (SQLException e) {
-                            System.out.println("error al ejecutar el cambio de nombre" + e);
-                        }
-                    }
-                }
-        ).start();
+        try {
+            cc = Conexion.getInstance();
+            cn = cc.Conectar();
+            String sql1 = "ALTER TABLE `sismodes_1`.`nota` RENAME TO nota_" + codigoPeriodoTxt.getText() + "";
+            Statement st = cn.createStatement();
+            st.executeUpdate(sql1);
+        } catch (SQLException e) {
+            System.out.println("error al ejecutar el cambio de nombre" + e);
+            JOptionPane.showMessageDialog(null,"Error al ejecutar script de tabla","Error",JOptionPane.ERROR_MESSAGE);
 
+        }
+    
     }
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

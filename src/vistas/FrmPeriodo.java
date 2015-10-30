@@ -123,6 +123,8 @@ public class FrmPeriodo extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
+        setResizable(true);
+        setTitle("LISTADO DE PERIODOS");
 
         periodoTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
