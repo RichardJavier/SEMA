@@ -75,6 +75,7 @@ public final class Menu extends javax.swing.JFrame {
         escritorio = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         usuarioLbl = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         gestionEscolarMenu = new javax.swing.JMenu();
         alumnoMenu = new javax.swing.JMenuItem();
@@ -91,6 +92,7 @@ public final class Menu extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         notasMenu = new javax.swing.JMenu();
         notasPeriodoActualMenuItem = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         ingresoPromedioMenuItem = new javax.swing.JMenuItem();
         reportesMenu = new javax.swing.JMenu();
@@ -114,6 +116,8 @@ public final class Menu extends javax.swing.JFrame {
         usuarioLbl.setForeground(new java.awt.Color(255, 255, 255));
         escritorio.add(usuarioLbl);
         usuarioLbl.setBounds(10, 40, 160, 20);
+
+        jButton1.setText("jButton1");
 
         menuBar.setMaximumSize(new java.awt.Dimension(235, 32769));
 
@@ -252,13 +256,23 @@ public final class Menu extends javax.swing.JFrame {
         notasPeriodoActualMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         notasPeriodoActualMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Notes_1.png"))); // NOI18N
         notasPeriodoActualMenuItem.setMnemonic('c');
-        notasPeriodoActualMenuItem.setText("Notas Periodo Actual");
+        notasPeriodoActualMenuItem.setText("Notas Grupo Periodo Actual");
         notasPeriodoActualMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 notasPeriodoActualMenuItemActionPerformed(evt);
             }
         });
         notasMenu.add(notasPeriodoActualMenuItem);
+
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Notes_1.png"))); // NOI18N
+        jMenuItem4.setText("Notas Materia Periodo Actual");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        notasMenu.add(jMenuItem4);
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Notes_1.png"))); // NOI18N
@@ -439,6 +453,12 @@ public final class Menu extends javax.swing.JFrame {
         notas2.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        FrmNotasProfesor fnp = new FrmNotasProfesor();
+        escritorio.add(fnp);
+        fnp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -483,12 +503,14 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem especialidadMenuItem;
     private javax.swing.JMenu gestionEscolarMenu;
     private javax.swing.JMenuItem ingresoPromedioMenuItem;
+    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem mallaMenuItem;
     private javax.swing.JMenuItem materiaMenuItem;
     private javax.swing.JMenuItem matriculaItem;
