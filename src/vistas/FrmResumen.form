@@ -76,9 +76,9 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="buscarBtn" min="-2" max="-2" attributes="0"/>
-                      <Component id="cedulaTxt" min="-2" pref="143" max="-2" attributes="0"/>
+                      <Component id="filtroTxt" min="-2" pref="143" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="27" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -88,7 +88,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cedulaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filtroTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="buscarBtn" min="-2" max="-2" attributes="0"/>
@@ -99,10 +99,10 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cedula"/>
+            <Property name="text" type="java.lang.String" value="Nombres de Alumno"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="cedulaTxt">
+        <Component class="javax.swing.JTextField" name="filtroTxt">
         </Component>
         <Component class="javax.swing.JButton" name="buscarBtn">
           <Properties>

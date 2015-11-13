@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Materia;
 
-
 public class MateriaDao {
 
     ResultSet resultSet;
@@ -54,6 +53,8 @@ public class MateriaDao {
                     + "ON nm.id_config_materia = cm.id_config_materia "
                     + "INNER JOIN desc_materia dm "
                     + "ON nm.id_desc_materia = dm.id_desc_materia "
+                    + "INNER JOIN configuracion as c "
+                    + "ON  nm.id_configuracion=c.id_configuracion "
                     + "WHERE  nm.id1_nombre_materia " + "=" + "'" + idMateria + "'" + ";";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
@@ -104,10 +105,11 @@ public class MateriaDao {
                 Materia mat = new Materia();
                 mat.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
                 mat.setNombreMateria(resultSet.getString("materia"));
-                mat.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_config_materia")));
-                mat.setIdDescripcion(Integer.parseInt(resultSet.getString("id_desc_materia")));
-                mat.setIdMalla(Integer.parseInt(resultSet.getString("id_malla")));
-                mat.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
+                mat.setIdConfiguracionMateria(resultSet.getInt("id_config_materia"));
+                mat.setIdDescripcion(resultSet.getInt("id_desc_materia"));
+                mat.setIdMalla(resultSet.getInt("id_malla"));
+                mat.setCreditos(resultSet.getInt("creditos"));
+                mat.setIdConfiguracion(resultSet.getInt("id_configuracion"));
                 listaMaterias.add(mat);
             }
             return listaMaterias;
@@ -117,7 +119,7 @@ public class MateriaDao {
         return null;
     }
 
-    public List<Materia> listaMateriasArrastre(String antesPeriodo,int idEspecialidad, int idSemestreAntes) {
+    public List<Materia> listaMateriasArrastre(String antesPeriodo, int idEspecialidad, int idSemestreAntes) {
         List<Materia> listaMateriasArrastre = new ArrayList<>();
         try {
             Conexion cc = Conexion.getInstance();

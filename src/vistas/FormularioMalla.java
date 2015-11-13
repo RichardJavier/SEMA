@@ -43,7 +43,7 @@ public class FormularioMalla extends javax.swing.JDialog {
                     descripcionTxt.setText(resultSet.getString("descripcion"));
                 }
             } catch (Exception e) {
-                System.out.println("Error al cargar"+e.getMessage());
+                System.out.println("Error al cargar" + e.getMessage());
             }
 
         }
@@ -120,14 +120,15 @@ public class FormularioMalla extends javax.swing.JDialog {
                 Crud crud = new Crud();
                 Map campos = new HashMap();
                 Calendar cal = Calendar.getInstance();
-                campos.put("descripcion", descripcionTxt.getText().toUpperCase());
-                campos.put("fecha_creacion", cal.getTime());
-                campos.put("fecha_modificacion", cal.getTime());
+                campos.put("nombre_malla", descripcionTxt.getText().toUpperCase());
                 if (idMalla == 0) {
-                    crud.insertarM("malla", campos);
+                    campos.put("fecha_creacion", cal.getTime());
+                    campos.put("fecha_modificacion", cal.getTime());
+                    crud.insertarM("malla", campos,Login.getUsuario().getNombre());
                     this.dispose();
                 } else {
-                    crud.actualizarM("malla", "id_malla", idMalla, campos);
+                    campos.put("fecha_modificacion", cal.getTime());
+                    crud.actualizarM("malla", "id_malla", idMalla, campos,Login.getUsuario().getNombre());
                     this.dispose();
                 }
 

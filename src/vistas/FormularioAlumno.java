@@ -544,10 +544,10 @@ public class FormularioAlumno extends javax.swing.JDialog {
         crud = new Crud();
         cargarAlumno();
         if (idAlumno == 0) {
-            crud.insertarM("maestro_alumno", campos);
+            crud.insertarM("maestro_alumno", campos,Login.getUsuario().getNombre());
             this.dispose();
         } else {
-            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos);
+            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos,Login.getUsuario().getNombre());
             this.dispose();
         }
     }//GEN-LAST:event_guardarBtnActionPerformed

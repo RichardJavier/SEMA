@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import java.sql.Timestamp;
+
 
 /**
  *
@@ -13,8 +13,11 @@ import java.sql.Timestamp;
  */
 public class LoginAuditoria {
     private Integer idLoginAuditoria;
+    private String ip;
+    private String maquina;
     private String fechaLogin;
     private Boolean ingreso;
+    private String descripcion;
     private String aplicacion;
     private String usuario;
 
@@ -24,6 +27,22 @@ public class LoginAuditoria {
 
     public void setIdLoginAuditoria(Integer idLoginAuditoria) {
         this.idLoginAuditoria = idLoginAuditoria;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getMaquina() {
+        return maquina;
+    }
+
+    public void setMaquina(String maquina) {
+        this.maquina = maquina;
     }
 
     public String getFechaLogin() {
@@ -42,6 +61,14 @@ public class LoginAuditoria {
         this.ingreso = ingreso;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
     public String getAplicacion() {
         return aplicacion;
     }

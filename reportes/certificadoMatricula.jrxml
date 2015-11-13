@@ -29,7 +29,7 @@ ON ma.id_especialidad=e.id1_especialidad
 LEFT JOIN paralelo AS pa
 ON ma.id_paralelo=pa.id1_paralelo
 WHERE ma.cedula=$P{cedula}
-AND ma.id_semestre=$P{semestre}
+AND ma.id_semestre=$P{idSemestre}
 AND ma.id_especialidad=$P{idEspecialidad}
 AND ma.id_matricula=$P{idMatricula}]]>
 	</queryString>
@@ -181,39 +181,25 @@ AND ma.id_matricula=$P{idMatricula}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
-			<staticText>
-				<reportElement x="122" y="16" width="330" height="27" uuid="a05f7a63-ac18-470c-aeab-948baf980d53"/>
-				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Instituto Tecnologico "Benito Juarez"]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="217" y="45" width="145" height="20" uuid="8abcec5e-efbf-4a62-9e60-f1c4ab5b3d2b"/>
-				<textElement>
-					<font size="15" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Ficha de Matricula]]></text>
-			</staticText>
+		<band height="93" splitType="Stretch">
 			<image>
-				<reportElement x="3" y="38" width="116" height="40" uuid="c06cf1e1-c557-411f-bdfa-d3963b7d8cd7"/>
-				<imageExpression><![CDATA["reportes\\senecyt.jpg"]]></imageExpression>
+				<reportElement x="256" y="0" width="298" height="74" uuid="90d39bc1-61c1-484b-8269-e3ef9d472c46"/>
+				<imageExpression><![CDATA["reportes/ITSBJ 1.jpg"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="482" y="0" width="72" height="78" uuid="615937b1-af22-4c95-a40c-a3416c0ff891"/>
-				<imageExpression><![CDATA["reportes\\colegio.jpg"]]></imageExpression>
+				<reportElement x="-1" y="0" width="257" height="73" uuid="803ede85-86f4-4948-84e1-9323ba94d6e5"/>
+				<imageExpression><![CDATA["reportes/logo_senescyt.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="58" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<staticText>
-				<reportElement x="182" y="0" width="191" height="35" uuid="764a0389-bd7d-4fec-94d9-4b29ef267c11"/>
+				<reportElement x="147" y="0" width="267" height="35" uuid="764a0389-bd7d-4fec-94d9-4b29ef267c11"/>
 				<textElement textAlignment="Center">
 					<font size="17" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Datos Matricula]]></text>
+				<text><![CDATA[Certificado de  Matricula]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

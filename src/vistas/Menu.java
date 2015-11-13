@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import control.ImagenFondo;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -17,7 +18,7 @@ import control.Proceso;
  *
  * @author Ricardo
  */
-public class Menu extends javax.swing.JFrame {
+public final class Menu extends javax.swing.JFrame {
 
     Proceso p;
 
@@ -27,8 +28,9 @@ public class Menu extends javax.swing.JFrame {
 //        lg.setVisible(true);
 
         initComponents();
+        escritorio.setBorder(new ImagenFondo());
         this.setExtendedState(MAXIMIZED_BOTH);
-//        usuarioLbl.setText(Login.getUsuario().getNombre());
+        usuarioLbl.setText(Login.getUsuario().getNombre());
         cerrar();
         p = new Proceso();
 
@@ -38,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
+                @Override
                 public void windowClosing(WindowEvent e) {
                     confirmarSalida();
 
@@ -45,7 +48,7 @@ public class Menu extends javax.swing.JFrame {
             });
             this.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 //confirmar salida
@@ -53,8 +56,9 @@ public class Menu extends javax.swing.JFrame {
     public void confirmarSalida() {
         int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la ventana", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
+            Login.guardarLogin("MenuAdministrador",Login.getUsuario(),"CIERRE DE SESION",Boolean.TRUE);
             System.exit(0);
-
+            
         }
     }
 
@@ -87,6 +91,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         notasMenu = new javax.swing.JMenu();
         notasPeriodoActualMenuItem = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         ingresoPromedioMenuItem = new javax.swing.JMenuItem();
         reportesMenu = new javax.swing.JMenu();
         notaFinalMenuItem = new javax.swing.JMenuItem();
@@ -255,6 +260,16 @@ public class Menu extends javax.swing.JFrame {
         });
         notasMenu.add(notasPeriodoActualMenuItem);
 
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Notes_1.png"))); // NOI18N
+        jMenuItem3.setText("Notas Recalificacion");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        notasMenu.add(jMenuItem3);
+
         ingresoPromedioMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ingresoPromedioMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Address book.png"))); // NOI18N
         ingresoPromedioMenuItem.setMnemonic('a');
@@ -306,7 +321,7 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,6 +433,12 @@ public class Menu extends javax.swing.JFrame {
        fm.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        FrmNotas2 notas2 = new FrmNotas2();
+        escritorio.add(notas2);
+        notas2.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -467,6 +488,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem mallaMenuItem;
     private javax.swing.JMenuItem materiaMenuItem;
     private javax.swing.JMenuItem matriculaItem;

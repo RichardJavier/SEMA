@@ -15,7 +15,7 @@ import java.util.Objects;
 public class Malla {
 
     private Integer idMalla;
-    private String descripcion;
+    private String nombreMalla;
     private Date fechaCreacion;
     private Date fechaModificacion;
 
@@ -30,12 +30,12 @@ public class Malla {
         this.idMalla = idMalla;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombreMalla() {
+        return nombreMalla;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombreMalla(String nombreMalla) {
+        this.nombreMalla = nombreMalla;
     }
 
     public Date getFechaCreacion() {
@@ -56,14 +56,14 @@ public class Malla {
 
     @Override
     public String toString() {
-        return descripcion;
+        return nombreMalla;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + Objects.hashCode(this.idMalla);
-        hash = 59 * hash + Objects.hashCode(this.descripcion);
+        hash = 59 * hash + Objects.hashCode(this.nombreMalla);
         hash = 59 * hash + Objects.hashCode(this.fechaCreacion);
         hash = 59 * hash + Objects.hashCode(this.fechaModificacion);
         return hash;
@@ -81,7 +81,7 @@ public class Malla {
         if (!Objects.equals(this.idMalla, other.idMalla)) {
             return false;
         }
-        if (!Objects.equals(this.descripcion, other.descripcion)) {
+        if (!Objects.equals(this.nombreMalla, other.nombreMalla)) {
             return false;
         }
         if (!Objects.equals(this.fechaCreacion, other.fechaCreacion)) {

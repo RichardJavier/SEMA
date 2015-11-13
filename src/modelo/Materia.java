@@ -27,10 +27,11 @@ public class Materia extends DescripcionMateria {
     public Materia() {
     }
 
-    public Materia(String nombreMateria, String semestre, String especialidad) {
+    public Materia(String nombreMateria, String semestre, String especialidad,Integer idMateria) {
         this.semestre = semestre;
         this.nombreMateria = nombreMateria;
         this.especialidad = especialidad;
+        this.idMateria=idMateria;
     }
 
     public Materia(Integer idMateria, String nombreMateria, String especialidad, String semestre) {
@@ -184,18 +185,15 @@ public class Materia extends DescripcionMateria {
         this.tipoNota = tipoNota;
     }
 
-    
     @Override
     public String toString() {
-        return nombreMateria;
+        return nombreMateria ;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.idEspecialidad);
-        hash = 17 * hash + Objects.hashCode(this.idEje);
-        hash = 17 * hash + Objects.hashCode(this.idProfesor);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.idMateria);
         return hash;
     }
 
@@ -208,16 +206,10 @@ public class Materia extends DescripcionMateria {
             return false;
         }
         final Materia other = (Materia) obj;
-        if (!Objects.equals(this.idEspecialidad, other.idEspecialidad)) {
-            return false;
-        }
-        if (!Objects.equals(this.idEje, other.idEje)) {
-            return false;
-        }
-        if (!Objects.equals(this.idProfesor, other.idProfesor)) {
+        if (!Objects.equals(this.idMateria, other.idMateria)) {
             return false;
         }
         return true;
     }
-
+    
 }

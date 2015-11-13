@@ -5,6 +5,7 @@
  */
 package vistas;
 
+import control.ImagenFondo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
@@ -21,8 +22,10 @@ public final class MenuProfesor extends javax.swing.JFrame {
 //        Login lg = new Login(MenuProfesor.this,true);
 //        lg.setLocationRelativeTo(MenuProfesor.this);
 //        lg.setVisible(true);
-        this.setExtendedState(MAXIMIZED_BOTH);
+        
         initComponents();
+        escritorio.setBorder(new ImagenFondo());
+        this.setExtendedState(MAXIMIZED_BOTH);
         cerrar();
         usuarioLbl.setText(Login.getUsuario().getNombre());
        
@@ -47,6 +50,7 @@ public final class MenuProfesor extends javax.swing.JFrame {
     public void confirmarSalida() {
         int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la ventana", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
+            Login.guardarLogin("MenuProfesor",Login.getUsuario(),"CIERRE DE SESION",Boolean.TRUE);
             System.exit(0);
 
         }

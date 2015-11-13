@@ -90,7 +90,7 @@ public class CargarAlumnoWeb extends Thread {
                     for (Alumno listaAlumno : listaAlumnos) {
                     String alumnoBuscado = buscarAlumno(listaAlumno.getCedula());
                     if (alumnoBuscado == null) {
-                        cargarAlumno(listaAlumnos); 
+                        cargarAlumno(listaAlumnos,"ADMINISTRADOR"); 
                         cargarLog(descripcionIngreso,listaAlumno.getCedula(), formato1.format(fechaLog));
                    } else {
                         actulizarAlumno(listaAlumnos);
@@ -134,7 +134,7 @@ public class CargarAlumnoWeb extends Thread {
         return resultado;
     }
 
-    private void cargarAlumno(List<Alumno> listAlumno) {
+    private void cargarAlumno(List<Alumno> listAlumno,String usuario) {
         crud = new Crud();
         try {
             Map campos = new HashMap();
@@ -165,7 +165,7 @@ public class CargarAlumnoWeb extends Thread {
                 campos.put("numero_fijo_familiar", listAlumno1.getNumeroFijoFamiliar());
                 campos.put("numero_celular_familiar", listAlumno1.getNumeroCelularFamiliar());
                 campos.put("email_familiar", listAlumno1.getEmailFamiliar());
-                crud.insertar("maestro_alumno", campos);
+                crud.insertar("maestro_alumno", campos,"ADMINISRADOR");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al ingresar los datos del alumno  WEB ", "Error", JOptionPane.ERROR_MESSAGE);
@@ -220,7 +220,7 @@ public class CargarAlumnoWeb extends Thread {
             Map campoLog = new HashMap();
             campoLog.put("descripcion", descripcion.concat(cedula));
             campoLog.put("fecha_creacion", fechaLog);
-            crud.insertar("log", campoLog);
+            crud.insertar("log", campoLog,"ADMINISTRADOR");
         } catch (Exception e) {
             System.out.println("Error al guardar el log");
         }
@@ -231,7 +231,7 @@ public class CargarAlumnoWeb extends Thread {
             Map campoLog = new HashMap();
             campoLog.put("descripcion", descripcion);
             campoLog.put("fecha_creacion", fechaLog);
-            crud.insertar("log", campoLog);
+            crud.insertar("log", campoLog,"ADMINISTRADOR");
         } catch (Exception e) {
             System.out.println("Error al guardar el log");
         }

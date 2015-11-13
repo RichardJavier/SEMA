@@ -21,12 +21,12 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
     Conexion cc = Conexion.getInstance();
     Connection cn = cc.Conectar();
     private DefaultTableModel modelo;
-    private List<Configuracion> listaMalla;
+    private List<Configuracion> listaConfiguracion;
     ResultSet resultSet;
-    private Integer idMalla;
-    private Configuracion malla;
-    private ConfiguracionDao mallaDao;
-    private static FormularioConfiguracion formularioMalla;
+    private Integer idConfiguracion;
+    private Configuracion configuracion;
+    private ConfiguracionDao configuracionDao;
+    private static FormularioConfiguracion formularioConfiguracion;
 
     public FrmConfiguracion() {
         initComponents();
@@ -35,7 +35,7 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
     }
 
     private void cargarDatos() {
-        String[] culumnas = {"PK", "NOMBRE MALLA", "SEMESTRE"};
+        String[] culumnas = {"PK", "DESCRIPCION","ESTADO"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, culumnas){
         @Override
@@ -45,31 +45,33 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
                 }
         };
         modelo.setRowCount(0);
-        this.mallaTabla.setModel(modelo);
-        mallaTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
+        this.configuracionTabla.setModel(modelo);
+        configuracionTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
         this.mensajeLbl.setText("PROCESANDO....");
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                malla = new Configuracion();
+                configuracion = new Configuracion();
                 int i = 0;
-                if (listaMalla == null) {
-                    listaMalla = new ArrayList<>();
+                if (listaConfiguracion == null) {
+                    listaConfiguracion = new ArrayList<>();
                 } else {
-                    listaMalla.clear();
+                    listaConfiguracion.clear();
                 }
                 try {
-                    mallaDao = new ConfiguracionDao();
-                    resultSet = mallaDao.consultaOrdenada();
+                    configuracionDao = new ConfiguracionDao();
+                    resultSet = configuracionDao.consultaOrdenada();
                     while (resultSet.next()) {
-                        malla.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_configuracion")));
-                        malla.setNombreMalla(resultSet.getString("nombre_malla"));
-                        if (filtroTxt.equals("") || malla.getNombreMalla().contains(filtroTxt.getText())) {
-                            listaMalla.add(new Configuracion(malla.getIdConfiguracion(), malla.getNombreMalla()));
+                        configuracion.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_configuracion")));
+                        configuracion.setDescripcion(resultSet.getString("descripcion"));
+                        configuracion.setEstado(resultSet.getString("estado"));
+                        if (filtroTxt.equals("") || configuracion.getDescripcion().contains(filtroTxt.getText())) {
+                            listaConfiguracion.add(new Configuracion(configuracion.getIdConfiguracion(), configuracion.getDescripcion(),configuracion.getEstado()));
                             modelo.insertRow(i++, new Object[]{
-                                malla.getIdConfiguracion(),
-                                malla.getNombreMalla(),
+                                configuracion.getIdConfiguracion(),
+                                configuracion.getDescripcion(),
+                                configuracion.getEstado()
                             });
                         }
 
@@ -89,9 +91,9 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
     }
 
     public void mostrarDialog() throws SQLException, ParseException {
-        formularioMalla = new FormularioConfiguracion(FrmConfiguracion.this, true, idMalla);
-        formularioMalla.setLocationRelativeTo(FrmConfiguracion.this);
-        formularioMalla.setVisible(true);
+        formularioConfiguracion = new FormularioConfiguracion(FrmConfiguracion.this, true, idConfiguracion);
+        formularioConfiguracion.setLocationRelativeTo(FrmConfiguracion.this);
+        formularioConfiguracion.setVisible(true);
         cargarDatos();
     }
 
@@ -100,7 +102,7 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        mallaTabla = new javax.swing.JTable();
+        configuracionTabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         mensajeLbl = new javax.swing.JLabel();
         filtroTxt = new javax.swing.JTextField();
@@ -108,9 +110,9 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
-        setTitle("LISTADO DE MALLAS");
+        setTitle("LISTADO DE CONFIGURACION");
 
-        mallaTabla.setModel(new javax.swing.table.DefaultTableModel(
+        configuracionTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -118,12 +120,12 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
 
             }
         ));
-        mallaTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+        configuracionTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mallaTablaMouseClicked(evt);
+                configuracionTablaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(mallaTabla);
+        jScrollPane1.setViewportView(configuracionTabla);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Add.png"))); // NOI18N
         jButton1.setText("Ingresar");
@@ -198,22 +200,22 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            idMalla = 0;
+            idConfiguracion = 0;
             mostrarDialog();
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(FrmConfiguracion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void mallaTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mallaTablaMouseClicked
+    private void configuracionTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_configuracionTablaMouseClicked
         try {
-            Integer i = mallaTabla.getSelectedRow();
-            idMalla = (Integer) mallaTabla.getValueAt(i, 0);
+            Integer i = configuracionTabla.getSelectedRow();
+            idConfiguracion = (Integer) configuracionTabla.getValueAt(i, 0);
             mostrarDialog();
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(FrmConfiguracion.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_mallaTablaMouseClicked
+    }//GEN-LAST:event_configuracionTablaMouseClicked
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         cargarDatos();
@@ -229,11 +231,11 @@ public class FrmConfiguracion extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
+    private javax.swing.JTable configuracionTabla;
     private javax.swing.JTextField filtroTxt;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable mallaTabla;
     private javax.swing.JLabel mensajeLbl;
     // End of variables declaration//GEN-END:variables
 }

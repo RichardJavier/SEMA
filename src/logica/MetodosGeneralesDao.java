@@ -161,12 +161,30 @@ public class MetodosGeneralesDao {
         }
         return null;
     }
-     public synchronized ResultSet cargaMateria() {
+
+    public synchronized ResultSet cargaMateria() {
+        try {
+            cc = Conexion.getInstance();
+            cn = cc.Conectar();
+            String sql = "SELECT * FROM nombre_materia "
+                    + " where activa_mat='AC'";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
+            System.out.println("Error en la consulta" + e);
+        }
+
+        return null;
+    }
+
+    public ResultSet cargaConfiguracion() {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "SELECT * FROM nombre_materia "
-                    + " where activa_mat='AC' ORDER BY id1_nombre_materia DESC ";
+            String sql = "SELECT * FROM configuracion";
+                   
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Configuracion {
 
     private Integer idConfiguracion;
-    private String nombreMalla;
+    private String descripcion;
     private Integer porcentajePonderacionNota;
     private Integer porcentajeTutoriaIntegrada;
     private Double valorMinimoPromedio;
@@ -18,8 +18,6 @@ public class Configuracion {
     private String estado;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private Integer idPeriodo;
-
     public Configuracion() {
     }
 
@@ -27,9 +25,10 @@ public class Configuracion {
         this.idConfiguracion = idConfiguracion;
     }
     
-    public Configuracion(Integer idConfiguracion, String nombreMalla) {
+    public Configuracion(Integer idConfiguracion, String descripcion,String estado) {
         this.idConfiguracion = idConfiguracion;
-        this.nombreMalla = nombreMalla;
+        this.descripcion = descripcion;
+        this.estado=estado;
     }
 
     public Integer getIdConfiguracion() {
@@ -40,12 +39,12 @@ public class Configuracion {
         this.idConfiguracion = idConfiguracion;
     }
 
-    public String getNombreMalla() {
-        return nombreMalla;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombreMalla(String nombreMalla) {
-        this.nombreMalla = nombreMalla;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Integer getPorcentajePonderacionNota() {
@@ -128,24 +127,16 @@ public class Configuracion {
         this.fechaModificacion = fechaModificacion;
     }
 
-    public Integer getIdPeriodo() {
-        return idPeriodo;
-    }
-
-    public void setIdPeriodo(Integer idPeriodo) {
-        this.idPeriodo = idPeriodo;
-    }
-
     @Override
     public String toString() {
-        return nombreMalla ;
+        return descripcion ;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 53 * hash + Objects.hashCode(this.idConfiguracion);
-        hash = 53 * hash + Objects.hashCode(this.nombreMalla);
+        hash = 53 * hash + Objects.hashCode(this.descripcion);
         return hash;
     }
 
@@ -161,7 +152,7 @@ public class Configuracion {
         if (!Objects.equals(this.idConfiguracion, other.idConfiguracion)) {
             return false;
         }
-        if (!Objects.equals(this.nombreMalla, other.nombreMalla)) {
+        if (!Objects.equals(this.descripcion, other.descripcion)) {
             return false;
         }
         return true;

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -63,7 +62,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     List<Campo> lista;
     Campo campo;
     Map campos;
-    Configuracion malla;
+    Configuracion configuracion;
 
     public FrmNotas() {
         initComponents();
@@ -80,7 +79,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }
 
     private void cargarDatos(final String periodo, final Integer idSemestre) {
-        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD","PROMEDIO", "IDMATERIA"};
+        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD","PROMEDIO","PROMEDIO"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -110,10 +109,10 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         notasTabla.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(100);
         notasTabla.getTableHeader().getColumnModel().getColumn(4).setMinWidth(100);
 
-////        notasTabla.getColumnModel().getColumn(8).setMaxWidth(0);
-////        notasTabla.getColumnModel().getColumn(8).setMinWidth(0);
-////        notasTabla.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(0);
-////        notasTabla.getTableHeader().getColumnModel().getColumn(8).setMinWidth(0);
+        notasTabla.getColumnModel().getColumn(6).setMaxWidth(0);
+        notasTabla.getColumnModel().getColumn(6).setMinWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        notasTabla.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
         notasTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
 
         new Thread(new Runnable() {
@@ -138,13 +137,14 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         nota.setEspecialidad(resultSet.getString("especialidad"));
                         nota.setPromedio(new BigDecimal(resultSet.getString("promedio")));
                         nota.setIdMateria(Integer.parseInt(resultSet.getString("id_materia")));
-                        if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
+                                    if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
                             listaNotas.add(new Nota(nota.getIdNota(),
                                     nota.getCedula(),
                                     nota.getNombres(),
                                     nota.getNombreMateria(),
                                     nota.getSemestre(),
                                     nota.getEspecialidad(),
+                                    nota.getIdMateria(),
                                     nota.getPromedio()));
                             modelo.insertRow(i, new Object[]{
                                 nota.getIdNota(),
@@ -768,16 +768,16 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         try {
             materia = new Materia();
             configuracionMateria = new ConfiguracionMateria();
-            ConfiguracionDao mallaDao = new ConfiguracionDao();
+            ConfiguracionDao configuracionDao = new ConfiguracionDao();
             while (resultSet1.next()) {
                 configuracionMateria.setNumeroAportes(resultSet1.getString("num_aporte"));
                 materia.setIdMateria(Integer.parseInt(resultSet1.getString("id_materia")));
                 materia.setIdConfiguracionMateria(Integer.parseInt(resultSet1.getString("id_config_materia")));
                 materia.setIdDescripcionMateria(Integer.parseInt(resultSet1.getString("id_desc_materia")));
-                materia.setIdMalla(Integer.parseInt(resultSet1.getString("id_malla")));
                 materia.setIdEspecialidad(Integer.parseInt(resultSet1.getString("id1_especialidad")));
                 materia.setIdSemestre(Integer.valueOf(resultSet1.getString("id1_semestre")));
                 materia.setTipoNota(resultSet1.getString("tipo_nota"));
+                materia.setIdConfiguracion(resultSet1.getInt("id_configuracion"));
                 asistenciaTxt.setText(resultSet1.getString("asistencia"));
                 nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
                 nota.setPromedio(new BigDecimal(resultSet1.getString("promedio")));
@@ -789,7 +789,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 setDescripcion(resultSet1, configuracionMateria.getNumeroAportes());
                 setConfigMateria(resultSet1, configuracionMateria.getNumeroAportes());
             }
-            malla = mallaDao.getMalla(materia.getIdMalla());
+            configuracion = configuracionDao.getConfiguracion(materia.getIdConfiguracion());
         } catch (SQLException ex) {
             Logger.getLogger(FrmNotas.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
@@ -827,7 +827,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void activaRecuperacionCkbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activaRecuperacionCkbActionPerformed
-        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorRecuperacion())) > 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(configuracion.getValorRecuperacion())) > 0) {
             if (activaRecuperacionCkb.isSelected() == true) {
                 recuperacionTxt.setEnabled(true);
                 calcularBtn.setEnabled(true);
@@ -836,7 +836,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                 recuperacionTxt.setEnabled(false);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Estimado usuario, le informamos que el valor minimo para acceder a la recuperacion es:" + " " + malla.getValorRecuperacion(), "Informacion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Estimado usuario, le informamos que el valor minimo para acceder a la recuperacion es:" + " " + configuracion.getValorRecuperacion(), "Informacion", JOptionPane.WARNING_MESSAGE);
             recuperacionTxt.setEnabled(true);
             calcularBtn.setEnabled(true);
             guardarBtn.setEnabled(false);
@@ -869,16 +869,18 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             campos.put("asistencia", nota.getAsistencia());
-            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
+            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos,Login.getUsuario().getNombre());
             ResumenDao resumenDao = new ResumenDao();
             if (materia.getTipoNota().equals(Estado.NORMAL.name())) {
-                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre());
+                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(),nota.getIdNota(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(),Login.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
+                cargarDatos(periodo.getCodigoPeriodo(),semestre.getIdSemestre());
             } else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())) {
-                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria());
+                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria(),Login.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
+                cargarDatos(periodo.getCodigoPeriodo(),semestre.getIdSemestre());
 
             }
 
@@ -1019,12 +1021,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }
 
     private void revisaEstado() {
-        if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {
+        if (nota.getAsistencia() < configuracion.getValorMinimoAsistencia()) {
             nota.setEstadoAsistencia(Estado.RP.name());
         } else {
             nota.setEstadoAsistencia(Estado.AP.name());
         }
-        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) <= 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(configuracion.getValorMinimoPromedio())) <= 0) {
             nota.setEstadoNota(Estado.RP.name());
         } else {
             nota.setEstadoNota(Estado.AP.name());
@@ -1076,7 +1078,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             int y = 0;
             for (Double valor2 : valor) {
                 if (y < numeroCampos) {
-                    if (valor2 > malla.getValorNota()) {
+                    if (valor2 > configuracion.getValorNota()) {
                         JOptionPane.showMessageDialog(null, "Error valor de nota : " + des[y] + "no admitido por la configuracion ", "Error", JOptionPane.ERROR_MESSAGE);
                         resultado = false;
                         break;
@@ -1105,7 +1107,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                             if (recuperacionTxt.getText().trim().length() != 0) {
                                 promedio = promedio.subtract(new BigDecimal(temp));
                                 recu = Double.valueOf(recuperacionTxt.getText());
-                                if (recu <= malla.getValorNota()) {
+                                if (recu <= configuracion.getValorNota()) {
                                     recu = recu * por;
                                     promedio = promedio.add(new BigDecimal(recu));
                                     promedio = promedio.setScale(2, RoundingMode.HALF_UP);

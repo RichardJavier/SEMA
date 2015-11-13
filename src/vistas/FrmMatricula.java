@@ -558,14 +558,14 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
         try {
             crud = new Crud();
             cargarCamposMatricula();
-            crud.insertar("matricula", campos);
+            crud.insertar("matricula", campos,Login.getUsuario().getNombre());
             cargaListaMaterias();
             for (Map mapMateria : mapMaterias) {
-                crud.insertarMaterias("nota", periodo.getCodigoPeriodo(), mapMateria);
+                crud.insertarMaterias("nota", periodo.getCodigoPeriodo(), mapMateria,Login.getUsuario().getNombre());
             }
             if (valorMatricula == 0) {
                 cargaResumen();
-                crud.insertarM("resumen", campos2);
+                crud.insertarM("resumen", campos2,Login.getUsuario().getNombre());
                 limpiaCampos();
                 cargarDatos();
             } else if (valorMatricula == 1) {
@@ -574,7 +574,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 cargarDatos();
             } else if (valorMatricula == 2) {
                 cargaResumen();
-                crud.insertarM("resumen", campos2);
+                crud.insertarM("resumen", campos2,Login.getUsuario().getNombre());
                 limpiaCampos();
                 cargarDatos();
             }

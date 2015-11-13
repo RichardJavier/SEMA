@@ -315,14 +315,14 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 campos.put("fecha_fin", periodo1.getFechaFinalizacion());
                 campos.put("nueva_malla", periodo1.getMalla());
                 if (idPeriodo == 0) {
-                    crud.insertarM("periodo_semestre", campos);
+                    crud.insertarM("periodo_semestre", campos,Login.getUsuario().getNombre());
                     EjecutarScript jr = new EjecutarScript();
                     jr.crearTabla();
                     cambiarNombre();
                     this.dispose();
 
                 } else {
-                    crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos);
+                    crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos,Login.getUsuario().getNombre());
                     this.dispose();
                 }
 

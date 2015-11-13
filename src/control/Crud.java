@@ -2,18 +2,22 @@ package control;
 
 import conectar.Conexion;
 import java.awt.HeadlessException;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import modelo.LoginTransaccion;
 
 public class Crud {
-
-    public synchronized Integer insertar(String tabla, Map datos) {
+private static  final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public synchronized Integer insertar(String tabla, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -39,6 +43,7 @@ public class Crud {
                     + ")";
             System.out.println(sql);
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("insert", tabla, usuario, datos);
             cc.desconectar();
             return registrosAfectados;
 
@@ -49,7 +54,7 @@ public class Crud {
         return 0;
     }
 
-    public synchronized Integer insertarM(String tabla, Map datos) {
+    public synchronized Integer insertarM(String tabla, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -77,6 +82,7 @@ public class Crud {
 
             int registrosAfectados = st.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "Registros ingresados");
+            Crud.loginTransaccion("insert", tabla, usuario, datos);
             cc.desconectar();
             return registrosAfectados;
 
@@ -116,7 +122,7 @@ public class Crud {
         return 0;
     }
 
-    public synchronized Integer actualizarM(String tabla, String pkTabla, Integer pkDato, Map datos) {
+    public synchronized Integer actualizarM(String tabla, String pkTabla, Integer pkDato, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -137,6 +143,7 @@ public class Crud {
             System.out.println(sql);
             Statement st = cn.createStatement();
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("insert", tabla, usuario, datos);
             JOptionPane.showMessageDialog(null, "Registros actualizados Correctamente");
             cc.desconectar();
             return registrosAfectados;
@@ -147,7 +154,7 @@ public class Crud {
         return 0;
     }
 
-    public synchronized Integer actualizar(String tabla, String pkTabla, Integer pkDato, Map datos) {
+    public synchronized Integer actualizar(String tabla, String pkTabla, Integer pkDato, Map datos,String usuario) {
         try {
              Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -168,6 +175,7 @@ public class Crud {
             
             Statement st = cn.createStatement();
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("insert", tabla, usuario, datos);
             cc.desconectar();
             return registrosAfectados;
 
@@ -177,7 +185,7 @@ public class Crud {
         }
    return 0;
     }
-    public synchronized Integer insertarMaterias(String tabla, String codigo, Map datos) {
+    public synchronized Integer insertarMaterias(String tabla, String codigo, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -204,6 +212,7 @@ public class Crud {
                     + ")";
            System.out.println("este es el sql " + sql);
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("insert", tabla, usuario, datos);
            // System.out.println("Registros afectados alumno:" + registrosAfectados + "registros");
             cc.desconectar();
             return registrosAfectados;
@@ -214,5 +223,65 @@ public class Crud {
         }
         return 0;
     }
+    private static Integer insertarLog(String tabla, Map datos) {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            Statement st = cn.createStatement();
+            String sql;
+            StringBuilder campos = new StringBuilder();
+            StringBuilder valores = new StringBuilder();
 
+            for (Iterator it = datos.keySet().iterator(); it.hasNext();) {
+                String llave = (String) it.next();
+                campos.append(llave).append(",");
+                if (datos.get(llave) instanceof Date) {
+                    valores.append("'").append(new SimpleDateFormat("yyyy-MM-dd").format((Date) datos.get(llave))).append("',");
+                } else {
+                    valores.append("'").append(datos.get(llave).toString()).append("',");
+                }
+
+            }
+            sql = "insert into " + tabla + "("
+                    + campos.toString().substring(0, campos.toString().length() - 1)
+                    + ")values ("
+                    + valores.toString().substring(0, valores.toString().length() - 1)
+                    + ")";
+            System.out.println(sql);
+            int registrosAfectados = st.executeUpdate(sql);
+            cc.desconectar();
+            return registrosAfectados;
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error,Verifique la informacion que este correcta" + ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
+        }
+        return 0;
+    }
+
+  public static void loginTransaccion(String accion,String tabla,String usuario,Map registro){
+      try {
+          Calendar cal = Calendar.getInstance();
+          LoginTransaccion loginTransaccion = new LoginTransaccion();
+          InetAddress localHost=InetAddress.getLocalHost();
+          loginTransaccion.setIp(localHost.getHostAddress());
+          loginTransaccion.setMaquina(localHost.getHostName());
+          loginTransaccion.setAccion(accion);
+          loginTransaccion.setFecha(formato.format(cal.getTime()));
+          loginTransaccion.setRegistro(String.valueOf(registro));
+          loginTransaccion.setTabla(tabla);
+          loginTransaccion.setUsuario(usuario);
+          Map campos = new HashMap();
+          campos.put("ip",loginTransaccion.getIp());
+          campos.put("maquina",loginTransaccion.getMaquina());
+          campos.put("accion",loginTransaccion.getAccion());
+          campos.put("tabla",loginTransaccion.getTabla());
+          campos.put("usuario",loginTransaccion.getUsuario());
+          campos.put("fecha",loginTransaccion.getFecha());
+          campos.put("registro",loginTransaccion.getRegistro());
+          Crud.insertarLog("log_transaccion", campos);
+      } catch (Exception e) {
+          System.out.println(e);
+      }
+  }
 }

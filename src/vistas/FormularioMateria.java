@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
 import logica.DescripcionMateriaDao;
-import logica.ConfiguracionDao;
 import logica.MateriaDao;
 import logica.MetodosGeneralesDao;
 import modelo.Campo;
@@ -27,6 +26,7 @@ import modelo.Eje;
 import modelo.Especialidad;
 import modelo.Estado;
 import modelo.Configuracion;
+import modelo.Malla;
 import modelo.Materia;
 import modelo.Profesor;
 import modelo.Semestre;
@@ -42,12 +42,13 @@ public class FormularioMateria extends javax.swing.JDialog {
     ResultSet resultSet;
     Crud crud;
     Map campos, campos1, campos2;
-    Configuracion malla;
+    Configuracion configuracion;
     Especialidad especialidad;
     Semestre semestre;
     Eje eje;
     Materia materia;
     Profesor profesor;
+    Malla malla;
     MetodosGeneralesDao metodosGeneralesDao;
     private static final int valor = 100;
     private String respuesta;
@@ -68,13 +69,13 @@ public class FormularioMateria extends javax.swing.JDialog {
         cargarSemestre();
         cargarEje();
         cargarConfiguracion();
+        cargaMalla();
         this.guardarBtn.setEnabled(false);
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
-        malla = new Configuracion();
-        semestreCmb.setEnabled(false);
-        especialidadCmb.setEnabled(false);
+        configuracion = new Configuracion();
+        malla = new Malla();
         materia = new Materia();
         profesor = new Profesor();
         descripcionMateria = new DescripcionMateria();
@@ -93,15 +94,15 @@ public class FormularioMateria extends javax.swing.JDialog {
         cargarEje();
         cargarConfiguracion();
         cargaProfesor();
+        cargaMalla();
         this.guardarBtn.setEnabled(false);
         this.validarBtn.setEnabled(false);
         this.calcularBtn.setEnabled(false);
         semestre = new Semestre();
         especialidad = new Especialidad();
         eje = new Eje();
-        malla = new Configuracion();
-        semestreCmb.setEnabled(false);
-        especialidadCmb.setEnabled(false);
+        configuracion = new Configuracion();
+        malla = new Malla();
         materia = new Materia();
         profesor = new Profesor();
         descripcionMateria = new DescripcionMateria();
@@ -116,15 +117,18 @@ public class FormularioMateria extends javax.swing.JDialog {
                     estado = resultSet.getString("activa_mat");
                     if (estado.equals(Estado.AC.name())) {
                         activadaRdb.setSelected(true);
+                        
                     } else {
                         desactivadaRdb.setSelected(true);
                     }
+                    materia.setEstado(estado);
                     materia.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
                     materia.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("f_crea")));
                     materia.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
-                    malla.setIdConfiguracion(Integer.valueOf(resultSet.getString("id_malla")));
-                    malla.setNombreMalla(resultSet.getString("nombre_malla"));
-                    mallaCmb.setSelectedItem(malla);
+                    
+                    configuracion.setIdConfiguracion(Integer.valueOf(resultSet.getString("id_configuracion")));
+                    configuracion.setDescripcion(resultSet.getString("descripcion"));
+                    configuracionCmb.setSelectedItem(configuracion);
 
                     semestre.setIdSemestre(Integer.parseInt(resultSet.getString("id1_semestre")));
                     semestre.setSemestre(resultSet.getString("semestre"));
@@ -142,6 +146,10 @@ public class FormularioMateria extends javax.swing.JDialog {
                     profesor.setNombreProfesor(resultSet.getString("nom_profe"));
                     profesor.setApellidoProfesor(resultSet.getString("apell_profe"));
                     profesoCmb.setSelectedItem(profesor);
+
+                    malla.setIdMalla(resultSet.getInt("id_malla"));
+                    malla.setNombreMalla(resultSet.getString("nombre_malla"));
+                    mallaCmb.setSelectedItem(malla);
 
                     horasTxt.setText(resultSet.getString("numhora"));
                     numeroCamposTxt.setText(resultSet.getString("num_aporte"));
@@ -231,10 +239,12 @@ public class FormularioMateria extends javax.swing.JDialog {
         guardarBtn = new javax.swing.JButton();
         validarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
-        mallaCmb = new javax.swing.JComboBox();
+        configuracionCmb = new javax.swing.JComboBox();
         calcularBtn = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         profesoCmb = new javax.swing.JComboBox();
+        mallaCmb = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FORMULARIO DE REGISTRO DE MATERIA");
@@ -785,10 +795,10 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
         });
 
-        mallaCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
-        mallaCmb.addItemListener(new java.awt.event.ItemListener() {
+        configuracionCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+        configuracionCmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                mallaCmbItemStateChanged(evt);
+                configuracionCmbItemStateChanged(evt);
             }
         });
 
@@ -808,6 +818,15 @@ public class FormularioMateria extends javax.swing.JDialog {
                 profesoCmbItemStateChanged(evt);
             }
         });
+
+        mallaCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+        mallaCmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                mallaCmbItemStateChanged(evt);
+            }
+        });
+
+        jLabel9.setText("Malla");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -834,15 +853,18 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel10))
+                            .addComponent(jLabel10)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel9)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(semestreCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ejeCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(mallaCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(profesoCmb, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(configuracionCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profesoCmb, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mallaCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -862,7 +884,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -877,35 +899,44 @@ public class FormularioMateria extends javax.swing.JDialog {
                             .addComponent(horasTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(mallaCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mallaCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(configuracionCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(ejeCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(especialidadCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(5, 5, 5))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(validarBtn)
-                        .addComponent(guardarBtn)
-                        .addComponent(cancelarBtn)
-                        .addComponent(calcularBtn))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(validarBtn)
+                                .addComponent(guardarBtn)
+                                .addComponent(cancelarBtn)
+                                .addComponent(calcularBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(ejeCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profesoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -1113,9 +1144,9 @@ public class FormularioMateria extends javax.swing.JDialog {
             configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
             campos.put("num_aporte", configuracionMateria.getNumeroAportes());
             if (idMateria == 0) {
-                crud.insertar("config_materia", campos);
+                crud.insertar("config_materia", campos,Login.getUsuario().getNombre());
             } else {
-                crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos);
+                crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos,Login.getUsuario().getNombre());
             }
 
             //inicia carga de datos para tabla descripcion materia
@@ -1139,23 +1170,24 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
             campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
             if (idMateria == 0) {
-                crud.insertar("desc_materia", campos1);
+                crud.insertar("desc_materia", campos1,Login.getUsuario().getNombre());
             } else {
-                crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1);
+                crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1,Login.getUsuario().getNombre());
             }
 
             //inicia carga de datos para tabla materia
             cargaDatos();
             if (idMateria == 0) {
-                crud.insertarM("nombre_materia", campos2);
+                crud.insertarM("nombre_materia", campos2,Login.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2);
+                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2,Login.getUsuario().getNombre());
                 this.dispose();
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar la informacion", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
         }
 
 
@@ -1167,13 +1199,14 @@ public class FormularioMateria extends javax.swing.JDialog {
             materia.setNombreMateria(nombreMateriaTxt.getText().toUpperCase());
             materia.setCreditos(Integer.parseInt(creditosTxt.getText()));
             materia.setNumeroHoras(Integer.parseInt(horasTxt.getText()));
-            materia.setIdMalla(malla.getIdConfiguracion());
+            materia.setIdMalla(malla.getIdMalla());
+            materia.setIdConfiguracion(configuracion.getIdConfiguracion());
             materia.setIdSemestre(semestre.getIdSemestre());
             materia.setIdEspecialidad(especialidad.getIdEspecialidad());
             materia.setIdProfesor(profesor.getIdProfesor());
             materia.setIdEje(eje.getIdEje());
             materia.setIdDescripcion(descripcionMateria.getIdDescripcionMateria());
-            materia.setIdConfiguracion(configuracionMateria.getIdConfiguracionMateria());
+            materia.setIdConfiguracionMateria(configuracionMateria.getIdConfiguracionMateria());
             if (idMateria == 0) {
                 materia.setFechaCreacion(cal.getTime());
                 DescripcionMateriaDao dao = new DescripcionMateriaDao();
@@ -1201,7 +1234,8 @@ public class FormularioMateria extends javax.swing.JDialog {
             campos2.put("id1_profe", profesor.getIdProfesor());
             campos2.put("alias", " ");
             campos2.put("materia_antes", materia.getNombreMateria());
-            campos2.put("id_malla", malla.getIdConfiguracion());
+            campos2.put("id_malla", malla.getIdMalla());
+            campos2.put("id_configuracion", configuracion.getIdConfiguracion());
             campos2.put("id_config_materia", configuracionMateria.getIdConfiguracionMateria());
             campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
             return campos2;
@@ -1212,31 +1246,34 @@ public class FormularioMateria extends javax.swing.JDialog {
         }
 
     }
-    private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
-        if (idMateria == 0) {
-            try {
-                ConfiguracionDao mallaDao = new ConfiguracionDao();
-                Configuracion mall = (Configuracion) mallaCmb.getSelectedItem();
-                this.malla.setIdConfiguracion(mall.getIdConfiguracion());
-                this.malla.setNombreMalla(mall.getNombreMalla());
-                resultSet = mallaDao.consulta(malla.getIdConfiguracion());
-                while (resultSet.next()) {
-                    especialidad.setEspecialidad(resultSet.getString("especialidad"));
-                    especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
-                    especialidadCmb.setSelectedItem(especialidad);
-                    semestre.setIdSemestre(Integer.valueOf(resultSet.getString("id1_semestre")));
-                    semestre.setSemestre(resultSet.getString("semestre"));
-                    semestreCmb.setSelectedItem(semestre);
-                }
-            } catch (SQLException | NumberFormatException e) {
-            }
+    private void configuracionCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_configuracionCmbItemStateChanged
+//        if (idMateria == 0) {
+//            try {
+//                ConfiguracionDao configDao = new ConfiguracionDao();
+//                Configuracion config = (Configuracion) configuracionCmb.getSelectedItem();
+//                this.configuracion.setIdConfiguracion(config.getIdConfiguracion());
+//                this.configuracion.setDescripcion(config.getDescripcion());
+//                resultSet = configDao.consulta(config.getIdConfiguracion());
+//                while (resultSet.next()) {
+//                    especialidad.setEspecialidad(resultSet.getString("especialidad"));
+//                    especialidad.setIdEspecialidad(Integer.parseInt(resultSet.getString("id1_especialidad")));
+//                    especialidadCmb.setSelectedItem(especialidad);
+//                    semestre.setIdSemestre(Integer.valueOf(resultSet.getString("id1_semestre")));
+//                    semestre.setSemestre(resultSet.getString("semestre"));
+//                    semestreCmb.setSelectedItem(semestre);
+//                }
+//            } catch (SQLException | NumberFormatException e) {
+//            }
+//
+//        } else {
+//            Configuracion config = (Configuracion) configuracionCmb.getSelectedItem();
+//            config.setIdConfiguracion(config.getIdConfiguracion());
+//
+//        }
+        Configuracion config = (Configuracion) configuracionCmb.getSelectedItem();
+        configuracion.setIdConfiguracion(config.getIdConfiguracion());
 
-        } else {
-            Configuracion mall = (Configuracion) mallaCmb.getSelectedItem();
-            malla.setIdConfiguracion(mall.getIdConfiguracion());
-
-        }
-    }//GEN-LAST:event_mallaCmbItemStateChanged
+    }//GEN-LAST:event_configuracionCmbItemStateChanged
     private ConfiguracionMateria cargaConfigMateria(int numCampos) {
         switch (numCampos) {
             case 1:
@@ -1663,6 +1700,11 @@ public class FormularioMateria extends javax.swing.JDialog {
     private void nombreMateriaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreMateriaTxtKeyTyped
         validaLetras(evt);
     }//GEN-LAST:event_nombreMateriaTxtKeyTyped
+
+    private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
+        Malla m =(Malla)mallaCmb.getSelectedItem();
+        malla.setIdMalla(m.getIdMalla());
+    }//GEN-LAST:event_mallaCmbItemStateChanged
     private void validaNumero(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
@@ -1778,7 +1820,7 @@ public class FormularioMateria extends javax.swing.JDialog {
         horasTxt.setEnabled(false);
         activadaRdb.setEnabled(false);
         desactivadaRdb.setEnabled(false);
-        mallaCmb.setEnabled(false);
+        configuracionCmb.setEnabled(false);
         ejeCmb.setEnabled(false);
         profesoCmb.setEnabled(false);
     }
@@ -1797,11 +1839,13 @@ public class FormularioMateria extends javax.swing.JDialog {
             resultado = false;
         } else if (estadoMallaGroup.isSelected(null)) {
             resultado = false;
-        } else if (mallaCmb.getSelectedIndex() == 0) {
+        } else if (configuracionCmb.getSelectedIndex() == 0) {
             resultado = false;
         } else if (ejeCmb.getSelectedIndex() == 0) {
             resultado = false;
         } else if (profesoCmb.getSelectedIndex() == 0) {
+            resultado = false;
+        } else if (mallaCmb.getSelectedIndex() == 0) {
             resultado = false;
         }
 
@@ -1810,15 +1854,15 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private void cargarConfiguracion() {
         try {
-            resultSet = metodosGeneralesDao.cargaComboMalla();
+            resultSet = metodosGeneralesDao.cargaConfiguracion();
             while (resultSet.next()) {
                 Configuracion co = new Configuracion();
                 co.setIdConfiguracion(Integer.parseInt(resultSet.getString("id_configuracion")));
-                co.setNombreMalla(resultSet.getString("nombre_malla"));
-
-                mallaCmb.addItem(co);
+                co.setDescripcion(resultSet.getString("descripcion"));
+                configuracionCmb.addItem(co);
             }
         } catch (SQLException | NumberFormatException e) {
+            System.out.println(e);
         }
     }
 
@@ -1879,6 +1923,20 @@ public class FormularioMateria extends javax.swing.JDialog {
         } catch (SQLException | NumberFormatException e) {
         }
 
+    }
+
+    private void cargaMalla() {
+        try {
+            resultSet = metodosGeneralesDao.cargaComboMalla();
+            while (resultSet.next()) {
+                Malla m = new Malla();
+                m.setIdMalla(resultSet.getInt("id_malla"));
+                m.setNombreMalla(resultSet.getString("nombre_malla"));
+                mallaCmb.addItem(m);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String args[]) {
@@ -1944,6 +2002,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JButton calcularBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JButton cargarBtn;
+    private javax.swing.JComboBox configuracionCmb;
     private javax.swing.JTextField creditosTxt;
     private javax.swing.JLabel desLbl1;
     private javax.swing.JLabel desLbl10;
@@ -1970,6 +2029,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

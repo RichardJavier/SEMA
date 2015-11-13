@@ -59,11 +59,11 @@ public class FrmMalla extends javax.swing.JInternalFrame {
                     resultSet = mallaDao.listaMalla();
                     while (resultSet.next()) {
                         malla.setIdMalla(resultSet.getInt("id_malla"));
-                        malla.setDescripcion(resultSet.getString("descripcion"));
+                        malla.setNombreMalla(resultSet.getString("nombre_malla"));
                         malla.setFechaCreacion(resultSet.getDate("fecha_creacion"));
                         modelo.insertRow(i, new Object[]{
                             malla.getIdMalla(),
-                            malla.getDescripcion(),
+                            malla.getNombreMalla(),
                             malla.getFechaCreacion()
                         });
                     }

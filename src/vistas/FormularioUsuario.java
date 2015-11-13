@@ -235,10 +235,10 @@ public class FormularioUsuario extends javax.swing.JDialog {
             campos.put("estado", usuario.getEstado());
             Crud crud = new Crud();
             if (idUsuario == 0) {
-                crud.insertarM("usuario", campos);
+                crud.insertarM("usuario", campos,Login.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("usuario", "idusuario", idUsuario, campos);
+                crud.actualizarM("usuario", "idusuario", idUsuario, campos,Login.getUsuario().getNombre());
                 this.dispose();
             }
         } else {

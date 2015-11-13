@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaMatricula" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd917976-f39b-421a-880b-b66dc82e7d41">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="283"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="autoridades" uuid="22556e1f-54b0-4bdc-b919-88ed47bf8d08">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql2"/>
+		<queryString>
+			<![CDATA[select * from autoridades]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="cargo" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="cargo">
+			<groupExpression><![CDATA[$F{cargo}]]></groupExpression>
+		</group>
+	</subDataset>
 	<parameter name="cedula" class="java.lang.String">
 		<defaultValueExpression><![CDATA[1717349409]]></defaultValueExpression>
 	</parameter>
@@ -180,30 +217,7 @@ AND ma.id_matricula=$P{idMatricula}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="99" splitType="Stretch">
-			<staticText>
-				<reportElement x="121" y="12" width="330" height="27" uuid="d9c57f4e-c51f-4c72-a95d-ecf02d83420c"/>
-				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Instituto Tecnologico "Benito Juarez"]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="215" y="48" width="145" height="20" uuid="b6c4aa63-2c27-4e28-9a13-9c3fdde3f852"/>
-				<textElement>
-					<font size="15" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Ficha de Matricula]]></text>
-			</staticText>
-			<image>
-				<reportElement x="4" y="41" width="131" height="39" uuid="2481ebc2-4f96-440e-9f6c-e13ee6db1b89"/>
-				<imageExpression><![CDATA["reportes\\senecyt.jpg"]]></imageExpression>
-			</image>
-			<image>
-				<reportElement x="481" y="0" width="74" height="80" uuid="b75bebec-ef55-4861-a8d4-1e29e1713ed9"/>
-				<imageExpression><![CDATA["reportes\\colegio.jpg"]]></imageExpression>
-			</image>
-		</band>
+		<band height="90" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="30">
@@ -449,27 +463,31 @@ AND ma.id_matricula=$P{idMatricula}]]>
 		</band>
 	</detail>
 	<summary>
-		<band height="122" splitType="Stretch">
-			<line>
-				<reportElement x="147" y="54" width="100" height="1" uuid="02b59bfd-1fec-459b-b905-bd9b3507a8c4"/>
-			</line>
-			<line>
-				<reportElement x="342" y="54" width="100" height="1" uuid="ac48ccd3-2746-425b-93e8-ca9be372b9ed"/>
-			</line>
-			<staticText>
-				<reportElement x="178" y="55" width="42" height="20" uuid="00d20101-dd91-47f8-a0b5-ff10fff88258"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Rector]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="362" y="55" width="74" height="20" uuid="9cf37846-e40f-4bd7-9800-2a4c693c2209"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Secretario(a)]]></text>
-			</staticText>
+		<band height="96" splitType="Stretch">
+			<componentElement>
+				<reportElement x="179" y="20" width="200" height="47" uuid="6c6d17f9-2cdf-416e-a1bb-b1e84c975c80"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="autoridades" uuid="842eb049-09ed-406f-b87e-9f5856fcb0f1">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="100" uuid="1b14acfa-0eae-4df6-81c8-2774d08771b3">
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="30" uuid="4044a4da-fee8-4fd9-948e-9336175f8d62"/>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="1deda878-a296-4e4e-85ec-0c598376eb1f">
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="30" uuid="ab6ebb59-9439-4ec6-8f44-78ad75ee5765"/>
+								<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</summary>
 </jasperReport>

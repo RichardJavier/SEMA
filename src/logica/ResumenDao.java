@@ -1,6 +1,7 @@
 package logica;
 
 import conectar.Conexion;
+import control.Crud;
 import java.awt.HeadlessException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -28,16 +29,17 @@ public class ResumenDao {
 
     List<Promedio> listaPromedio;
 
-    public ResultSet cargarResumen(String cedula) {
+    public ResultSet cargarResumen() {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "select * from resumen as r "
-                    + "left join semestre as s "
-                    + "on r.id_semestre=s.id1_semestre "
-                    + "left join especialidad as e  "
-                    + "on r.id_especialidad = e.id1_especialidad "
-                    + "where r.cedula" + "=" + "'" + cedula + "'";
+            String sql = "SELECT * FROM resumen AS r "
+                    + "LEFT JOIN semestre AS s "
+                    + "ON r.id_semestre=s.id1_semestre "
+                    + "LEFT JOIN especialidad AS e "
+                    + "ON r.id_especialidad=e.id1_especialidad "
+                    + "ORDER BY id_resumen ASC";
+
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
@@ -53,8 +55,8 @@ public class ResumenDao {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             String sql = "select * from resumen as r "
-                    + "inner join malla as m "
-                    + "on r.id_malla=m.id_malla "
+                    + "inner join configuracion as c "
+                    + "on r.id_configuracion=c.id_configuracion "
                     + "where id_resumen" + "=" + "'" + idResumen + "'";
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
@@ -66,7 +68,7 @@ public class ResumenDao {
         return null;
     }
 
-    public synchronized Integer actualizarResumen(String cedula, int idSemestre, int idEspecialidad, Map datos) {
+    public synchronized Integer actualizarResumen(String cedula, int idSemestre, int idEspecialidad, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -87,6 +89,7 @@ public class ResumenDao {
                     + " and id_semestre " + "=" + "'" + idSemestre + "'" + " and id_especialidad " + "=" + "'" + idEspecialidad + "'" + ";";
             Statement st = cn.createStatement();
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("actualiza","resumen", usuario, datos);
             cc.desconectar();
             return registrosAfectados;
         } catch (SQLException | HeadlessException e) {
@@ -173,22 +176,22 @@ public class ResumenDao {
     }
 
     @SuppressWarnings({"BoxedValueEquality", "NumberEquality"})
-    public void calculaResumenArrastre(String cedula, String codigo, Integer idMalla, Integer idEspecialidad, Integer idSemestre, Integer idMateria) {
+    public void calculaResumenArrastre(String cedula, String codigo, Integer idConfiguracion, Integer idEspecialidad, Integer idSemestre, Integer idMateria,String usuario) {
         try {
-            ConfiguracionDao mallaDao = new ConfiguracionDao();
-            Configuracion malla = mallaDao.getMalla(idMalla);
+            ConfiguracionDao configuracionDao = new ConfiguracionDao();
+            Configuracion configuracion = configuracionDao.getConfiguracion(idConfiguracion);
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             //buscar materia antes para calculo
             PeriodoDao periodoDao = new PeriodoDao();
-            Periodo p = periodoDao.codigoPeriodo(malla.getIdPeriodo(), cn);
-            String sql = "SELECT * FROM nota_" + p.getCodigoPeriodo() + " AS n "
+
+            String sql = "SELECT * FROM nota_" + 23 + " AS n "
                     + " LEFT JOIN nombre_materia AS m "
                     + " ON n.id_materia=m.id1_nombre_materia "
-                    + " LEFT JOIN malla AS ma  "
-                    + " ON n.id_malla=ma.id_malla "
+                    + " LEFT JOIN configuracion AS c  "
+                    + " ON n.id_configuracion=ma.id_configuracion "
                     + " WHERE cedula" + "=" + "'" + cedula + "'" + " "
-                    + " AND n.id_malla" + "=" + "'" + idMalla + "'" + " "
+                    + " AND n.id_configuracion" + "=" + "'" + idConfiguracion + "'" + " "
                     + " AND ma.id1_semestre" + "=" + "'" + idSemestre + "'" + ""
                     + " AND ma.id1_especialidad" + "=" + "'" + idEspecialidad + "'" + ""
                     + "ORDER BY id_nota ASC";
@@ -212,10 +215,10 @@ public class ResumenDao {
                 materia.setNombreMateria(rs.getString("materia"));
                 materia.setCreditos(Integer.valueOf(rs.getString("creditos")));
 
-                malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
-                malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
-                malla.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
-                malla.setPorcentajeTutoriaIntegrada(Integer.parseInt(rs.getString("porc_integrada")));
+                configuracion.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
+                configuracion.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
+                configuracion.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
+                configuracion.setPorcentajeTutoriaIntegrada(Integer.parseInt(rs.getString("porc_integrada")));
 
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
@@ -246,13 +249,13 @@ public class ResumenDao {
             // System.out.println(resumen.getAsistencia());
             //variables de calculo
             BigDecimal nt, pnt, pne, ti;
-            ti = new BigDecimal(malla.getPorcentajeTutoriaIntegrada()).divide(new BigDecimal(100));
+            ti = new BigDecimal(configuracion.getPorcentajeTutoriaIntegrada()).divide(new BigDecimal(100));
             ti = ti.multiply(resumen.getNotaTutoria());
             ti = ti.setScale(2, RoundingMode.HALF_UP);
             //promedio ponderada de nota calculado ya 
             // System.out.println(resumen.getPromedioPonderadoNota());
             //calculo nota total teorica       
-            nt = new BigDecimal(malla.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
+            nt = new BigDecimal(configuracion.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
             nt = nt.multiply(resumen.getPromedioPonderadoNota());
             nt = nt.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaTotalTeorica(nt.add(ti));
@@ -271,7 +274,7 @@ public class ResumenDao {
             //nota final de calculada
             resumen.setNotaFinal(pnt.add(pne).setScale(1, RoundingMode.UP));
             // System.out.println(resumen.getNotaFinal());
-            if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() >= malla.getValorMinimoAsistencia()) {
+            if (resumen.getNotaFinal().compareTo(new BigDecimal(configuracion.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() >= configuracion.getValorMinimoAsistencia()) {
                 resumen.setAprobacion(Estado.APRUEBA.name());
             } else {
                 resumen.setAprobacion(Estado.PIERDE.name());
@@ -284,16 +287,16 @@ public class ResumenDao {
             campos.put("asistencia", resumen.getAsistencia());
             campos.put("nota_final", resumen.getNotaFinal());
             campos.put("aprobacion", resumen.getAprobacion());
-            actualizarResumen(cedula, idSemestre, idEspecialidad, campos);
+            actualizarResumen(cedula, idSemestre, idEspecialidad, campos,usuario);
         } catch (SQLException | NumberFormatException e) {
             System.out.println(e);
         }
     }
 
-    public void calculaResumenNormal(String cedula, String codigo, Integer idMalla, Integer idEspecialidad, Integer idSemestre) {
+    public void calculaResumenNormal(String cedula, String codigo, Integer idNota, Integer idConfiguracion, Integer idEspecialidad, Integer idSemestre,String usuario) {
         try {
-            ConfiguracionDao mallaDao = new ConfiguracionDao();
-            Configuracion malla = mallaDao.getMalla(idMalla);
+            ConfiguracionDao configuracionDao = new ConfiguracionDao();
+            Configuracion configuracion = configuracionDao.getConfiguracion(idConfiguracion);
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
 //            PeriodoDao periodoDao = new PeriodoDao();
@@ -301,12 +304,14 @@ public class ResumenDao {
             String sql = "SELECT * FROM nota_" + codigo + " AS n "
                     + " LEFT JOIN nombre_materia AS m "
                     + " ON n.id_materia=m.id1_nombre_materia "
-                    + " LEFT JOIN malla AS ma  "
-                    + " ON n.id_malla=ma.id_malla "
-                    + " WHERE cedula" + "=" + "'" + cedula + "'" + " "
-                    + " AND n.id_malla" + "=" + "'" + idMalla + "'" + " "
-                    + " AND ma.id1_semestre" + "=" + "'" + idSemestre + "'" + ""
-                    + " AND ma.id1_especialidad" + "=" + "'" + idEspecialidad + "'" + ""
+                    + " LEFT JOIN matricula AS ma  "
+                    + " ON n.id_matricula=ma.id_matricula "
+                    + " LEFT JOIN configuracion AS c  "
+                    + " ON n.id_configuracion=c.id_configuracion "
+                    + " WHERE n.cedula" + "=" + "'" + cedula + "'" + " "
+                    + " AND n.id_configuracion" + "=" + "'" + idConfiguracion + "'" + " "
+                    + " AND ma.id_semestre" + "=" + "'" + idSemestre + "'" + ""
+                    + " AND ma.id_especialidad" + "=" + "'" + idEspecialidad + "'" + ""
                     + "ORDER BY id_nota ASC";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -327,10 +332,10 @@ public class ResumenDao {
                 materia.setNombreMateria(rs.getString("materia"));
                 materia.setCreditos(Integer.valueOf(rs.getString("creditos")));
 
-                malla.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_ponderado_nota")));
-                malla.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
-                malla.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
-                malla.setPorcentajeTutoriaIntegrada(Integer.parseInt(rs.getString("porc_integrada")));
+                configuracion.setPorcentajePonderacionNota(Integer.parseInt(rs.getString("porc_pon_nota")));
+                configuracion.setValorMinimoPromedio(Double.valueOf(rs.getString("valor_min_promedio")));
+                configuracion.setValorMinimoAsistencia(Integer.parseInt(rs.getString("valor_min_asistencia")));
+                configuracion.setPorcentajeTutoriaIntegrada(Integer.parseInt(rs.getString("porc_integrada")));
 
                 porTemp = (double) ((materia.getCreditos() * 100) / (double) resumen.getNumeroCreditosTeorica());
                 promedio.setPorcentaje(new BigDecimal(porTemp).setScale(0, RoundingMode.HALF_UP));
@@ -360,13 +365,13 @@ public class ResumenDao {
             // System.out.println(resumen.getAsistencia());
             //variables de calculo
             BigDecimal nt, pnt, pne, ti;
-            ti = new BigDecimal(malla.getPorcentajeTutoriaIntegrada()).divide(new BigDecimal(100));
+            ti = new BigDecimal(configuracion.getPorcentajeTutoriaIntegrada()).divide(new BigDecimal(100));
             ti = ti.multiply(resumen.getNotaTutoria());
             ti = ti.setScale(2, RoundingMode.HALF_UP);
             //promedio ponderada de nota calculado ya 
             // System.out.println(resumen.getPromedioPonderadoNota());
             //calculo nota total teorica       
-            nt = new BigDecimal(malla.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
+            nt = new BigDecimal(configuracion.getPorcentajePonderacionNota()).divide(new BigDecimal(100));
             nt = nt.multiply(resumen.getPromedioPonderadoNota());
             nt = nt.setScale(2, RoundingMode.HALF_UP);
             resumen.setNotaTotalTeorica(nt.add(ti));
@@ -385,7 +390,7 @@ public class ResumenDao {
             //nota final de calculada
             resumen.setNotaFinal(pnt.add(pne));
             // System.out.println(resumen.getNotaFinal());
-            if (resumen.getNotaFinal().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() >= malla.getValorMinimoAsistencia()) {
+            if (resumen.getNotaFinal().compareTo(new BigDecimal(configuracion.getValorMinimoPromedio())) >= 0 && resumen.getAsistencia() >= configuracion.getValorMinimoAsistencia()) {
                 resumen.setAprobacion(Estado.APRUEBA.name());
             } else {
                 resumen.setAprobacion(Estado.PIERDE.name());
@@ -398,9 +403,10 @@ public class ResumenDao {
             campos.put("aprobacion", resumen.getAprobacion());
             campos.put("nota_final", resumen.getNotaFinal());
 
-            actualizarResumen(cedula, idSemestre, idEspecialidad, campos);
+            actualizarResumen(cedula, idSemestre, idEspecialidad, campos,usuario);
         } catch (SQLException | NumberFormatException e) {
             System.out.println(e);
+            JOptionPane.showMessageDialog(null,"Error al calcular nota final","Error",JOptionPane.ERROR_MESSAGE);
         }
     }
 

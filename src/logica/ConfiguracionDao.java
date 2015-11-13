@@ -14,9 +14,8 @@ public class ConfiguracionDao {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "SELECT * FROM malla AS m "
-                    + "LEFT JOIN periodo_semestre AS ps "
-                    + "ON m.`id1_periodo`=ps.`id1_periodo` ORDER BY id_malla ASC ";
+            String sql = "SELECT * FROM configuracion";
+                         
 
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
@@ -29,14 +28,12 @@ public class ConfiguracionDao {
         return null;
     }
 
-    public synchronized ResultSet consulta(Integer idMalla) {
+    public synchronized ResultSet consulta(Integer idConfiguracion) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "SELECT * FROM malla AS m "
-                    + "LEFT JOIN periodo_semestre AS ps "
-                    + "ON m.`id1_periodo`=ps.`id1_periodo` "
-                    + "where id_malla " + "=" + "'" + idMalla + "'";
+            String sql = "SELECT * FROM configuracion AS c "
+                    + "where id_configuracion " + "=" + "'" + idConfiguracion + "'";
 
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
@@ -49,23 +46,22 @@ public class ConfiguracionDao {
         return null;
     }
 
-    public Configuracion getMalla(int idMalla) {
+    public Configuracion getConfiguracion(int idConfiguracion) {
         Configuracion malla = new Configuracion();
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
-            String sql = "SELECT * FROM malla "
-                    + "where id_malla " + "=" + "'" + idMalla + "'";
+            String sql = "SELECT * FROM configuracion "
+                    + "where id_configuracion " + "=" + "'" + idConfiguracion + "'";
 
             Statement st = cn.createStatement();
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
-                malla.setIdConfiguracion(Integer.valueOf(resultado.getString("id_malla")));
+                malla.setIdConfiguracion(Integer.valueOf(resultado.getString("id_configuracion")));
                 malla.setValorMinimoAsistencia(Integer.parseInt(resultado.getString("valor_min_asistencia")));
                 malla.setValorMinimoPromedio(Double.valueOf((resultado.getString("valor_min_promedio"))));
                 malla.setValorNota(Double.valueOf((resultado.getString("valor_calf_nota"))));
                 malla.setValorRecuperacion(Double.valueOf(resultado.getString("valor_min_recuperacion")));
-                malla.setIdPeriodo(Integer.parseInt(resultado.getString("id1_periodo")));
             }
             return malla;
         } catch (SQLException e) {

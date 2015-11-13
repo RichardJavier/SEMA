@@ -1,6 +1,7 @@
 package logica;
 
 import conectar.Conexion;
+import control.Crud;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -68,6 +69,8 @@ public class NotaDao {
                     + "ON nota.id_config_materia = config.id_config_materia "
                     + "LEFT JOIN desc_materia AS dm "
                     + "ON nota.id_desc_materia=dm.id_desc_materia "
+                    + "LEFT JOIN configuracion as c "
+                    + "ON nota.id_configuracion=c.id_configuracion "
                     + "WHERE nota.id_nota " + "=" + "'" + idNota + "'" + " and nota.id_materia " + "=" + "'" + idMateria + "'" + ";";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -77,7 +80,7 @@ public class NotaDao {
         return null;
     }
 
-    public synchronized Integer actualizarNota(String tabla, String periodo, String pkTabla, Integer pkDato, Map datos) {
+    public synchronized Integer actualizarNota(String tabla, String periodo, String pkTabla, Integer pkDato, Map datos,String usuario) {
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
@@ -98,6 +101,7 @@ public class NotaDao {
 
             Statement st = cn.createStatement();
             int registrosAfectados = st.executeUpdate(sql);
+            Crud.loginTransaccion("actualizar", tabla,usuario, datos);
             JOptionPane.showMessageDialog(null, "Registros ingresados");
             cc.desconectar();
             return registrosAfectados;

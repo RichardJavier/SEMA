@@ -523,7 +523,7 @@ public class FrmResumenCurso extends javax.swing.JInternalFrame {
         campos.put("asistencia", asistencia.getText());
         campos.put("aprobacion", aprobacionTxt.getText());
         Crud crud = new Crud();
-        crud.actualizarM("resumen", "id_resumen", resumen.getIdResumen(), campos);
+        crud.actualizarM("resumen", "id_resumen", resumen.getIdResumen(), campos,Login.getUsuario().getNombre());
         limpiaCampos();
         ocultaCampos();
         cargaDatos(semestre.getIdSemestre(), especialidad.getIdEspecialidad());

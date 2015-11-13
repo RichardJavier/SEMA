@@ -146,10 +146,10 @@ public class FormularioParalelo extends javax.swing.JDialog {
             campos.put("paralelo", nombrePaTxt.getText().toUpperCase());
             Crud crud = new Crud();
             if (idParalelo == 0) {
-                crud.insertarM("paralelo", campos);
+                crud.insertarM("paralelo", campos,Login.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("paralelo", "id1_paralelo", idParalelo, campos);
+                crud.actualizarM("paralelo", "id1_paralelo", idParalelo, campos,Login.getUsuario().getNombre());
                 this.dispose();
             }
             

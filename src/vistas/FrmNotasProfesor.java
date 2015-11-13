@@ -62,14 +62,14 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
     List<Campo> lista;
     Campo campo;
     Map campos;
-    Configuracion malla;
+    Configuracion configuracion;
 
     public FrmNotasProfesor() {
         initComponents();
         alumnno = new Alumno();
         metodosGeneralesDao = new MetodosGeneralesDao();
         semestre = new Semestre();
-        materia=new Materia();
+        materia = new Materia();
         notaDao = new NotaDao();
         cargarSemestre();
         cargaMateria();
@@ -77,12 +77,11 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
         recuperacionTxt.setEnabled(false);
         periodo = metodosGeneralesDao.codigoPeriodoActivo();
         ocultaCampos();
-       
 
     }
 
     private void cargarDatos(final String periodo, final Integer idSemestre, final Integer idMateria) {
-        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA"};
+        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "IDMATERIA","PROMEDIO"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -139,13 +138,16 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                         nota.setSemestre(resultSet.getString("semestre"));
                         nota.setEspecialidad(resultSet.getString("especialidad"));
                         nota.setIdMateria(Integer.parseInt(resultSet.getString("id_materia")));
+                        nota.setPromedio(new BigDecimal(resultSet.getString("promedio")));
                         if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
                             listaNotas.add(new Nota(nota.getIdNota(),
                                     nota.getCedula(),
                                     nota.getNombres(),
                                     nota.getNombreMateria(),
                                     nota.getSemestre(),
-                                    nota.getEspecialidad()));
+                                    nota.getEspecialidad(),
+                                    nota.getIdMateria(),
+                                    nota.getPromedio()));
                             modelo.insertRow(i, new Object[]{
                                 nota.getIdNota(),
                                 nota.getCedula(),
@@ -153,7 +155,8 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                                 nota.getNombreMateria(),
                                 nota.getSemestre(),
                                 nota.getEspecialidad(),
-                                nota.getIdMateria()
+                                nota.getIdMateria(),
+                                nota.getPromedio()
                             });
                         }
 
@@ -186,8 +189,8 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
         nombresTxt = new javax.swing.JTextField();
         buscarBtn1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        materiasCmb = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
+        materiaCmb = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nota3Lbl = new javax.swing.JLabel();
@@ -278,14 +281,14 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
 
         jLabel1.setText("* Filtrar por nombre del alumno en el semestre seleccionado");
 
-        materiasCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
-        materiasCmb.addItemListener(new java.awt.event.ItemListener() {
+        jLabel5.setText("* Nombre de Materia");
+
+        materiaCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        materiaCmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                materiasCmbItemStateChanged(evt);
+                materiaCmbItemStateChanged(evt);
             }
         });
-
-        jLabel5.setText("* Nombre de Materia");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,8 +306,8 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(materiasCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
+                        .addComponent(materiaCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
                         .addComponent(buscarBtn)))
                 .addGap(171, 171, 171))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -330,7 +333,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(semestreCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscarBtn)
-                    .addComponent(materiasCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(materiaCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -787,7 +790,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
         try {
             materia = new Materia();
             configuracionMateria = new ConfiguracionMateria();
-            ConfiguracionDao mallaDao = new ConfiguracionDao();
+            ConfiguracionDao configuracionDao = new ConfiguracionDao();
             while (resultSet1.next()) {
                 configuracionMateria.setNumeroAportes(resultSet1.getString("num_aporte"));
                 materia.setIdMateria(Integer.parseInt(resultSet1.getString("id_materia")));
@@ -797,6 +800,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 materia.setIdEspecialidad(Integer.parseInt(resultSet1.getString("id1_especialidad")));
                 materia.setIdSemestre(Integer.valueOf(resultSet1.getString("id1_semestre")));
                 materia.setTipoNota(resultSet1.getString("tipo_nota"));
+                materia.setIdConfiguracion(resultSet1.getInt("id_configuracion"));
                 asistenciaTxt.setText(resultSet1.getString("asistencia"));
                 nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
                 nota.setPromedio(new BigDecimal(resultSet1.getString("promedio")));
@@ -808,7 +812,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 setDescripcion(resultSet1, configuracionMateria.getNumeroAportes());
                 setConfigMateria(resultSet1, configuracionMateria.getNumeroAportes());
             }
-            malla = mallaDao.getMalla(materia.getIdMalla());
+            configuracion = configuracionDao.getConfiguracion(materia.getIdConfiguracion());
         } catch (SQLException ex) {
             Logger.getLogger(FrmNotasProfesor.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
@@ -846,7 +850,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void activaRecuperacionCkbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activaRecuperacionCkbActionPerformed
-        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorRecuperacion())) > 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(configuracion.getValorRecuperacion())) > 0) {
             if (activaRecuperacionCkb.isSelected() == true) {
                 recuperacionTxt.setEnabled(true);
                 calcularBtn.setEnabled(true);
@@ -855,7 +859,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 recuperacionTxt.setEnabled(false);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Estimado usuario, le informamos que el valor minimo para acceder a la recuperacion es:" + " " + malla.getValorRecuperacion(), "Informacion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Estimado usuario, le informamos que el valor minimo para acceder a la recuperacion es:" + " " + configuracion.getValorRecuperacion(), "Informacion", JOptionPane.WARNING_MESSAGE);
             recuperacionTxt.setEnabled(true);
             calcularBtn.setEnabled(true);
             guardarBtn.setEnabled(false);
@@ -888,19 +892,19 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             campos.put("asistencia", nota.getAsistencia());
-            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos);
+            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos,Login.getUsuario().getNombre());
             ResumenDao resumenDao = new ResumenDao();
             if (materia.getTipoNota().equals(Estado.NORMAL.name())) {
-                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre());
+                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(), nota.getIdNota(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre(),Login.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
             } else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())) {
-                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria());
+                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdMalla(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria(),Login.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
 
             }
-
+            cargarDatos(periodo.getCodigoPeriodo(),semestre.getIdSemestre(),materia.getIdMateria());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1016,15 +1020,10 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
         limpiaTexto(asistenciaTxt);
     }//GEN-LAST:event_asistenciaTxtMouseClicked
 
-    private void materiasCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_materiasCmbItemStateChanged
-        try {
-            Materia mat = (Materia) materiasCmb.getSelectedItem();
-            materia.setIdMateria(mat.getIdMateria());
-            materia.setNombreMateria(mat.getNombreMateria());
-        } catch (Exception e) {
-        }
-
-    }//GEN-LAST:event_materiasCmbItemStateChanged
+    private void materiaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_materiaCmbItemStateChanged
+       Materia mat =(Materia)materiaCmb.getSelectedItem();
+       materia.setIdMateria(mat.getIdMateria());
+    }//GEN-LAST:event_materiaCmbItemStateChanged
     public void convertiraMayusculasEnJtextfield(javax.swing.JTextField jTextfieldS) {
         String cadena = (jTextfieldS.getText()).toUpperCase();
         jTextfieldS.setText(cadena);
@@ -1048,12 +1047,12 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
     }
 
     private void revisaEstado() {
-        if (nota.getAsistencia() < malla.getValorMinimoAsistencia()) {
+        if (nota.getAsistencia() < configuracion.getValorMinimoAsistencia()) {
             nota.setEstadoAsistencia(Estado.RP.name());
         } else {
             nota.setEstadoAsistencia(Estado.AP.name());
         }
-        if (nota.getPromedio().compareTo(new BigDecimal(malla.getValorMinimoPromedio())) <= 0) {
+        if (nota.getPromedio().compareTo(new BigDecimal(configuracion.getValorMinimoPromedio())) <= 0) {
             nota.setEstadoNota(Estado.RP.name());
         } else {
             nota.setEstadoNota(Estado.AP.name());
@@ -1105,7 +1104,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
             int y = 0;
             for (Double valor2 : valor) {
                 if (y < numeroCampos) {
-                    if (valor2 > malla.getValorNota()) {
+                    if (valor2 > configuracion.getValorNota()) {
                         JOptionPane.showMessageDialog(null, "Error valor de nota : " + des[y] + "no admitido por la configuracion ", "Error", JOptionPane.ERROR_MESSAGE);
                         resultado = false;
                         break;
@@ -1134,7 +1133,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                             if (recuperacionTxt.getText().trim().length() != 0) {
                                 promedio = promedio.subtract(new BigDecimal(temp));
                                 recu = Double.valueOf(recuperacionTxt.getText());
-                                if (recu <= malla.getValorNota()) {
+                                if (recu <= configuracion.getValorNota()) {
                                     recu = recu * por;
                                     promedio = promedio.add(new BigDecimal(recu));
                                     promedio = promedio.setScale(2, RoundingMode.HALF_UP);
@@ -1291,7 +1290,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
                 Materia ma = new Materia();
                 ma.setIdMateria(resultSet.getInt("id1_nombre_materia"));
                 ma.setNombreMateria(resultSet.getString("materia"));
-                materiasCmb.addItem(ma);
+                materiaCmb.addItem(ma);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -1641,7 +1640,7 @@ public class FrmNotasProfesor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox materiasCmb;
+    private javax.swing.JComboBox materiaCmb;
     private javax.swing.JTextField nombresTxt;
     private javax.swing.JLabel nota10Lbl;
     private javax.swing.JTextField nota10Txt;

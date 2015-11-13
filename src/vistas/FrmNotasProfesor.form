@@ -109,10 +109,10 @@
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="materiasCmb" min="-2" pref="302" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="materiaCmb" min="-2" pref="312" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Component id="buscarBtn" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -147,7 +147,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="semestreCmb" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buscarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="materiasCmb" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="materiaCmb" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -217,7 +217,12 @@
             <Property name="text" type="java.lang.String" value="* Filtrar por nombre del alumno en el semestre seleccionado"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="materiasCmb">
+        <Component class="javax.swing.JLabel" name="jLabel5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="* Nombre de Materia"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="materiaCmb">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="1">
@@ -226,13 +231,8 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="materiasCmbItemStateChanged"/>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="materiaCmbItemStateChanged"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="* Nombre de Materia"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

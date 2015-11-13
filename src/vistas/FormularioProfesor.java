@@ -336,10 +336,10 @@ public class FormularioProfesor extends javax.swing.JDialog {
             cargarCampos();
             Crud crud = new Crud();
             if (idProfesor == 0) {
-                crud.insertarM("datos_profesor", campos);
+                crud.insertarM("datos_profesor", campos,Login.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("datos_profesor", "id1_profe", idProfesor, campos);
+                crud.actualizarM("datos_profesor", "id1_profe", idProfesor, campos,Login.getUsuario().getNombre());
                 this.dispose();
             }
 

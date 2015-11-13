@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import control.CargarAlumnoWeb;
 import java.awt.event.KeyEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -210,67 +212,67 @@ public final class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        if (usuarioTxt.getText().trim().isEmpty() && passwordTxt.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
-//            usuarioTxt.requestFocus();
-//        } else if (usuarioTxt.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Error campo usuario vacio", "Error", JOptionPane.ERROR_MESSAGE);
-//            usuarioTxt.requestFocus();
-//        } else if (passwordTxt.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Error campo password vacio", "Error", JOptionPane.ERROR_MESSAGE);
-//            passwordTxt.requestFocus();
-//        } else {
-//            Usuario temp = new Usuario();
-//            temp.setUsuario(usuarioTxt.getText().trim());
-//            temp.setClave(passwordTxt.getText().trim());
-//            usuario = UsuarioDao.login(temp.getUsuario());
-//            if (usuario.getUsuario() != null) {
-//                if (temp.getUsuario().compareTo(usuario.getUsuario()) != 0) {
-//                    JOptionPane.showMessageDialog(null, "Usuario incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-//                    usuarioTxt.setText(null);
-//                    usuarioTxt.requestFocus();
-//                } else if (temp.getClave().compareTo(usuario.getClave()) != 0) {
-//                    JOptionPane.showMessageDialog(null, "Estimado " + " " + usuario.getNombre() + " " + "su clave es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
-//                    passwordTxt.setText(null);
-//                    passwordTxt.requestFocus();
-//                } else if (usuario.getEstado().compareTo("DS") == 0) {
-//                    JOptionPane.showMessageDialog(null, "Estimado" + "" + usuario.getNombre() + " " + "su usuario esta desactivado", "Informacion", JOptionPane.WARNING_MESSAGE);
-//                    System.exit(0);
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Bienvenido al sistema" + " " + usuario.getNombre());
-//                    if (usuario.getPerfil().compareTo("ADMINISTRADOR") == 0) {
-//                        Menu m = new Menu();
-//                        m.setVisible(true);
-//                        guardarLogin("MenuAdministrador", usuario);
-//                        this.dispose();
-//                    } else if (usuario.getPerfil().compareTo("PROFESOR") == 0) {
-//                        usuario.setNombre(usuario.getNombre());
-//                        usuario.setPerfil(usuario.getPerfil());
-//                        MenuProfesor mn = new MenuProfesor();
-//                        guardarLogin("MenuProfesor", usuario);
-//                        mn.setVisible(true);
-//                        this.dispose();
-//                    } else if (usuario.getPerfil().compareTo("ALUMNO") == 0) {
-//                        usuario.setNombre(usuario.getNombre());
-//                        usuario.setPerfil(usuario.getPerfil());
-//                        MenuAlumno ma = new MenuAlumno();
-//                        ma.setVisible(true);
-//                        guardarLogin("MenuAlumno", usuario);
-//                        this.dispose();
-//
-//                    }
-//
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
-//                usuarioTxt.setText(null);
-//                usuarioTxt.requestFocus();
-//            }
-//        }
-        Menu m = new Menu();
-        m.setVisible(true);
-        this.dispose();
+        if (usuarioTxt.getText().trim().isEmpty() && passwordTxt.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+            usuarioTxt.requestFocus();
+        } else if (usuarioTxt.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Error campo usuario vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            usuarioTxt.requestFocus();
+        } else if (passwordTxt.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Error campo password vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            passwordTxt.requestFocus();
+        } else {
+            Usuario temp = new Usuario();
+            temp.setUsuario(usuarioTxt.getText().trim());
+            temp.setClave(passwordTxt.getText().trim());
+            usuario = UsuarioDao.login(temp.getUsuario());
+            if (usuario.getUsuario() != null) {
+                if (temp.getUsuario().compareTo(usuario.getUsuario()) != 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                    usuarioTxt.setText(null);
+                    usuarioTxt.requestFocus();
+                    Login.guardarLogin("VACIO", temp,"ERROR",Boolean.FALSE);
+                } else if (temp.getClave().compareTo(usuario.getClave()) != 0) {
+                    JOptionPane.showMessageDialog(null, "Estimado " + " " + usuario.getNombre() + " " + "su clave es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+                    passwordTxt.setText(null);
+                    passwordTxt.requestFocus();
+                    Login.guardarLogin("INTENTO", usuario,"INCORRECTA",Boolean.FALSE);
+                } else if (usuario.getEstado().compareTo("DS") == 0) {
+                    JOptionPane.showMessageDialog(null, "Estimado" + "" + usuario.getNombre() + " " + "su usuario esta desactivado", "Informacion", JOptionPane.WARNING_MESSAGE);
+                    Login.guardarLogin("INTENTO", usuario,"BLOQUEADO",Boolean.FALSE);
+                    System.exit(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bienvenido al sistema" + " " + usuario.getNombre());
+                    if (usuario.getPerfil().compareTo("ADMINISTRADOR") == 0) {
+                        Menu m = new Menu();
+                        m.setVisible(true);
+                        Login.guardarLogin("MenuAdministrador", usuario,"INICIO DE SESION",Boolean.TRUE);
+                        this.dispose();
+                    } else if (usuario.getPerfil().compareTo("PROFESOR") == 0) {
+                        usuario.setNombre(usuario.getNombre());
+                        usuario.setPerfil(usuario.getPerfil());
+                        MenuProfesor mn = new MenuProfesor();
+                        guardarLogin("MenuProfesor", usuario,"INICIO DE SESION",Boolean.TRUE);
+                        mn.setVisible(true);
+                        this.dispose();
+                    } else if (usuario.getPerfil().compareTo("ALUMNO") == 0) {
+                        usuario.setNombre(usuario.getNombre());
+                        usuario.setPerfil(usuario.getPerfil());
+                        MenuAlumno ma = new MenuAlumno();
+                        ma.setVisible(true);
+                        guardarLogin("MenuAlumno", usuario,"INICIO DE SESION",Boolean.TRUE);
+                        this.dispose();
 
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
+                usuarioTxt.setText(null);
+                usuarioTxt.requestFocus();
+                 Login.guardarLogin("INTENTO", temp,"NO EXISTE",Boolean.FALSE);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     private void validaNum(java.awt.event.KeyEvent evt, JTextField field) {
         char c = evt.getKeyChar();
@@ -284,21 +286,33 @@ public final class Login extends javax.swing.JDialog {
         confirmarSalida();
 
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void guardarLogin(String menu, Usuario usuario) {
-        Map campos = new HashMap();
-        SimpleDateFormat formato1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        Date fecha = cal.getTime();
-        LoginAuditoria log = new LoginAuditoria();
-        log.setFechaLogin(formato1.format(fecha));
-        log.setIngreso(Boolean.TRUE);
-        log.setUsuario(usuario.getUsuario());
-        log.setAplicacion(menu);
-        campos.put("fecha_login", log.getFechaLogin());
-        campos.put("ingresoexitoso", log.getIngreso());
-        campos.put("aplicacion", menu);
-        campos.put("usuario", log.getUsuario());
-        LoginAuditoriaDao.insertar("loginaudit", campos);
+    public static void guardarLogin(String menu, Usuario usuario,String accion,Boolean ingreso) {
+        try {
+            Map campos = new HashMap();
+            InetAddress localHost = InetAddress.getLocalHost();
+            SimpleDateFormat formato1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+            Date fecha = cal.getTime();
+            LoginAuditoria log = new LoginAuditoria();
+            log.setIp(localHost.getHostAddress());
+            log.setMaquina(localHost.getHostName());
+            log.setFechaLogin(formato1.format(fecha));
+            log.setIngreso(ingreso);
+            log.setDescripcion(accion);
+            log.setUsuario(usuario.getUsuario());
+            log.setAplicacion(menu);
+            campos.put("ip",log.getIp());
+            campos.put("maquina", log.getMaquina());
+            campos.put("fecha_login", log.getFechaLogin());
+            campos.put("descripcion", log.getDescripcion());
+            campos.put("ingreso",log.getIngreso());
+            campos.put("aplicacion", menu);
+            campos.put("usuario", log.getUsuario());
+            LoginAuditoriaDao.insertar("loginaudit", campos);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
     private void passwordTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordTxtMouseClicked
         passwordTxt.setText(null);
