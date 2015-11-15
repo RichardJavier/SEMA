@@ -19,6 +19,7 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
     public ActualizacionDatos() {
         initComponents();
         setLocation(360, 180);
+        actualizacionBtn.setEnabled(false);
     }
 
     /**
@@ -30,16 +31,16 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
+        actualizacionBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Sync.png"))); // NOI18N
-        jButton2.setText("Iniciar Actualizacion");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        actualizacionBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Sync.png"))); // NOI18N
+        actualizacionBtn.setText("Iniciar Actualizacion");
+        actualizacionBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                actualizacionBtnActionPerformed(evt);
             }
         });
 
@@ -55,7 +56,7 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
                 .addGap(72, 72, 72))
             .addGroup(layout.createSequentialGroup()
                 .addGap(191, 191, 191)
-                .addComponent(jButton2)
+                .addComponent(actualizacionBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -64,18 +65,18 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(actualizacionBtn)
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void actualizacionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizacionBtnActionPerformed
         if (JOptionPane.showConfirmDialog(this, "¿Estimado usuario desea realizar la actualizacion de datos con la pagina web de la institucion", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             cargar();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_actualizacionBtnActionPerformed
     public void cargar() {
         new Thread(new Runnable() {
             final Thread th = Thread.currentThread();
@@ -91,7 +92,7 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton actualizacionBtn;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
