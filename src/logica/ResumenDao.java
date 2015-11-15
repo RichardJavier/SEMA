@@ -2,6 +2,7 @@ package logica;
 
 import conectar.Conexion;
 import control.Crud;
+import control.EnviaEmail;
 import java.awt.HeadlessException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -21,7 +22,7 @@ import modelo.Estado;
 import modelo.Configuracion;
 import modelo.Materia;
 import modelo.Nota;
-import modelo.Periodo;
+
 import modelo.Promedio;
 import modelo.Resumen;
 
@@ -44,8 +45,8 @@ public class ResumenDao {
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (Exception e) {
-            System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error al cargar", "Error", JOptionPane.ERROR_MESSAGE);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -62,8 +63,8 @@ public class ResumenDao {
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (Exception e) {
-            System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error al cargar", "Error", JOptionPane.ERROR_MESSAGE);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -93,7 +94,7 @@ public class ResumenDao {
             cc.desconectar();
             return registrosAfectados;
         } catch (SQLException | HeadlessException e) {
-            System.out.println("Error en la actualizacion: " + e.toString());
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
             JOptionPane.showMessageDialog(null, "Error en la actualizacion de los datos de la WEB", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return 0;
@@ -119,7 +120,7 @@ public class ResumenDao {
             }
             return resumen;
         } catch (SQLException | NumberFormatException e) {
-            System.out.println(e);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -169,7 +170,7 @@ public class ResumenDao {
             }
             return listaPromedio;
         } catch (SQLException | NumberFormatException e) {
-            System.out.println(e);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
 
         return null;
@@ -289,7 +290,7 @@ public class ResumenDao {
             campos.put("aprobacion", resumen.getAprobacion());
             actualizarResumen(cedula, idSemestre, idEspecialidad, campos,usuario);
         } catch (SQLException | NumberFormatException e) {
-            System.out.println(e);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
     }
 
@@ -405,8 +406,8 @@ public class ResumenDao {
 
             actualizarResumen(cedula, idSemestre, idEspecialidad, campos,usuario);
         } catch (SQLException | NumberFormatException e) {
-            System.out.println(e);
             JOptionPane.showMessageDialog(null,"Error al calcular nota final","Error",JOptionPane.ERROR_MESSAGE);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
     }
 
@@ -427,8 +428,8 @@ public class ResumenDao {
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (Exception e) {
-            System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error al cargar", "Error", JOptionPane.ERROR_MESSAGE);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }

@@ -23,9 +23,8 @@ public class EjecutarScript {
             Reader r = new BufferedReader(new FileReader(archivo));
             src.runScript(r);
         } catch (SQLException | IOException e) {
-            System.err.println("Failed to Execute" + archivo
-                    + " The error is " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error al cargar el Script", "Error", JOptionPane.ERROR_MESSAGE);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
 
         }
 

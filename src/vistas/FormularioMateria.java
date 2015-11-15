@@ -1,6 +1,7 @@
 package vistas;
 
 import control.Crud;
+import control.EnviaEmail;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -117,7 +118,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     estado = resultSet.getString("activa_mat");
                     if (estado.equals(Estado.AC.name())) {
                         activadaRdb.setSelected(true);
-                        
+
                     } else {
                         desactivadaRdb.setSelected(true);
                     }
@@ -125,7 +126,7 @@ public class FormularioMateria extends javax.swing.JDialog {
                     materia.setIdMateria(Integer.parseInt(resultSet.getString("id1_nombre_materia")));
                     materia.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("f_crea")));
                     materia.setCreditos(Integer.parseInt(resultSet.getString("creditos")));
-                    
+
                     configuracion.setIdConfiguracion(Integer.valueOf(resultSet.getString("id_configuracion")));
                     configuracion.setDescripcion(resultSet.getString("descripcion"));
                     configuracionCmb.setSelectedItem(configuracion);
@@ -165,6 +166,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             } catch (SQLException | NumberFormatException e) {
             } catch (ParseException ex) {
                 Logger.getLogger(FormularioMateria.class.getName()).log(Level.SEVERE, null, ex);
+                EnviaEmail.enviaMail("javier.tec1989@gmail.com", ex.toString());
             }
         }
     }
@@ -1144,9 +1146,9 @@ public class FormularioMateria extends javax.swing.JDialog {
             configuracionMateria.setNumeroAportes(numeroCamposTxt.getText());
             campos.put("num_aporte", configuracionMateria.getNumeroAportes());
             if (idMateria == 0) {
-                crud.insertar("config_materia", campos,Login.getUsuario().getNombre());
+                crud.insertar("config_materia", campos, Ingreso.getUsuario().getNombre());
             } else {
-                crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos,Login.getUsuario().getNombre());
+                crud.actualizar("config_materia", "id_config_materia", configuracionMateria.getIdConfiguracionMateria(), campos, Ingreso.getUsuario().getNombre());
             }
 
             //inicia carga de datos para tabla descripcion materia
@@ -1170,24 +1172,24 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
             campos1.put("id_config_materia", descripcionMateria.getIdConfiguracionMateria());
             if (idMateria == 0) {
-                crud.insertar("desc_materia", campos1,Login.getUsuario().getNombre());
+                crud.insertar("desc_materia", campos1, Ingreso.getUsuario().getNombre());
             } else {
-                crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1,Login.getUsuario().getNombre());
+                crud.actualizar("desc_materia", "id_desc_materia", descripcionMateria.getIdConfiguracionMateria(), campos1, Ingreso.getUsuario().getNombre());
             }
 
             //inicia carga de datos para tabla materia
             cargaDatos();
             if (idMateria == 0) {
-                crud.insertarM("nombre_materia", campos2,Login.getUsuario().getNombre());
+                crud.insertarM("nombre_materia", campos2, Ingreso.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2,Login.getUsuario().getNombre());
+                crud.actualizarM("nombre_materia", "id1_nombre_materia", materia.getIdMateria(), campos2, Ingreso.getUsuario().getNombre());
                 this.dispose();
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar la informacion", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
 
 
@@ -1240,7 +1242,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             campos2.put("id_desc_materia", descripcionMateria.getIdDescripcionMateria());
             return campos2;
         } catch (Exception e) {
-            System.out.println("error" + e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
             return null;
 
         }
@@ -1270,8 +1272,12 @@ public class FormularioMateria extends javax.swing.JDialog {
 //            config.setIdConfiguracion(config.getIdConfiguracion());
 //
 //        }
-        Configuracion config = (Configuracion) configuracionCmb.getSelectedItem();
-        configuracion.setIdConfiguracion(config.getIdConfiguracion());
+        try {
+            Configuracion config = (Configuracion) configuracionCmb.getSelectedItem();
+            configuracion.setIdConfiguracion(config.getIdConfiguracion());
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.comn", e.toString());
+        }
 
     }//GEN-LAST:event_configuracionCmbItemStateChanged
     private ConfiguracionMateria cargaConfigMateria(int numCampos) {
@@ -1437,6 +1443,7 @@ public class FormularioMateria extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
     }
 
@@ -1656,15 +1663,25 @@ public class FormularioMateria extends javax.swing.JDialog {
         return lista1;
     }
     private void semestreCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_semestreCmbItemStateChanged
-        Semestre semes = (Semestre) semestreCmb.getSelectedItem();
-        semestre.setIdSemestre(semes.getIdSemestre());
-        semestre.setSemestre(semes.getSemestre());
+        try {
+            Semestre semes = (Semestre) semestreCmb.getSelectedItem();
+            semestre.setIdSemestre(semes.getIdSemestre());
+            semestre.setSemestre(semes.getSemestre());
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
+        }
+
     }//GEN-LAST:event_semestreCmbItemStateChanged
 
     private void especialidadCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_especialidadCmbItemStateChanged
-        Especialidad espe = (Especialidad) especialidadCmb.getSelectedItem();
-        especialidad.setIdEspecialidad(espe.getIdEspecialidad());
-        especialidad.setEspecialidad(espe.getEspecialidad());
+        try {
+            Especialidad espe = (Especialidad) especialidadCmb.getSelectedItem();
+            especialidad.setIdEspecialidad(espe.getIdEspecialidad());
+            especialidad.setEspecialidad(espe.getEspecialidad());
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
+        }
+
     }//GEN-LAST:event_especialidadCmbItemStateChanged
 
     private void activadaRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activadaRdbActionPerformed
@@ -1680,8 +1697,14 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void profesoCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_profesoCmbItemStateChanged
-        Profesor profe = (Profesor) profesoCmb.getSelectedItem();
-        profesor.setIdProfesor(profe.getIdProfesor());
+        try {
+            Profesor profe = (Profesor) profesoCmb.getSelectedItem();
+            profesor.setIdProfesor(profe.getIdProfesor());
+
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
+        }
+
     }//GEN-LAST:event_profesoCmbItemStateChanged
 
     private void ejeCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ejeCmbItemStateChanged
@@ -1702,7 +1725,7 @@ public class FormularioMateria extends javax.swing.JDialog {
     }//GEN-LAST:event_nombreMateriaTxtKeyTyped
 
     private void mallaCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mallaCmbItemStateChanged
-        Malla m =(Malla)mallaCmb.getSelectedItem();
+        Malla m = (Malla) mallaCmb.getSelectedItem();
         malla.setIdMalla(m.getIdMalla());
     }//GEN-LAST:event_mallaCmbItemStateChanged
     private void validaNumero(java.awt.event.KeyEvent evt) {
@@ -1756,41 +1779,45 @@ public class FormularioMateria extends javax.swing.JDialog {
 
     private boolean validaSuma(int valorNum) {
         boolean resultado = true;
-        JTextField[] camp = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
-            aporteTxt7, aporteTxt8, aporteTxt9, aporteTxt10};
-        int val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0, val9 = 0, val10 = 0;
-        int[] constante = {val1, val2, val3, val4, val5, val6, val7, val8, val9, val10};
-        int i = 0;
-        int y = 0;
-        int suma = 0;
-        for (JTextField campo5 : camp) {
-            if (i < valorNum) {
-                if (!campo5.getText().trim().isEmpty()) {
-                    constante[y] = Integer.parseInt(campo5.getText());
-                    i++;
-                    y++;
-                } else {
-                    respuesta = "vacio";
+        try {
+            JTextField[] camp = {aporteTxt1, aporteTxt2, aporteTxt3, aporteTxt4, aporteTxt5, aporteTxt6,
+                aporteTxt7, aporteTxt8, aporteTxt9, aporteTxt10};
+            int val1 = 0, val2 = 0, val3 = 0, val4 = 0, val5 = 0, val6 = 0, val7 = 0, val8 = 0, val9 = 0, val10 = 0;
+            int[] constante = {val1, val2, val3, val4, val5, val6, val7, val8, val9, val10};
+            int i = 0;
+            int y = 0;
+            int suma = 0;
+            for (JTextField campo5 : camp) {
+                if (i < valorNum) {
+                    if (!campo5.getText().trim().isEmpty()) {
+                        constante[y] = Integer.parseInt(campo5.getText());
+                        i++;
+                        y++;
+                    } else {
+                        respuesta = "vacio";
+                        resultado = false;
+                        break;
+                    }
+                }
+            }
+            int x = 0;
+            if (resultado) {
+                for (int d : constante) {
+                    if (x < valorNum) {
+                        suma = suma + constante[x];
+                        x++;
+                    }
+                }
+                if (suma < valor || suma > valor) {
                     resultado = false;
-                    break;
+                    respuesta = "suma";
+                }
+                if (suma == valor) {
+                    resultado = true;
                 }
             }
-        }
-        int x = 0;
-        if (resultado) {
-            for (int d : constante) {
-                if (x < valorNum) {
-                    suma = suma + constante[x];
-                    x++;
-                }
-            }
-            if (suma < valor || suma > valor) {
-                resultado = false;
-                respuesta = "suma";
-            }
-            if (suma == valor) {
-                resultado = true;
-            }
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
 
         return resultado;

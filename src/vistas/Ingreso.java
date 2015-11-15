@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package vistas;
@@ -23,33 +24,18 @@ import logica.UsuarioDao;
 import modelo.LoginAuditoria;
 import modelo.Usuario;
 
-public final class Login extends javax.swing.JDialog {
+/**
+ *
+ * @author USER
+ */
+public class Ingreso extends javax.swing.JFrame {
 
-    CargarAlumnoWeb alumno;
     public static Usuario usuario;
-
-    public Login(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Ingreso() {
         initComponents();
         this.setLocationRelativeTo(null);
-        //    cargar();
     }
-
-    public void cargar() {
-        new Thread(new Runnable() {
-            final Thread th = Thread.currentThread();
-
-            @Override
-            public void run() {
-                synchronized (th) {
-                    alumno = new CargarAlumnoWeb();
-                    alumno.start();
-                }
-            }
-        }).start();
-    }
-
-    public void cerrar() {
+     public void cerrar() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
@@ -63,16 +49,13 @@ public final class Login extends javax.swing.JDialog {
         } catch (Exception e) {
         }
     }
-//confirmar salida
-
-    public void confirmarSalida() {
+     public void confirmarSalida() {
         int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la Aplicacion", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
             System.exit(0);
 
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,10 +74,10 @@ public final class Login extends javax.swing.JDialog {
         usuarioTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO DE INGRESO");
         setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
         setUndecorated(true);
-        setResizable(false);
 
         jLabel3.setBackground(new java.awt.Color(102, 255, 0));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -188,26 +171,31 @@ public final class Login extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76))
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void passwordTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordTxtMouseClicked
+        passwordTxt.setText(null);
+    }//GEN-LAST:event_passwordTxtMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (usuarioTxt.getText().trim().isEmpty() && passwordTxt.getText().trim().isEmpty()) {
@@ -267,26 +255,20 @@ public final class Login extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
                 usuarioTxt.setText(null);
                 usuarioTxt.requestFocus();
-                 Login.guardarLogin("INTENTO", temp,"NO EXISTE",Boolean.FALSE);
+                Login.guardarLogin("INTENTO", temp,"NO EXISTE",Boolean.FALSE);
             }
         }
-        
-        
-       
+
     }//GEN-LAST:event_jButton1ActionPerformed
-    private void validaNum(java.awt.event.KeyEvent evt, JTextField field) {
-        char c = evt.getKeyChar();
-        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-            evt.consume();
-        } else if (field.getText().length() >= 10) {
-            evt.consume();
-        }
-    }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         confirmarSalida();
-
     }//GEN-LAST:event_jButton2ActionPerformed
-    public static void guardarLogin(String menu, Usuario usuario,String accion,Boolean ingreso) {
+
+    private void usuarioTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuarioTxtKeyTyped
+        validaNum(evt, usuarioTxt);
+    }//GEN-LAST:event_usuarioTxtKeyTyped
+     public static void guardarLogin(String menu, Usuario usuario,String accion,Boolean ingreso) {
         try {
             Map campos = new HashMap();
             InetAddress localHost = InetAddress.getLocalHost();
@@ -314,24 +296,24 @@ public final class Login extends javax.swing.JDialog {
         }
 
     }
-    private void passwordTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordTxtMouseClicked
-        passwordTxt.setText(null);
-    }//GEN-LAST:event_passwordTxtMouseClicked
-
-    private void usuarioTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuarioTxtKeyTyped
-        validaNum(evt, usuarioTxt);
-    }//GEN-LAST:event_usuarioTxtKeyTyped
-    public static Usuario getUsuario() {
+    /**
+     * @param args the command line arguments
+     */
+     private void validaNum(java.awt.event.KeyEvent evt, JTextField field) {
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        } else if (field.getText().length() >= 10) {
+            evt.consume();
+        }
+    }
+     public static Usuario getUsuario() {
         return usuario;
     }
 
     public static void setUsuario(Usuario usuario) {
         Login.usuario = usuario;
     }
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -346,32 +328,23 @@ public final class Login extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Login dialog = new Login(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new Ingreso().setVisible(true);
             }
         });
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -335,11 +335,23 @@ public class FormularioProfesor extends javax.swing.JDialog {
         if (validaForm() == true) {
             cargarCampos();
             Crud crud = new Crud();
+            Calendar cal = Calendar.getInstance();
             if (idProfesor == 0) {
-                crud.insertarM("datos_profesor", campos,Login.getUsuario().getNombre());
+                crud.insertarM("datos_profesor", campos,Ingreso.getUsuario().getNombre());
+                if (Crud.buscarUsuario(profesor.getCedula())==true) {
+                Map camposA = new HashMap ();
+                camposA.put("documento",profesor.getCedula());
+                camposA.put("nombre",profesor.getNombreProfesor());
+                camposA.put("fecha_ingreso", cal.getTime());
+                camposA.put("usuario",profesor.getCedula());
+                camposA.put("clave",profesor.getCedula());
+                camposA.put("perfil","PROFESOR");
+                camposA.put("estado","AC");
+                Crud.insertarUsuario("usuario", camposA,Ingreso.usuario.getNombre());
+            }
                 this.dispose();
             } else {
-                crud.actualizarM("datos_profesor", "id1_profe", idProfesor, campos,Login.getUsuario().getNombre());
+                crud.actualizarM("datos_profesor", "id1_profe", idProfesor, campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             }
 

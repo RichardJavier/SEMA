@@ -1,5 +1,6 @@
 package conectar;
 
+import control.EnviaEmail;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,18 +42,20 @@ public final class Conexion {
             FileInputStream propFile = new FileInputStream("configuracionBD.txt");
             Properties prop = new Properties(System.getProperties());
             prop.load(propFile);
-            driver = prop.getProperty("driver");
-            jdbc = prop.getProperty("jdbc");
-            host = prop.getProperty("host");
-            database = prop.getProperty("database");
-            username = prop.getProperty("username");
-            password = prop.getProperty("password");
-            opciones = prop.getProperty("options");
-        } catch (java.io.FileNotFoundException e) {
+            driver = prop.getProperty("driver").trim();
+            jdbc = prop.getProperty("jdbc").trim();
+            host = prop.getProperty("host").trim();
+            database = prop.getProperty("database").trim();
+            username = prop.getProperty("username").trim();
+            password = prop.getProperty("password").trim();
+            opciones = prop.getProperty("options").trim();
+        } catch (java.io.FileNotFoundException  e) {
             JOptionPane.showMessageDialog(null, "No se encuentra el archivo de configuracion" + e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
             System.exit(0);
-        } catch (java.io.IOException w) {
+        } catch (java.io.IOException w) { 
             JOptionPane.showMessageDialog(null, "Ocurrio algun error de I/O");
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",w.toString());
             System.exit(0);
         }
     }
@@ -69,7 +72,7 @@ public final class Conexion {
             smt = con.createStatement();
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println(e);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
              JOptionPane.showMessageDialog(null, "No existe conexion,por favor comuniquese con el administrador del sistema");
 
         }
@@ -99,23 +102,3 @@ public final class Conexion {
         }
     }
 }
-/*
-He pasado mil noches soñando contigo, 
-segundo a segundo, momento a momento,
- tus besos, tu sonrisa, tu ser, 
-cada instante junto a ti es una ilusión 
-que va creciendo al paso del tiempo y 
-cuando menos te lo esperas se ha convertido en amor,
- un amor sincero que ha nacido de la verdad,
- confianza y confortándose día a día hasta la eternidad.
-
-Por eso amor mi hoy te pido que no te apartes 
-de mi que nunca dejes que este amor que ciento
- se desvanezca como aquella estrella fugaz que 
-nace tan hermosa y deslumbrante en lo alto del cielo
- pero desaparece sin dejar rastro alguno en la inmensidad 
-y yo quisiera que todo esto siguiera así como desde el 
-primer momento en me miraste aquella mirada que me mato y 
-ahora por esta mirada estoy muriendo no se que mas decirte....
-ya te lo e dicho todo....princesa de mi corazon....
-*/

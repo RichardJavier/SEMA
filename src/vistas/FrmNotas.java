@@ -6,6 +6,7 @@
 package vistas;
 
 import conectar.Conexion;
+import control.EnviaEmail;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -79,7 +80,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
     }
 
     private void cargarDatos(final String periodo, final Integer idSemestre) {
-        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD","PROMEDIO","PROMEDIO"};
+        String[] col = {"PK", "CEDULA", "NOMBRES", "NOMBRE MATERIA", "SEMESTRE", "ESPECIALIDAD", "PROMEDIO", "PROMEDIO"};
         String[][] data = {{"", "", ""}};
         modelo = new DefaultTableModel(data, col) {
             @Override
@@ -137,7 +138,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                         nota.setEspecialidad(resultSet.getString("especialidad"));
                         nota.setPromedio(new BigDecimal(resultSet.getString("promedio")));
                         nota.setIdMateria(Integer.parseInt(resultSet.getString("id_materia")));
-                                    if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
+                        if (nombresTxt.equals("") || nota.getNombres().contains(nombresTxt.getText())) {
                             listaNotas.add(new Nota(nota.getIdNota(),
                                     nota.getCedula(),
                                     nota.getNombres(),
@@ -160,8 +161,8 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
                     }
                 } catch (SQLException | NumberFormatException e) {
-                    System.out.println(e);
                     JOptionPane.showMessageDialog(null, "Error la cargar", "Error", JOptionPane.ERROR_MESSAGE);
+                    EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
                 } finally {
                     try {
                         cc.desconectar();
@@ -792,7 +793,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             configuracion = configuracionDao.getConfiguracion(materia.getIdConfiguracion());
         } catch (SQLException ex) {
             Logger.getLogger(FrmNotas.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", ex.toString());
         } finally {
             try {
                 cc.desconectar();
@@ -869,23 +870,24 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             campos.put("estado_asistencia", nota.getEstadoAsistencia());
             nota.setAsistencia(Integer.parseInt(asistenciaTxt.getText()));
             campos.put("asistencia", nota.getAsistencia());
-            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos,Login.getUsuario().getNombre());
+            notaDao.actualizarNota("nota", periodo.getCodigoPeriodo(), "id_nota", nota.getIdNota(), campos, Ingreso.getUsuario().getNombre());
             ResumenDao resumenDao = new ResumenDao();
             if (materia.getTipoNota().equals(Estado.NORMAL.name())) {
-                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(),nota.getIdNota(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(),Login.getUsuario().getNombre());
+                resumenDao.calculaResumenNormal(nota.getCedula(), periodo.getCodigoPeriodo(), nota.getIdNota(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(), Ingreso.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
-                cargarDatos(periodo.getCodigoPeriodo(),semestre.getIdSemestre());
+                cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
             } else if (materia.getTipoNota().equals(Estado.ARRASTRE.name())) {
-                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria(),Login.getUsuario().getNombre());
+                resumenDao.calculaResumenArrastre(nota.getCedula(), periodo.getCodigoPeriodo(), materia.getIdConfiguracion(), materia.getIdEspecialidad(), materia.getIdSemestre(), materia.getIdMateria(), Ingreso.getUsuario().getNombre());
                 limpiaCampos();
                 ocultaCampos();
-                cargarDatos(periodo.getCodigoPeriodo(),semestre.getIdSemestre());
+                cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
 
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar", "Error", JOptionPane.ERROR_MESSAGE);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
 
@@ -1133,7 +1135,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
             return resultado;
         } catch (NumberFormatException | HeadlessException e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
         return resultado;
 
@@ -1401,7 +1403,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
                     break;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
 
         }
 
@@ -1488,7 +1490,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
     }
 
@@ -1575,6 +1577,7 @@ public class FrmNotas extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             Logger.getLogger(FrmNotas.class.getName()).log(Level.SEVERE, null, ex);
+                    EnviaEmail.enviaMail("javier.tec1989@gmail.com",ex.toString());
         }
 
     }

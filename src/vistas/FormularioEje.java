@@ -152,10 +152,10 @@ public class FormularioEje extends javax.swing.JDialog {
             campos.put("id_ejes", codigoEjeTxt.getText());
             campos.put("nom_ejes", nombreEjeTxt.getText().toUpperCase());
             if (idEje == 0) {
-                crud.insertarM("ejes", campos,Login.getUsuario().getNombre());
+                crud.insertarM("ejes", campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("ejes", "id1_ejes", idEje, campos,Login.getUsuario().getNombre());
+                crud.actualizarM("ejes", "id1_ejes", idEje, campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             }
         } else {

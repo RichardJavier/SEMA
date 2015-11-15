@@ -1,6 +1,7 @@
 package logica;
 
 import conectar.Conexion;
+import control.EnviaEmail;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,7 +67,7 @@ public class ConfiguracionDao {
             return malla;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
-            System.out.println("Error en la consulta" + e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
 
         return null;

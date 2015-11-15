@@ -2,6 +2,7 @@ package vistas;
 
 import conectar.Conexion;
 import control.Crud;
+import control.EnviaEmail;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -73,6 +74,7 @@ public class FormularioConfiguracion extends javax.swing.JDialog {
 
                 }
             } catch (SQLException | ParseException | NumberFormatException e) {
+                EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
             }
 
         }
@@ -367,10 +369,10 @@ public class FormularioConfiguracion extends javax.swing.JDialog {
     private void gurdarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gurdarBtnActionPerformed
         cargarDatos();
         if (idConfiguracion == 0) {
-            crud.insertarM("configuracion", campos,Login.getUsuario().getNombre());
+            crud.insertarM("configuracion", campos,Ingreso.getUsuario().getNombre());
             this.dispose();
         } else {
-            crud.actualizarM("configuracion", "id_configuracion", idConfiguracion, campos,Login.getUsuario().getNombre());
+            crud.actualizarM("configuracion", "id_configuracion", idConfiguracion, campos,Ingreso.getUsuario().getNombre());
             this.dispose();
         }
 

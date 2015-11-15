@@ -124,11 +124,11 @@ public class FormularioMalla extends javax.swing.JDialog {
                 if (idMalla == 0) {
                     campos.put("fecha_creacion", cal.getTime());
                     campos.put("fecha_modificacion", cal.getTime());
-                    crud.insertarM("malla", campos,Login.getUsuario().getNombre());
+                    crud.insertarM("malla", campos,Ingreso.getUsuario().getNombre());
                     this.dispose();
                 } else {
                     campos.put("fecha_modificacion", cal.getTime());
-                    crud.actualizarM("malla", "id_malla", idMalla, campos,Login.getUsuario().getNombre());
+                    crud.actualizarM("malla", "id_malla", idMalla, campos,Ingreso.getUsuario().getNombre());
                     this.dispose();
                 }
 

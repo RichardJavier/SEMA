@@ -8,6 +8,7 @@ package vistas;
 import conectar.Conexion;
 import control.Crud;
 import control.EjecutarScript;
+import control.EnviaEmail;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -315,20 +316,20 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 campos.put("fecha_fin", periodo1.getFechaFinalizacion());
                 campos.put("nueva_malla", periodo1.getMalla());
                 if (idPeriodo == 0) {
-                    crud.insertarM("periodo_semestre", campos,Login.getUsuario().getNombre());
+                    crud.insertarM("periodo_semestre", campos, Ingreso.getUsuario().getNombre());
                     EjecutarScript jr = new EjecutarScript();
                     jr.crearTabla();
                     cambiarNombre();
                     this.dispose();
 
                 } else {
-                    crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos,Login.getUsuario().getNombre());
+                    crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos, Ingreso.getUsuario().getNombre());
                     this.dispose();
                 }
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al ingresar", "Error", JOptionPane.ERROR_MESSAGE);
-                System.out.println(e);
+                EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
             }
         } else {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
@@ -366,18 +367,23 @@ public class FormularioPeriodo extends javax.swing.JDialog {
     }
 
     private void cargarCodigo() throws SQLException {
-        cc = Conexion.getInstance();
-        cn = cc.Conectar();
-        String sql = "SELECT * FROM periodo_semestre";
-        Statement st = cn.createStatement();
-        ResultSet rs = st.executeQuery(sql);
-        String fila[] = new String[6];
-        int index = 2;
-        while (rs.next()) {
-            fila[3] = String.valueOf("PE" + index);
-            index++;
-            codigoPeriodoTxt.setText(fila[3]);
-            periodo1.setIdPeriodo(Integer.parseInt(rs.getString("id1_periodo")));
+
+        try {
+            cc = Conexion.getInstance();
+            cn = cc.Conectar();
+            String sql = "SELECT * FROM periodo_semestre";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            String fila[] = new String[6];
+            int index = 2;
+            while (rs.next()) {
+                fila[3] = String.valueOf("PE" + index);
+                index++;
+                codigoPeriodoTxt.setText(fila[3]);
+                periodo1.setIdPeriodo(Integer.parseInt(rs.getString("id1_periodo")));
+            }
+        } catch (Exception e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
 
     }
@@ -419,11 +425,12 @@ public class FormularioPeriodo extends javax.swing.JDialog {
             st.executeUpdate(sql1);
         } catch (SQLException e) {
             System.out.println("error al ejecutar el cambio de nombre" + e);
-            JOptionPane.showMessageDialog(null,"Error al ejecutar script de tabla","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al ejecutar script de tabla", "Error", JOptionPane.ERROR_MESSAGE);
 
         }
-    
+
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

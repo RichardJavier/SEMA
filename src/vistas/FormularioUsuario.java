@@ -6,6 +6,7 @@
 package vistas;
 
 import control.Crud;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -152,6 +153,16 @@ public class FormularioUsuario extends javax.swing.JDialog {
         });
 
         passwordTxt.setText("jPasswordField1");
+        passwordTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordTxtMouseClicked(evt);
+            }
+        });
+        passwordTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                passwordTxtKeyTyped(evt);
+            }
+        });
 
         perfilCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE", "ADMINISTRADOR", "PROFESOR", "ALUMNO" }));
 
@@ -235,10 +246,10 @@ public class FormularioUsuario extends javax.swing.JDialog {
             campos.put("estado", usuario.getEstado());
             Crud crud = new Crud();
             if (idUsuario == 0) {
-                crud.insertarM("usuario", campos,Login.getUsuario().getNombre());
+                crud.insertarM("usuario", campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizarM("usuario", "idusuario", idUsuario, campos,Login.getUsuario().getNombre());
+                crud.actualizarM("usuario", "idusuario", idUsuario, campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             }
         } else {
@@ -249,6 +260,17 @@ public class FormularioUsuario extends javax.swing.JDialog {
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
+
+    private void passwordTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordTxtKeyTyped
+         char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_passwordTxtKeyTyped
+
+    private void passwordTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordTxtMouseClicked
+       passwordTxt.setText(null);
+    }//GEN-LAST:event_passwordTxtMouseClicked
     private Boolean validaForm() {
         boolean re = false;
         if (cedulaTxt.getText().trim().isEmpty()) {

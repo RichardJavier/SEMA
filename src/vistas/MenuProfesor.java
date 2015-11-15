@@ -19,16 +19,16 @@ import javax.swing.JOptionPane;
 public final class MenuProfesor extends javax.swing.JFrame {
 
     public MenuProfesor() {
-//        Login lg = new Login(MenuProfesor.this,true);
+//        Ingreso lg = new Ingreso(MenuProfesor.this,true);
 //        lg.setLocationRelativeTo(MenuProfesor.this);
 //        lg.setVisible(true);
-        
+
         initComponents();
         escritorio.setBorder(new ImagenFondo());
         this.setExtendedState(MAXIMIZED_BOTH);
         cerrar();
-        usuarioLbl.setText(Login.getUsuario().getNombre());
-       
+        usuarioLbl.setText(Ingreso.getUsuario().getNombre());
+
     }
 
     public void cerrar() {
@@ -48,10 +48,12 @@ public final class MenuProfesor extends javax.swing.JFrame {
 //confirmar salida
 
     public void confirmarSalida() {
-        int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la ventana", "Advertencia", JOptionPane.YES_NO_OPTION);
+        int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la sesion", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
-            Login.guardarLogin("MenuProfesor",Login.getUsuario(),"CIERRE DE SESION",Boolean.TRUE);
-            System.exit(0);
+            Ingreso.guardarLogin("MenuProfesor", Ingreso.getUsuario(), "CIERRE DE SESION", Boolean.TRUE);
+            this.dispose();
+            Ingreso ingreso = new Ingreso();
+            ingreso.setVisible(true);
 
         }
     }
@@ -173,22 +175,22 @@ public final class MenuProfesor extends javax.swing.JFrame {
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-      FrmResumen resumen = new FrmResumen();
-      escritorio.add(resumen);
-      resumen.setVisible(true);
+        FrmResumen resumen = new FrmResumen();
+        escritorio.add(resumen);
+        resumen.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       FrmResumenCurso curso = new FrmResumenCurso();
-       escritorio.add(curso);
-       curso.setVisible(true);
+        FrmResumenCurso curso = new FrmResumenCurso();
+        escritorio.add(curso);
+        curso.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       FrmNotas fn = new FrmNotas();
-       escritorio.add(fn);
-       fn.setVisible(true);
-               
+        FrmNotas fn = new FrmNotas();
+        escritorio.add(fn);
+        fn.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

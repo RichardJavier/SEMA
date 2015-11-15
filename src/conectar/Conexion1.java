@@ -1,5 +1,6 @@
 package conectar;
 
+import control.EnviaEmail;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,13 +43,13 @@ public final class Conexion1 {
             FileInputStream propFile = new FileInputStream("configuracionWEB.txt");
             Properties prop = new Properties(System.getProperties());
             prop.load(propFile);
-            driver = prop.getProperty("driver");
-            jdbc = prop.getProperty("jdbc");
-            host = prop.getProperty("host");
-            database = prop.getProperty("database");
-            username = prop.getProperty("username");
-            password = prop.getProperty("password");
-            opciones = prop.getProperty("options");
+            driver = prop.getProperty("driver").trim();
+            jdbc = prop.getProperty("jdbc").trim();
+            host = prop.getProperty("host").trim();
+            database = prop.getProperty("database").trim();
+            username = prop.getProperty("username").trim();
+            password = prop.getProperty("password").trim();
+            opciones = prop.getProperty("options").trim();
         } catch (java.io.FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "No se encuentra el archivo de configuracion" + e);
             System.exit(0);
@@ -70,7 +71,7 @@ public final class Conexion1 {
             smt = con.createStatement();
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println(e);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
              JOptionPane.showMessageDialog(null, "No existe conexion,por favor comuniquese con el administrador del sistema");
         }
         return con;

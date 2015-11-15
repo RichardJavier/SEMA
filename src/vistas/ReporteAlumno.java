@@ -6,6 +6,8 @@
 package vistas;
 
 import conectar.Conexion;
+import control.Crud;
+import control.EnviaEmail;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
         cargarSemestre();
         alumnoBuscadoTxt.setEnabled(false);
         reporteBtn.setEnabled(false);
+        recordAcademicoBtn.setEnabled(false);
         this.setLocation(310, 100);
     }
 
@@ -96,7 +99,8 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
                 });
             }
         } catch (SQLException | NumberFormatException e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+            
         }
 
     }
@@ -119,6 +123,7 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         alumnoBuscadoTxt = new javax.swing.JTextField();
+        recordAcademicoBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         notaSemestreTabla = new javax.swing.JTable();
 
@@ -164,7 +169,7 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
         });
 
         reporteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Report.png"))); // NOI18N
-        reporteBtn.setText("Reporte");
+        reporteBtn.setText("Reporte Notas");
         reporteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reporteBtnActionPerformed(evt);
@@ -181,6 +186,14 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Nombres :");
 
+        recordAcademicoBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Report.png"))); // NOI18N
+        recordAcademicoBtn.setText("Record Academico");
+        recordAcademicoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordAcademicoBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -188,23 +201,6 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(28, 28, 28)
-                        .addComponent(reporteBtn)
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(semestreCmb, 0, 205, Short.MAX_VALUE)
-                                    .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -219,7 +215,27 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(alumnoBuscadoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 241, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(28, 28, 28)
+                        .addComponent(reporteBtn)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(semestreCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(especialidadCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(recordAcademicoBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addGap(49, 49, 49)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -241,12 +257,13 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(reporteBtn)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
+                    .addComponent(jButton3)
+                    .addComponent(recordAcademicoBtn))
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(alumnoBuscadoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         notaSemestreTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -293,6 +310,7 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
                 alumnoBuscadoTxt.setText(null);
             } else {
                 reporteBtn.setEnabled(true);
+                recordAcademicoBtn.setEnabled(true);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Error campos de busqueda Vacio", "Error", JOptionPane.ERROR_MESSAGE);
@@ -354,15 +372,48 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
                 JasperExportManager.exportReportToPdfFile(jp, file);
                 File archivo = new File(file);
                 Desktop.getDesktop().open(archivo);
+                
                 //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
             }
 
         } catch (JRException | IOException ex) {
-            System.out.println(ex);
              JOptionPane.showMessageDialog(null, "Error al cargar pdf", "Error", JOptionPane.ERROR_MESSAGE);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",ex.toString());
         }
 
     }//GEN-LAST:event_reporteBtnActionPerformed
+
+    private void recordAcademicoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordAcademicoBtnActionPerformed
+        try {
+
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de pdf", "pdf");
+            chooser.setFileFilter(filter);
+            chooser.setDialogTitle("Guardar Achivo");
+            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                file = chooser.getSelectedFile().toString().concat(".pdf");
+                Conexion cc = Conexion.getInstance();
+                Connection cn = cc.Conectar();
+//                JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reportes/asociacion2.jasper");
+//                String path = "src/reportes/asociacion2.jasper";
+                JasperReport jr = null;
+                jr = (JasperReport) JRLoader.loadObjectFromFile("reportes/reporteNota.jasper");
+                String co = periodo.getCodigoPeriodo();
+                int cop = Integer.valueOf(co.substring(2, 4));
+                Map parametros = new HashMap();
+                parametros.put("cedula", cedulaTxt.getText());
+                JasperPrint jp = JasperFillManager.fillReport(jr, parametros, cn);
+                JasperExportManager.exportReportToPdfFile(jp, file);
+                File archivo = new File(file);
+                Desktop.getDesktop().open(archivo);
+                //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+            }
+
+        } catch (JRException | IOException ex) {
+             JOptionPane.showMessageDialog(null, "Error al cargar pdf", "Error", JOptionPane.ERROR_MESSAGE);
+             EnviaEmail.enviaMail("javier.tec1989@gmail.com",ex.toString());
+        }
+    }//GEN-LAST:event_recordAcademicoBtnActionPerformed
     private boolean validaDatos() {
         boolean resul = true;
         if (cedulaTxt.getText().trim().isEmpty()) {
@@ -439,6 +490,7 @@ public class ReporteAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable notaSemestreTabla;
     private javax.swing.JComboBox periodoCmb;
+    private javax.swing.JButton recordAcademicoBtn;
     private javax.swing.JButton reporteBtn;
     private javax.swing.JComboBox semestreCmb;
     // End of variables declaration//GEN-END:variables

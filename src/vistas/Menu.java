@@ -23,14 +23,14 @@ public final class Menu extends javax.swing.JFrame {
     Proceso p;
 
     public Menu() {
-//        Login lg = new Login(Menu.this, true);
+//        Ingreso lg = new Ingreso(Menu.this, true);
 //        lg.setLocationRelativeTo(Menu.this);
 //        lg.setVisible(true);
 
         initComponents();
         escritorio.setBorder(new ImagenFondo());
         this.setExtendedState(MAXIMIZED_BOTH);
-        usuarioLbl.setText(Login.getUsuario().getNombre());
+       // usuarioLbl.setText(Ingreso.getUsuario().getNombre());
         cerrar();
         p = new Proceso();
 
@@ -54,11 +54,14 @@ public final class Menu extends javax.swing.JFrame {
 //confirmar salida
 
     public void confirmarSalida() {
-        int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la ventana", "Advertencia", JOptionPane.YES_NO_OPTION);
+        int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la sesion", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
-            Login.guardarLogin("MenuAdministrador",Login.getUsuario(),"CIERRE DE SESION",Boolean.TRUE);
-            System.exit(0);
-            
+           Ingreso.guardarLogin("MenuAdministrador",Ingreso.getUsuario(),"CIERRE DE SESION",Boolean.TRUE);
+           this.dispose();
+           Ingreso ingreso = new Ingreso();
+           ingreso.setVisible(true);
+                   
+           
         }
     }
 
@@ -71,11 +74,7 @@ public final class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCheckBox1 = new javax.swing.JCheckBox();
         escritorio = new javax.swing.JDesktopPane();
-        jLabel1 = new javax.swing.JLabel();
-        usuarioLbl = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         gestionEscolarMenu = new javax.swing.JMenu();
         alumnoMenu = new javax.swing.JMenuItem();
@@ -100,24 +99,19 @@ public final class Menu extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
-        jCheckBox1.setText("jCheckBox1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/recursos/Icono.png")).getImage());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Male.png"))); // NOI18N
-        jLabel1.setText("Usuario");
-        escritorio.add(jLabel1);
-        jLabel1.setBounds(10, 10, 80, 24);
-
-        usuarioLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        usuarioLbl.setForeground(new java.awt.Color(255, 255, 255));
-        escritorio.add(usuarioLbl);
-        usuarioLbl.setBounds(10, 40, 160, 20);
-
-        jButton1.setText("jButton1");
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 564, Short.MAX_VALUE)
+        );
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
 
         menuBar.setMaximumSize(new java.awt.Dimension(235, 32769));
 
@@ -335,11 +329,11 @@ public final class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE)
+            .addComponent(escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(escritorio)
         );
 
         pack();
@@ -499,13 +493,10 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem alumnoMenu;
     private javax.swing.JMenu catalogosMenu;
     private javax.swing.JMenuItem ejeItem;
-    public javax.swing.JDesktopPane escritorio;
+    private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem especialidadMenuItem;
     private javax.swing.JMenu gestionEscolarMenu;
     private javax.swing.JMenuItem ingresoPromedioMenuItem;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -522,6 +513,5 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem periodoMenuItem;
     private javax.swing.JMenuItem profesorMenuItem;
     private javax.swing.JMenu reportesMenu;
-    private javax.swing.JLabel usuarioLbl;
     // End of variables declaration//GEN-END:variables
 }

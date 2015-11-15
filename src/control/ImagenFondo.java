@@ -21,10 +21,10 @@ public class ImagenFondo implements Border{
     public BufferedImage back;
     public ImagenFondo(){
         try {
-            URL imagenPath=new URL(getClass().getResource("../recursos/ITSBJ 1.jpg").toString());
+            URL imagenPath=new URL(getClass().getResource("/recursos/logo.jpg").toString());
             back=ImageIO.read(imagenPath);
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
     }
     public void  paintBorder(Component c,Graphics g,int x,int y,int width,int heigth){

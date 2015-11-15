@@ -2,6 +2,7 @@ package logica;
 
 import conectar.Conexion;
 import control.Crud;
+import control.EnviaEmail;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class NotaDao {
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -53,7 +54,7 @@ public class NotaDao {
             }
             return matricula.getNombreCompleto();
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -76,6 +77,7 @@ public class NotaDao {
             ResultSet rs = st.executeQuery(sql);
             return rs;
         } catch (SQLException | NumberFormatException e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }
@@ -107,8 +109,8 @@ public class NotaDao {
             return registrosAfectados;
 
         } catch (SQLException | HeadlessException e) {
-            System.out.println("Error en la actualizacion: " + e.toString());
             JOptionPane.showMessageDialog(null, "Error en la actualizacion:" + e.toString());
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return 0;
     }
@@ -135,7 +137,7 @@ public class NotaDao {
             ResultSet resultado = st.executeQuery(sql);
             return resultado;
         } catch (Exception e) {
-            System.out.println(e);
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
         return null;
     }

@@ -6,6 +6,7 @@
 package vistas;
 
 import control.Crud;
+import control.EnviaEmail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -77,7 +78,7 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
                 }
             } catch (SQLException | ParseException e) {
-                System.out.println(e);
+                EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
             }
 
         }
@@ -136,7 +137,6 @@ public class FormularioAlumno extends javax.swing.JDialog {
         discapacidadTxt = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         numeroConadisTxt = new javax.swing.JTextField();
-        validarBtn = new javax.swing.JButton();
         guardarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -146,6 +146,8 @@ public class FormularioAlumno extends javax.swing.JDialog {
         nombreColegioTxt = new javax.swing.JTextField();
         paisEstudioTxt = new javax.swing.JTextField();
         ciudadColegioTxt = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        validarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FORMULARIO DE REGISTRO DE ALUMNO");
@@ -416,14 +418,6 @@ public class FormularioAlumno extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        validarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
-        validarBtn.setText("Validar");
-        validarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validarBtnActionPerformed(evt);
-            }
-        });
-
         guardarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/CD.png"))); // NOI18N
         guardarBtn.setText("Guardar");
         guardarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -486,6 +480,31 @@ public class FormularioAlumno extends javax.swing.JDialog {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        validarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
+        validarBtn.setText("Validar");
+        validarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validarBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(validarBtn)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(validarBtn)
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -503,11 +522,11 @@ public class FormularioAlumno extends javax.swing.JDialog {
                         .addGap(27, 27, 27)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(validarBtn)
-                        .addGap(38, 38, 38)
+                        .addGap(98, 98, 98)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(guardarBtn)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addComponent(cancelarBtn)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
@@ -520,12 +539,18 @@ public class FormularioAlumno extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(validarBtn)
-                        .addComponent(guardarBtn)
-                        .addComponent(cancelarBtn))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(guardarBtn)
+                            .addComponent(cancelarBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -544,14 +569,15 @@ public class FormularioAlumno extends javax.swing.JDialog {
         crud = new Crud();
         cargarAlumno();
         if (idAlumno == 0) {
-            crud.insertarM("maestro_alumno", campos,Login.getUsuario().getNombre());
+            crud.insertarM("maestro_alumno", campos,Ingreso.getUsuario().getNombre());
             this.dispose();
         } else {
-            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos,Login.getUsuario().getNombre());
+            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos,Ingreso.getUsuario().getNombre());
             this.dispose();
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
     private Map cargarAlumno() {
+        try {
         campos = new HashMap();
         alumno.setCedula(cedulaTxt.getText());
         alumno.setApellidoPaterno(apellidoPaternoTxt.getText().toUpperCase());
@@ -606,8 +632,11 @@ public class FormularioAlumno extends javax.swing.JDialog {
         campos.put("persona_contacto", alumno.getPersonaContacto());
         campos.put("sexo", alumno.getSexo());
         campos.put("telefono_fijo", alumno.getTelefonoFijo());
-
-        return campos;
+        return  campos;
+        } catch (Exception e) {
+           EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+        }
+        return  campos;
     }
 
     private boolean validaForm() {
@@ -747,6 +776,7 @@ public class FormularioAlumno extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField nombreColegioTxt;
     private javax.swing.JTextField nombresCompletosTxt;
     private javax.swing.JTextField numeroConadisTxt;

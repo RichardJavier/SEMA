@@ -7,6 +7,8 @@ package vistas;
 
 import conectar.Conexion;
 import control.Crud;
+import control.EnviaEmail;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -115,13 +117,15 @@ public class FrmResumen extends javax.swing.JInternalFrame {
                                 resumen.getAprobacion(),
                                 resumen.getSemestre(),
                                 resumen.getEspecialidad()
-                            });
+                            });        
                         }
 
                     }
 
                 } catch (SQLException | NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Error la cargar", "Error", JOptionPane.ERROR_MESSAGE);
+                    EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+                    
                 } finally {
                     try {
                         cc.desconectar();
@@ -417,6 +421,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
             validarBtn.setEnabled(true);
         } catch (SQLException | NumberFormatException e) {
             System.out.println(e.toString());
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
         }
     }//GEN-LAST:event_resumenTablaMouseClicked
 
@@ -454,7 +459,7 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         campos.put("asistencia", asistencia.getText());
         campos.put("aprobacion", aprobacionTxt.getText());
         Crud crud = new Crud();
-        crud.actualizarM("resumen", "id_resumen", resumen.getIdResumen(), campos,Login.getUsuario().getNombre());
+        crud.actualizarM("resumen", "id_resumen", resumen.getIdResumen(), campos,Ingreso.getUsuario().getNombre());
         limpiaCampos();
         ocultaCampos();
         cargaDatos();
@@ -466,7 +471,8 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
     private void calcularCampos() {
-        if (!tutoriaIntegradaTxt.getText().trim().isEmpty()) {
+        try {
+            if (!tutoriaIntegradaTxt.getText().trim().isEmpty()) {
             resumen.setNotaTutoria(new BigDecimal(tutoriaIntegradaTxt.getText()));
             if (resumen.getNotaTutoria().compareTo(new BigDecimal(configuracion.getValorNota())) >= 0) {
                 JOptionPane.showMessageDialog(null, "Error valor de ingresado superior al adminitido maximo:" + " " + configuracion.getValorNota() + " ", "Error", JOptionPane.ERROR_MESSAGE);
@@ -507,6 +513,10 @@ public class FrmResumen extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Error campo de tutoria vacio", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        } catch (HeadlessException | NumberFormatException e) {
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+        }
+        
     }
 
     private void limpiaCampos() {
