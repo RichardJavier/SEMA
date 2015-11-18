@@ -155,10 +155,10 @@ public class FormularioEspecialidad extends javax.swing.JDialog {
         if (validaForm()) {
             cargaDatos();
             if (idEspecialidad == 0) {
-                crud.insertar("especialidad", campos,Ingreso.getUsuario().getNombre());
+                crud.insertarM("especialidad", campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             } else {
-                crud.actualizar("especialidad", "id1_especialidad", idEspecialidad, campos,Ingreso.getUsuario().getNombre());
+                crud.actualizarM("especialidad", "id1_especialidad", idEspecialidad, campos,Ingreso.getUsuario().getNombre());
                 this.dispose();
             }
 

@@ -76,7 +76,7 @@ public final class MenuProfesor extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setIconImage(new ImageIcon(getClass().getResource("/recursos/Icono.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));

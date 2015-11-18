@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import control.CargarAlumnoWeb;
 import java.awt.event.KeyEvent;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
@@ -168,7 +167,7 @@ public class Ingreso extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("SISMA VERSION 1.0");
+        jLabel4.setText("SISMA VERSION 1.0.1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -227,22 +226,22 @@ public class Ingreso extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Usuario incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
                     usuarioTxt.setText(null);
                     usuarioTxt.requestFocus();
-                    Login.guardarLogin("VACIO", temp,"ERROR",Boolean.FALSE);
+                    Ingreso.guardarLogin("VACIO", temp,"ERROR",Boolean.FALSE);
                 } else if (temp.getClave().compareTo(usuario.getClave()) != 0) {
                     JOptionPane.showMessageDialog(null, "Estimado " + " " + usuario.getNombre() + " " + "su clave es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
                     passwordTxt.setText(null);
                     passwordTxt.requestFocus();
-                    Login.guardarLogin("INTENTO", usuario,"INCORRECTA",Boolean.FALSE);
+                    Ingreso.guardarLogin("INTENTO", usuario,"INCORRECTA",Boolean.FALSE);
                 } else if (usuario.getEstado().compareTo("DS") == 0) {
                     JOptionPane.showMessageDialog(null, "Estimado" + "" + usuario.getNombre() + " " + "su usuario esta desactivado", "Informacion", JOptionPane.WARNING_MESSAGE);
-                    Login.guardarLogin("INTENTO", usuario,"BLOQUEADO",Boolean.FALSE);
+                    Ingreso.guardarLogin("INTENTO", usuario,"BLOQUEADO",Boolean.FALSE);
                     System.exit(0);
                 } else {
                     JOptionPane.showMessageDialog(null, "Bienvenido al sistema" + " " + usuario.getNombre());
                     if (usuario.getPerfil().compareTo("ADMINISTRADOR") == 0) {
                         Menu m = new Menu();
                         m.setVisible(true);
-                        Login.guardarLogin("MenuAdministrador", usuario,"INICIO DE SESION",Boolean.TRUE);
+                        Ingreso.guardarLogin("MenuAdministrador", usuario,"INICIO DE SESION",Boolean.TRUE);
                         this.dispose();
                     } else if (usuario.getPerfil().compareTo("PROFESOR") == 0) {
                         usuario.setNombre(usuario.getNombre());
@@ -265,7 +264,7 @@ public class Ingreso extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);
                 usuarioTxt.setText(null);
                 usuarioTxt.requestFocus();
-                Login.guardarLogin("INTENTO", temp,"NO EXISTE",Boolean.FALSE);
+                Ingreso.guardarLogin("INTENTO", temp,"NO EXISTE",Boolean.FALSE);
             }
         }
 
@@ -322,7 +321,7 @@ public class Ingreso extends javax.swing.JFrame {
     }
 
     public static void setUsuario(Usuario usuario) {
-        Login.usuario = usuario;
+        Ingreso.usuario = usuario;
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

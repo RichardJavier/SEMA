@@ -91,6 +91,7 @@ public class Crud {
             return registrosAfectados;
 
         } catch (SQLException ex) {
+            System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Ocurrio un error,Verifique la informacion que este correcta", "Error", JOptionPane.ERROR_MESSAGE);
             EnviaEmail.enviaMail("javier.tec1989@gmail.com",ex.toString());
         }

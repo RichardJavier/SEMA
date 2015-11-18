@@ -30,7 +30,7 @@ public final class Menu extends javax.swing.JFrame {
         initComponents();
         escritorio.setBorder(new ImagenFondo());
         this.setExtendedState(MAXIMIZED_BOTH);
-       // usuarioLbl.setText(Ingreso.getUsuario().getNombre());
+        usuarioLbl.setText(Ingreso.getUsuario().getNombre());
         cerrar();
         p = new Proceso();
 
@@ -75,19 +75,22 @@ public final class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         escritorio = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
+        usuarioLbl = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         gestionEscolarMenu = new javax.swing.JMenu();
         alumnoMenu = new javax.swing.JMenuItem();
         matriculaItem = new javax.swing.JMenuItem();
         actualizarItem = new javax.swing.JMenuItem();
         catalogosMenu = new javax.swing.JMenu();
-        periodoMenuItem = new javax.swing.JMenuItem();
-        especialidadMenuItem = new javax.swing.JMenuItem();
-        profesorMenuItem = new javax.swing.JMenuItem();
-        materiaMenuItem = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         mallaMenuItem = new javax.swing.JMenuItem();
+        profesorMenuItem = new javax.swing.JMenuItem();
         ejeItem = new javax.swing.JMenuItem();
+        especialidadMenuItem = new javax.swing.JMenuItem();
+        periodoMenuItem = new javax.swing.JMenuItem();
         paraleloItem = new javax.swing.JMenuItem();
+        materiaMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         notasMenu = new javax.swing.JMenu();
         notasPeriodoActualMenuItem = new javax.swing.JMenuItem();
@@ -100,18 +103,38 @@ public final class Menu extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setIconImage(new ImageIcon(getClass().getResource("/recursos/Icono.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Boss.png"))); // NOI18N
+        jLabel1.setText("Usuario");
+
+        usuarioLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        usuarioLbl.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 564, Short.MAX_VALUE)
+            .addGroup(escritorioLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(usuarioLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(418, Short.MAX_VALUE))
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(escritorioLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usuarioLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(323, Short.MAX_VALUE))
         );
+        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(usuarioLbl, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menuBar.setMaximumSize(new java.awt.Dimension(235, 32769));
 
@@ -158,26 +181,25 @@ public final class Menu extends javax.swing.JFrame {
         catalogosMenu.setText("Catalogos");
         catalogosMenu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        periodoMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        periodoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Wallet.png"))); // NOI18N
-        periodoMenuItem.setMnemonic('s');
-        periodoMenuItem.setText("Periodo");
-        periodoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/User group.png"))); // NOI18N
+        jMenuItem5.setText("Autoridades");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                periodoMenuItemActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        catalogosMenu.add(periodoMenuItem);
+        catalogosMenu.add(jMenuItem5);
 
-        especialidadMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        especialidadMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
-        especialidadMenuItem.setText("Especialidad");
-        especialidadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        mallaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        mallaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/List.png"))); // NOI18N
+        mallaMenuItem.setText("Configuracion");
+        mallaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                especialidadMenuItemActionPerformed(evt);
+                mallaMenuItemActionPerformed(evt);
             }
         });
-        catalogosMenu.add(especialidadMenuItem);
+        catalogosMenu.add(mallaMenuItem);
 
         profesorMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         profesorMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/business_user_add.png"))); // NOI18N
@@ -190,26 +212,6 @@ public final class Menu extends javax.swing.JFrame {
         });
         catalogosMenu.add(profesorMenuItem);
 
-        materiaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        materiaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
-        materiaMenuItem.setText("Materia");
-        materiaMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                materiaMenuItemActionPerformed(evt);
-            }
-        });
-        catalogosMenu.add(materiaMenuItem);
-
-        mallaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        mallaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/List.png"))); // NOI18N
-        mallaMenuItem.setText("Configuracion");
-        mallaMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mallaMenuItemActionPerformed(evt);
-            }
-        });
-        catalogosMenu.add(mallaMenuItem);
-
         ejeItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ejeItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Briefcase.png"))); // NOI18N
         ejeItem.setText("Eje");
@@ -220,6 +222,27 @@ public final class Menu extends javax.swing.JFrame {
         });
         catalogosMenu.add(ejeItem);
 
+        especialidadMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        especialidadMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
+        especialidadMenuItem.setText("Especialidad");
+        especialidadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                especialidadMenuItemActionPerformed(evt);
+            }
+        });
+        catalogosMenu.add(especialidadMenuItem);
+
+        periodoMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        periodoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Wallet.png"))); // NOI18N
+        periodoMenuItem.setMnemonic('s');
+        periodoMenuItem.setText("Periodo");
+        periodoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                periodoMenuItemActionPerformed(evt);
+            }
+        });
+        catalogosMenu.add(periodoMenuItem);
+
         paraleloItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         paraleloItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Door.png"))); // NOI18N
         paraleloItem.setText("Paralelo");
@@ -229,6 +252,16 @@ public final class Menu extends javax.swing.JFrame {
             }
         });
         catalogosMenu.add(paraleloItem);
+
+        materiaMenuItem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        materiaMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/note_book_add.png"))); // NOI18N
+        materiaMenuItem.setText("Materia");
+        materiaMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                materiaMenuItemActionPerformed(evt);
+            }
+        });
+        catalogosMenu.add(materiaMenuItem);
 
         jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/notes.png"))); // NOI18N
@@ -424,9 +457,9 @@ public final class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_actualizarItemActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-//        ActualizacionDatos ad = new ActualizacionDatos();
-//        escritorio.add(ad);
-//        ad.setVisible(true);
+        FrmAutoridad fa = new FrmAutoridad();
+        escritorio.add(fa);
+        fa.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -497,11 +530,13 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem especialidadMenuItem;
     private javax.swing.JMenu gestionEscolarMenu;
     private javax.swing.JMenuItem ingresoPromedioMenuItem;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem mallaMenuItem;
     private javax.swing.JMenuItem materiaMenuItem;
     private javax.swing.JMenuItem matriculaItem;
@@ -513,5 +548,6 @@ public final class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem periodoMenuItem;
     private javax.swing.JMenuItem profesorMenuItem;
     private javax.swing.JMenu reportesMenu;
+    private javax.swing.JLabel usuarioLbl;
     // End of variables declaration//GEN-END:variables
 }
