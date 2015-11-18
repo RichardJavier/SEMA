@@ -19,6 +19,7 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
     public ActualizacionDatos() {
         initComponents();
         setLocation(360, 180);
+        
         actualizacionBtn.setEnabled(false);
     }
 
