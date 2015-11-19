@@ -736,7 +736,12 @@ public class FrmNotas extends javax.swing.JInternalFrame {
         limpiaCampos();
         if (semestreCmb.getSelectedIndex() != 0) {
             //  nombresTxt.setText(notaDao.nombreAlumno(cedulaTxt.getText(), semestre.getIdSemestre()));
-            cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
+            if (periodo.getCodigoPeriodo().compareTo("PE22")!=0) {
+                cargarDatos(periodo.getCodigoPeriodo(), semestre.getIdSemestre());
+            } else {
+                JOptionPane.showMessageDialog(null,"Estimado usuario no ha ingresado un periodo para cargar tabla notas","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+            
 
         } else {
             JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
