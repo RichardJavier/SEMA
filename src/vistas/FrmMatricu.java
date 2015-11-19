@@ -214,7 +214,6 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
 
     private void activaCampos() {
         cedulaBuscadaTxt.setEnabled(true);
-        nombresBuscadosTxt.setEnabled(true);
         buscarInscritoBtn.setEnabled(true);
         semestreCmb.setEnabled(true);
         especialidadCmb.setEnabled(true);

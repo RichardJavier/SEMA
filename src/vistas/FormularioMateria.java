@@ -1848,6 +1848,10 @@ public class FormularioMateria extends javax.swing.JDialog {
         activadaRdb.setEnabled(false);
         desactivadaRdb.setEnabled(false);
         configuracionCmb.setEnabled(false);
+        mallaCmb.setEnabled(false);
+        configuracionCmb.setEnabled(false);
+        semestreCmb.setEnabled(false);
+        especialidadCmb.setEnabled(false);
         ejeCmb.setEnabled(false);
         profesoCmb.setEnabled(false);
     }
