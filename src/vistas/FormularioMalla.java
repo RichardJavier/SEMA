@@ -77,6 +77,11 @@ public class FormularioMalla extends javax.swing.JDialog {
 
         cancelarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Delete.png"))); // NOI18N
         cancelarBtn.setText("Cancelar");
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,6 +143,10 @@ public class FormularioMalla extends javax.swing.JDialog {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_ingresarBtnActionPerformed
+
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
 
     /**
      * @param args the command line arguments
