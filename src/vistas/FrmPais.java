@@ -22,9 +22,21 @@ public class FrmPais extends javax.swing.JInternalFrame {
     private void cargaDatos(){
      String col []={"PK","PAIS","NACIONALIDAD"};
      String data [][]={{"","",""}};
-     modelo=new DefaultTableModel(data, col);
-    
+     modelo=new DefaultTableModel(data, col) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+     modelo.setRowCount(0);
      paisTabla.setModel(modelo);
+     new Thread(new Runnable() {
+
+         @Override
+         public void run() {
+             
+         }
+     }).start();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

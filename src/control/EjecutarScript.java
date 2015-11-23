@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.sql.SQLException;
 import com.ibatis.common.jdbc.ScriptRunner;
+import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
@@ -14,16 +15,16 @@ public class EjecutarScript {
 
     public void crearTabla() {
 
-        String archivo = "src/script/alumno.sql";
+      //  String archivo = "src/script/alumno.sql";
         try {
-
+            File path = new File("script/alumno.sql");
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             ScriptRunner src = new ScriptRunner(cn, false, false);
-            Reader r = new BufferedReader(new FileReader(archivo));
+            Reader r = new BufferedReader(new FileReader(path.getAbsoluteFile()));
             src.runScript(r);
         } catch (SQLException | IOException e) {
-            JOptionPane.showMessageDialog(null, "Ocurrio un error al cargar el Script", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al cargar el Script"+e, "Error", JOptionPane.ERROR_MESSAGE);
             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
 
         }

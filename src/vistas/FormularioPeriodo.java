@@ -328,7 +328,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 }
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al ingresar", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al ingresar"+e, "Error", JOptionPane.ERROR_MESSAGE);
                 EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
             }
         } else {

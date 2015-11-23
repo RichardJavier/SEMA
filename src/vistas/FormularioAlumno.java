@@ -252,10 +252,11 @@ public class FormularioAlumno extends javax.swing.JDialog {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cedulaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(apellidoPaternoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(apellidoPaternoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(apellidoMaternoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,11 +345,11 @@ public class FormularioAlumno extends javax.swing.JDialog {
                             .addComponent(emailFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tlfFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(celularFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 78, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addComponent(personaContactoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(personaContactoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -643,32 +644,67 @@ public class FormularioAlumno extends javax.swing.JDialog {
         JTextField[] texto = {cedulaTxt, apellidoPaternoTxt, apellidoMaternoTxt, nombresCompletosTxt,
             etniaTxt, telefonoFijoAlumnoTxt, emailAlumnoTxt, direccionTxt, ciudadDomicilioTxt, personaContactoTxt,
             parentescoTxt, tlfFamiliarTxt, nombreColegioTxt};
-        for (JTextField texto1 : texto) {
-            if (texto1.getText().trim().isEmpty()) {
-                texto1.setBackground(Color.red);
-                resultado = false;
+        JComboBox[] combo = {sexoCmb, estadoCivilCmb, paisNaciCmb, ciudadNaciCmb, paisEstCmb, ciudadEstCmb};
+        if (idAlumno == 0) {
+            for (JTextField texto1 : texto) {
+                if (texto1.getText().trim().isEmpty()) {
+                    texto1.setBackground(Color.red);
+                    resultado = false;
+                } else {
+                    texto1.setBackground(null);
+                    resultado = true;
+                }
+
+            }
+        } else {
+            for (JTextField texto1 : texto) {
+                if (texto1.getText().trim().isEmpty()) {
+                    texto1.setBackground(Color.red);
+                    resultado = false;
+                    break;
+                } else {
+                    texto1.setBackground(null);
+                    resultado = true;
+                }
+
+            }
+        }
+
+        if (resultado == true) {
+            if (idAlumno == 0) {
+                for (JComboBox combo1 : combo) {
+                    if (combo1.getSelectedIndex() == 0) {
+                        combo1.setBackground(Color.red);
+                        resultado = false;
+                    } else {
+                        combo1.setBackground(null);
+                        resultado = true;
+                    }
+                }
             } else {
-                texto1.setBackground(null);
-                resultado = true;
+                for (JComboBox combo1 : combo) {
+                    if (combo1.getSelectedIndex() == 0) {
+                        combo1.setBackground(Color.red);
+                        resultado = false;
+                        break;
+                    } else {
+                        combo1.setBackground(null);
+                        resultado = true;
+                    }
+                }
+
             }
 
         }
-        JComboBox[] combo = {sexoCmb, estadoCivilCmb, paisNaciCmb, ciudadNaciCmb, paisEstCmb, ciudadEstCmb};
-        for (JComboBox combo1 : combo) {
-            if (combo1.getSelectedIndex()==0) {
-                combo1.setBackground(Color.red);
-                resultado=false;
+        if (resultado == true) {
+            if (fechaNacimientoChooser.getDate() == null) {
+                fechaNacimientoChooser.setBackground(Color.red);
+                resultado = false;
             } else {
-                combo1.setBackground(null);
-                resultado=true;
+                fechaNacimientoChooser.setBackground(null);
             }
         }
-        if (fechaNacimientoChooser.getDate() == null) {
-            fechaNacimientoChooser.setBackground(Color.red);
-            resultado = false;
-        } else {
-            fechaNacimientoChooser.setBackground(null);
-        }
+
         if (resultado == true) {
             ocultaCampos();
             guardarBtn.setEnabled(true);

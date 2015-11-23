@@ -579,9 +579,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                     //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
                     ocultaCampos();
                     limpiaCampos();
-
                 }
-
             } catch (JRException | IOException ex) {
                 JOptionPane.showMessageDialog(null, "Error al cargar pdf", "Error", JOptionPane.ERROR_MESSAGE);
                 EnviaEmail.enviaMail("javier.tec1989@gmail.com", ex.toString());
@@ -658,63 +656,74 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
         MateriaDao materiaDao = new MateriaDao();
 
         try {
+
             if (validaForm()) {
-                cedulaBuscadaTxt.setEnabled(false);
-                if (matriculaDao.verificaMatricula(cedulaBuscadaTxt.getText(), periodo.getIdPeriodo())) {
-                    if (semestre.getIdSemestre() == 1) {
-                        listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
-                        if (!listaMaterias.isEmpty()) {
-                            matriculaBtn.setEnabled(true);
-                            valorMatricula = 0;//valor para matricula normal
-                            ocultaCampos();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
-                        }
-                    } else {
-                        String h = metodosGeneralesDao.codigoPeriodoBusacado();
-                        if (h.compareTo("PE22") == 0) {
-                            JOptionPane.showMessageDialog(null, "Estimado usuario no existe la tabla de notas  PE22", "Informacion", JOptionPane.WARNING_MESSAGE);
-                        } else {
-                            listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1, cedulaBuscadaTxt.getText());
+                if (periodo.getCodigoPeriodo().compareTo("PE22") != 0) {
+                    cedulaBuscadaTxt.setEnabled(false);
+                    if (matriculaDao.verificaMatricula(cedulaBuscadaTxt.getText(), periodo.getIdPeriodo())) {
+                        if (semestre.getIdSemestre() == 1) {
                             listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
-                            if (!listaMateriasArrastre.isEmpty()) {
-                                if (JOptionPane.showConfirmDialog(this, "¿Estimado usuario el alumno tiene materias de arraste del anterior periodo "
-                                        + "desea inscribirlo solo en las materias perdidas ", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                                    valorMatricula = 1;//valor para solo materias arrastre
-                                    matriculaBtn.setEnabled(true);
+                            if (!listaMaterias.isEmpty()) {
+                                matriculaBtn.setEnabled(true);
+                                valorMatricula = 0;//valor para matricula normal
+                                ocultaCampos();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
+                            }
+                        } else {
+                            String h = metodosGeneralesDao.codigoPeriodoBusacado();
+                            if (h.compareTo("PE22") == 0) {
+                                JOptionPane.showMessageDialog(null, "Estimado usuario no existe la tabla de notas  PE22", "Informacion", JOptionPane.WARNING_MESSAGE);
+                            } else {
+                                listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1, cedulaBuscadaTxt.getText());
+                                listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
+                                if (!listaMateriasArrastre.isEmpty()) {
+                                    if (JOptionPane.showConfirmDialog(this, "¿Estimado usuario el alumno tiene materias de arraste del anterior periodo "
+                                            + "desea inscribirlo solo en las materias perdidas ", "Advertencia", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                        valorMatricula = 1;//valor para solo materias arrastre
+                                        matriculaBtn.setEnabled(true);
+                                    } else {
+                                        valorMatricula = 2;//valor para matricular todas las materias incluido los arrastres
+                                        if (!listaMaterias.isEmpty()) {
+                                            matriculaBtn.setEnabled(true);
+                                            ocultaCampos();
+                                            valorMatricula = 0;
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
+                                            limpiaCampos();
+                                            ocultaCampos();
+                                        }
+                                    }
                                 } else {
-                                    valorMatricula = 2;//valor para matricular todas las materias incluido los arrastres
                                     if (!listaMaterias.isEmpty()) {
                                         matriculaBtn.setEnabled(true);
+                                        valorMatricula = 0;//valor matricula normal...
                                         ocultaCampos();
-                                        valorMatricula = 0;
                                     } else {
                                         JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
+                                        limpiaCampos();
+                                        ocultaCampos();
                                     }
 
                                 }
-                            } else {
-                                if (!listaMaterias.isEmpty()) {
-                                    matriculaBtn.setEnabled(true);
-                                    valorMatricula = 0;//valor matricula normal...
-                                    ocultaCampos();
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "No existe materias para realizar la matricula");
-                                }
-
                             }
                         }
-                    }
 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El alumno ya se encuentra matricula en el periodo actual", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        limpiaCampos();
+                        ocultaCampos();
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "El alumno ya se encuentra matricula en el periodo actual", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Estimado usuario no existe creado un periodo para matricular al alumno", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     limpiaCampos();
                     ocultaCampos();
                 }
-
             } else {
                 JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+
             }
+
         } catch (Exception e) {
             EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
@@ -818,7 +827,6 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                 campos.put("tipo_matricula", Estado.C_ARRASTRES.name());
                 campos.put("id_semestre", semestre.getIdSemestre());
             }
-
             campos.put("fecha_creacion", cal.getTime());
             campos.put("id_periodo", periodo.getIdPeriodo());
             campos.put("id_especialidad", especialidad.getIdEspecialidad());
