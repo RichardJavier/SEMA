@@ -31,7 +31,7 @@ public class MatriculaDao {
             return resultado;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
-            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
 
         return null;
@@ -56,25 +56,45 @@ public class MatriculaDao {
             return resultado;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
-            EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
 
         return null;
-    } 
-    public Integer cargaIdMatricula(){
-    Matricula matricula = new Matricula();
+    }
+
+    public Integer cargaIdMatricula() {
+        Matricula matricula = new Matricula();
         try {
             Conexion cc = Conexion.getInstance();
             Connection cn = cc.Conectar();
             String sql = "SELECT * FROM matricula  ORDER BY id_matricula DESC LIMIT 0,1 ";
-            Statement st =cn.createStatement();
+            Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 matricula.setIdMatricula(Integer.parseInt(rs.getString("id_matricula")));
             }
             return matricula.getIdMatricula();
         } catch (SQLException | NumberFormatException e) {
         }
-    return null;
+        return null;
+    }
+
+    public Boolean verificaMatricula(String cedula, Integer idPeriodo) {
+        boolean flag = true;
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql ="Select * from matricula where cedula ="+"'"+cedula+"'"+"and id_periodo="+"'"+idPeriodo+"'"+";";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {                
+                flag=false;
+                break;
+            }
+            return flag;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
     }
 }

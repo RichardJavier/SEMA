@@ -477,7 +477,7 @@ public class FrmMatricula extends javax.swing.JInternalFrame {
                 }
             } else {
                 String h = metodosGeneralesDao.codigoPeriodoBusacado();
-                listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1);
+                listaMateriasArrastre = materiaDao.listaMateriasArrastre(h, this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre() - 1,cedulaBuscadaTxt.getText());
                 listaMaterias = materiaDao.listaMaterias(this.especialidad.getIdEspecialidad(), this.semestre.getIdSemestre());
                 if (!listaMateriasArrastre.isEmpty()) {
                     if (JOptionPane.showConfirmDialog(this, "¿Estimado usuario el alumno tiene materias de arraste del anterior periodo "

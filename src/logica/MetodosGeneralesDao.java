@@ -195,4 +195,35 @@ public class MetodosGeneralesDao {
 
         return null;
     }
+     public ResultSet cargaCiudad() {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "SELECT * FROM ciudad";
+                   
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
+            System.out.println("Error en la consulta" + e);
+        }
+
+        return null;
+    }
+      public ResultSet cargaPais() {
+        try {
+            Conexion cc = Conexion.getInstance();
+            Connection cn = cc.Conectar();
+            String sql = "SELECT * FROM pais";
+            Statement st = cn.createStatement();
+            ResultSet resultado = st.executeQuery(sql);
+            return resultado;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en la Consulta" + e);
+            System.out.println("Error en la consulta" + e);
+        }
+
+        return null;
+    }
 }

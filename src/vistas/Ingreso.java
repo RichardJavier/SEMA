@@ -250,15 +250,7 @@ public class Ingreso extends javax.swing.JFrame {
                         guardarLogin("MenuProfesor", usuario,"INICIO DE SESION",Boolean.TRUE);
                         mn.setVisible(true);
                         this.dispose();
-                    } else if (usuario.getPerfil().compareTo("ALUMNO") == 0) {
-                        usuario.setNombre(usuario.getNombre());
-                        usuario.setPerfil(usuario.getPerfil());
-                        MenuAlumno ma = new MenuAlumno();
-                        ma.setVisible(true);
-                        guardarLogin("MenuAlumno", usuario,"INICIO DE SESION",Boolean.TRUE);
-                        this.dispose();
                     }
-
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "El usuario ingresado no existe", "Informacion", JOptionPane.WARNING_MESSAGE);

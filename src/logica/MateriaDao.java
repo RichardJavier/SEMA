@@ -120,7 +120,7 @@ public class MateriaDao {
         return null;
     }
 
-    public List<Materia> listaMateriasArrastre(String antesPeriodo, int idEspecialidad, int idSemestreAntes) {
+    public List<Materia> listaMateriasArrastre(String antesPeriodo, int idEspecialidad, int idSemestreAntes,String cedula) {
         List<Materia> listaMateriasArrastre = new ArrayList<>();
         try {
             Conexion cc = Conexion.getInstance();
@@ -128,7 +128,8 @@ public class MateriaDao {
             String sql = "select * from nota_" + antesPeriodo + " as n "
                     + "inner join nombre_materia as nm "
                     + "on n.id_materia=nm.id1_nombre_materia "
-                    + "where estado_nota = 'RP' ";
+                    + "where estado_nota = 'RP' "
+                    + "and cedula="+"'"+cedula+"'"+";";
             Statement st = cn.createStatement();
             resultSet = st.executeQuery(sql);
             while (resultSet.next()) {

@@ -7,15 +7,18 @@ package vistas;
 
 import control.Crud;
 import control.EnviaEmail;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.AlumnoDao;
+import logica.MetodosGeneralesDao;
 import modelo.Alumno;
 
 public class FormularioAlumno extends javax.swing.JDialog {
@@ -27,6 +30,7 @@ public class FormularioAlumno extends javax.swing.JDialog {
     AlumnoDao alumnoDao;
     Alumno alumno;
     Crud crud;
+    MetodosGeneralesDao generalesDao;
 
     public FormularioAlumno(FrmAlumno parent, boolean modal) {
         FormularioAlumno.frmAlumno = parent;
@@ -34,6 +38,9 @@ public class FormularioAlumno extends javax.swing.JDialog {
         initComponents();
         alumno = new Alumno();
         guardarBtn.setEnabled(false);
+        generalesDao = new MetodosGeneralesDao();
+        cargaCiudad();
+        cargaPais();
     }
 
     public FormularioAlumno(FrmAlumno parent, boolean modal, Integer idAlumno) {
@@ -43,6 +50,9 @@ public class FormularioAlumno extends javax.swing.JDialog {
         initComponents();
         guardarBtn.setEnabled(false);
         alumno = new Alumno();
+        generalesDao = new MetodosGeneralesDao();
+        cargaCiudad();
+        cargaPais();
         if (idAlumno > 0) {
             alumnoDao = new AlumnoDao();
             try {
@@ -56,8 +66,8 @@ public class FormularioAlumno extends javax.swing.JDialog {
                     fechaNacimientoChooser.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("fecha_nacimiento")));
                     sexoCmb.setSelectedItem(resultSet.getString("sexo"));
                     estadoCivilCmb.setSelectedItem(resultSet.getString("estado_civil"));
-                    paisNacimientoTxt.setText(resultSet.getString("pais_nacimiento"));
-                    ciudadNacimientoTxt.setText(resultSet.getString("ciudad_nacimiento"));
+                    paisNaciCmb.setSelectedItem(resultSet.getString("pais_nacimiento"));
+                    ciudadNaciCmb.setSelectedItem(resultSet.getString("ciudad_nacimiento"));
                     etniaTxt.setText(resultSet.getString("etnia"));
                     telefonoFijoAlumnoTxt.setText(resultSet.getString("telefono_fijo"));
                     celularAlumnoTxt.setText(resultSet.getString("celular"));
@@ -73,12 +83,12 @@ public class FormularioAlumno extends javax.swing.JDialog {
                     discapacidadTxt.setText(resultSet.getString("discapacidad"));
                     numeroConadisTxt.setText(resultSet.getString("numero_conadis"));
                     nombreColegioTxt.setText(resultSet.getString("nombre_colegio"));
-                    paisEstudioTxt.setText(resultSet.getString("pais_estudio"));
-                    ciudadColegioTxt.setText(resultSet.getString("ciudad_colegio"));
+                    paisEstCmb.setSelectedItem(resultSet.getString("pais_estudio"));
+                    ciudadEstCmb.setSelectedItem(resultSet.getString("ciudad_colegio"));
 
                 }
             } catch (SQLException | ParseException e) {
-                EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+                EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
             }
 
         }
@@ -100,15 +110,15 @@ public class FormularioAlumno extends javax.swing.JDialog {
         nombresCompletosTxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        paisNacimientoTxt = new javax.swing.JTextField();
         fechaNacimientoChooser = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         etniaTxt = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        ciudadNacimientoTxt = new javax.swing.JTextField();
         sexoCmb = new javax.swing.JComboBox();
         estadoCivilCmb = new javax.swing.JComboBox();
+        paisNaciCmb = new javax.swing.JComboBox();
+        ciudadNaciCmb = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         telefonoFijoAlumnoTxt = new javax.swing.JTextField();
@@ -140,12 +150,12 @@ public class FormularioAlumno extends javax.swing.JDialog {
         guardarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
+        xNCO = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         nombreColegioTxt = new javax.swing.JTextField();
-        paisEstudioTxt = new javax.swing.JTextField();
-        ciudadColegioTxt = new javax.swing.JTextField();
+        paisEstCmb = new javax.swing.JComboBox();
+        ciudadEstCmb = new javax.swing.JComboBox();
         validarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -177,6 +187,10 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
         estadoCivilCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE", "CASADO", "SOLTERO", "VIUDO", "DIVORCIADO", "UNION DE HECHO", "OTRO" }));
 
+        paisNaciCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+
+        ciudadNaciCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -191,50 +205,48 @@ public class FormularioAlumno extends javax.swing.JDialog {
                             .addComponent(jLabel3)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(apellidoMaternoTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(apellidoPaternoTxt, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cedulaTxt, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombresCompletosTxt, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nombresCompletosTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cedulaTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addComponent(apellidoPaternoTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(apellidoMaternoTxt, javax.swing.GroupLayout.Alignment.LEADING))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
                         .addComponent(fechaNacimientoChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel7))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 52, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(etniaTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(paisNacimientoTxt)
-                                .addComponent(ciudadNacimientoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel11))
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(sexoCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(etniaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(sexoCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(estadoCivilCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(33, 33, 33))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(estadoCivilCmb, 0, 129, Short.MAX_VALUE)
+                            .addComponent(paisNaciCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ciudadNaciCmb, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(39, 39, 39))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(sexoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(estadoCivilCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,22 +260,28 @@ public class FormularioAlumno extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(apellidoMaternoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(paisNacimientoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(paisNaciCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(nombresCompletosTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ciudadNacimientoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19))
+                            .addComponent(jLabel19)
+                            .addComponent(ciudadNaciCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(sexoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(etniaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel11))
-                            .addComponent(jLabel8)
-                            .addComponent(fechaNacimientoChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addComponent(estadoCivilCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(etniaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11))
+                    .addComponent(jLabel8)
+                    .addComponent(fechaNacimientoChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Contactos"));
@@ -311,31 +329,26 @@ public class FormularioAlumno extends javax.swing.JDialog {
                     .addComponent(telefonoFijoAlumnoTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                     .addComponent(direccionTxt)
                     .addComponent(ciudadDomicilioTxt))
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(celularFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(parentescoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(emailFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tlfFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 30, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(personaContactoTxt)
-                                .addContainerGap())))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(parentescoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tlfFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(celularFamiliarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(personaContactoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,11 +448,15 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Institucion"));
 
-        jLabel22.setText("Nombre Colegio");
+        xNCO.setText("Nombre Colegio");
 
         jLabel25.setText("Pais Estudio");
 
         jLabel26.setText("Ciudad Colegio");
+
+        paisEstCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
+
+        ciudadEstCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONE" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -448,17 +465,18 @@ public class FormularioAlumno extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22)
+                    .addComponent(xNCO)
                     .addComponent(jLabel25)
                     .addComponent(jLabel26))
-                .addGap(10, 10, 10)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nombreColegioTxt, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ciudadColegioTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                            .addComponent(paisEstudioTxt, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nombreColegioTxt)
+                            .addComponent(paisEstCmb, 0, 138, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ciudadEstCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(40, 40, 40))
         );
         jPanel4Layout.setVerticalGroup(
@@ -466,17 +484,17 @@ public class FormularioAlumno extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
+                    .addComponent(xNCO)
                     .addComponent(nombreColegioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
-                    .addComponent(paisEstudioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(paisEstCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(ciudadColegioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(ciudadEstCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         validarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Apply.png"))); // NOI18N
@@ -493,24 +511,24 @@ public class FormularioAlumno extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(8, 8, 8)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
+                        .addGap(91, 91, 91)
                         .addComponent(validarBtn)
                         .addGap(26, 26, 26)
                         .addComponent(guardarBtn)
                         .addGap(18, 18, 18)
                         .addComponent(cancelarBtn)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,7 +548,7 @@ public class FormularioAlumno extends javax.swing.JDialog {
                             .addComponent(cancelarBtn)
                             .addComponent(validarBtn))
                         .addGap(39, 39, 39)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -541,112 +559,116 @@ public class FormularioAlumno extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
-        validaForm();
+        if (validaForm() == false) {
+            JOptionPane.showMessageDialog(null, "Se encuentran campos vacíos por favor ingresar información", "Error campos vacios", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_validarBtnActionPerformed
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
         crud = new Crud();
         cargarAlumno();
         if (idAlumno == 0) {
-            crud.insertarM("maestro_alumno", campos,Ingreso.getUsuario().getNombre());
+            crud.insertarM("maestro_alumno", campos, Ingreso.getUsuario().getNombre());
             this.dispose();
         } else {
-            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos,Ingreso.getUsuario().getNombre());
+            crud.actualizarM("maestro_alumno", "id_alumno", alumno.getIdAlumno(), campos, Ingreso.getUsuario().getNombre());
             this.dispose();
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
     private Map cargarAlumno() {
         try {
-        campos = new HashMap();
-        alumno.setCedula(cedulaTxt.getText());
-        alumno.setApellidoPaterno(apellidoPaternoTxt.getText().toUpperCase());
-        alumno.setApellidoMaterno(apellidoMaternoTxt.getText().toUpperCase());
-        alumno.setCelular(celularAlumnoTxt.getText().toUpperCase());
-        alumno.setCiudadColegio(ciudadColegioTxt.getText().toUpperCase());
-        alumno.setCiudadDomicilio(ciudadDomicilioTxt.getText().toUpperCase());
-        alumno.setCiudadNacimiento(ciudadNacimientoTxt.getText().toUpperCase());
-        alumno.setDireccionDomicilio(direccionTxt.getText().toUpperCase());
-        alumno.setDiscapacidad(discapacidadTxt.getText().toUpperCase());
-        alumno.setEmailAlternativo(emailAlternativoTxt.getText().toLowerCase());
-        alumno.setEmailAlumno(emailAlumnoTxt.getText().toLowerCase());
-        alumno.setEmailFamiliar(emailFamiliarTxt.getText().toLowerCase());
-        alumno.setEstadoCivil((String.valueOf(estadoCivilCmb.getSelectedItem())));
-        alumno.setEtnia(etniaTxt.getText());
-        alumno.setFechaNacimiento(fechaNacimientoChooser.getDate());
-        alumno.setNombreColegio(nombreColegioTxt.getText().toUpperCase());
-        alumno.setNombreCompleto(nombresCompletosTxt.getText().toUpperCase());
-        alumno.setNumeroCelularFamiliar(celularFamiliarTxt.getText().toUpperCase());
-        alumno.setNumeroConadis(numeroConadisTxt.getText().toUpperCase());
-        alumno.setNumeroFijoFamiliar(tlfFamiliarTxt.getText().toUpperCase());
-        alumno.setPaisEstudio(paisEstudioTxt.getText().toUpperCase());
-        alumno.setPaisNacimiento(paisEstudioTxt.getText().toUpperCase());
-        alumno.setParentesco(parentescoTxt.getText().toUpperCase());
-        alumno.setPersonaContacto(personaContactoTxt.getText().toUpperCase());
-        alumno.setSexo(String.valueOf(sexoCmb.getSelectedItem()));
-        alumno.setTelefonoFijo(telefonoFijoAlumnoTxt.getText().toUpperCase());
+            campos = new HashMap();
+            alumno.setCedula(cedulaTxt.getText());
+            alumno.setApellidoPaterno(apellidoPaternoTxt.getText().toUpperCase());
+            alumno.setApellidoMaterno(apellidoMaternoTxt.getText().toUpperCase());
+            alumno.setCelular(celularAlumnoTxt.getText().toUpperCase());
+            alumno.setCiudadColegio(ciudadEstCmb.getSelectedItem().toString());
+            alumno.setCiudadDomicilio(ciudadDomicilioTxt.getText().toUpperCase());
+            alumno.setCiudadNacimiento(ciudadNaciCmb.getSelectedItem().toString());
+            alumno.setDireccionDomicilio(direccionTxt.getText().toUpperCase());
+            alumno.setDiscapacidad(discapacidadTxt.getText().toUpperCase());
+            alumno.setEmailAlternativo(emailAlternativoTxt.getText().toLowerCase());
+            alumno.setEmailAlumno(emailAlumnoTxt.getText().toLowerCase());
+            alumno.setEmailFamiliar(emailFamiliarTxt.getText().toLowerCase());
+            alumno.setEstadoCivil((String.valueOf(estadoCivilCmb.getSelectedItem())));
+            alumno.setEtnia(etniaTxt.getText());
+            alumno.setFechaNacimiento(fechaNacimientoChooser.getDate());
+            alumno.setNombreColegio(nombreColegioTxt.getText().toUpperCase());
+            alumno.setNombreCompleto(nombresCompletosTxt.getText().toUpperCase());
+            alumno.setNumeroCelularFamiliar(celularFamiliarTxt.getText().toUpperCase());
+            alumno.setNumeroConadis(numeroConadisTxt.getText().toUpperCase());
+            alumno.setNumeroFijoFamiliar(tlfFamiliarTxt.getText().toUpperCase());
+            alumno.setPaisEstudio(paisEstCmb.getSelectedItem().toString());
+            alumno.setPaisNacimiento(paisEstCmb.getSelectedItem().toString());
+            alumno.setParentesco(parentescoTxt.getText().toUpperCase());
+            alumno.setPersonaContacto(personaContactoTxt.getText().toUpperCase());
+            alumno.setSexo(String.valueOf(sexoCmb.getSelectedItem()));
+            alumno.setTelefonoFijo(telefonoFijoAlumnoTxt.getText().toUpperCase());
 
-        campos.put("apellido_materno", alumno.getApellidoMaterno());
-        campos.put("apellido_paterno", alumno.getApellidoPaterno());
-        campos.put("cedula", alumno.getCedula());
-        campos.put("celular", alumno.getCelular());
-        campos.put("ciudad_colegio", alumno.getCiudadColegio());
-        campos.put("ciudad_domicilio", alumno.getCiudadDomicilio());
-        campos.put("ciudad_nacimiento", alumno.getCiudadNacimiento());
-        campos.put("direccion_domicilio", alumno.getDireccionDomicilio());
-        campos.put("discapacidad", alumno.getDiscapacidad());
-        campos.put("email_alternativo", alumno.getEmailAlternativo());
-        campos.put("email_alumno", alumno.getEmailAlumno());
-        campos.put("email_familiar", alumno.getEmailFamiliar());
-        campos.put("estado_civil", alumno.getEstadoCivil());
-        campos.put("etnia", alumno.getEtnia());
-        campos.put("fecha_nacimiento", alumno.getFechaNacimiento());
-        campos.put("nombre_colegio", alumno.getNombreColegio());
-        campos.put("nombre_completo", alumno.getNombreCompleto());
-        campos.put("numero_celular_familiar", alumno.getNumeroCelularFamiliar());
-        campos.put("numero_conadis", alumno.getNumeroConadis());
-        campos.put("numero_fijo_familiar", alumno.getNumeroFijoFamiliar());
-        campos.put("pais_estudio", alumno.getPaisEstudio());
-        campos.put("pais_nacimiento", alumno.getPaisNacimiento());
-        campos.put("parentesco", alumno.getParentesco());
-        campos.put("persona_contacto", alumno.getPersonaContacto());
-        campos.put("sexo", alumno.getSexo());
-        campos.put("telefono_fijo", alumno.getTelefonoFijo());
-        return  campos;
+            campos.put("apellido_materno", alumno.getApellidoMaterno());
+            campos.put("apellido_paterno", alumno.getApellidoPaterno());
+            campos.put("cedula", alumno.getCedula());
+            campos.put("celular", alumno.getCelular());
+            campos.put("ciudad_colegio", alumno.getCiudadColegio());
+            campos.put("ciudad_domicilio", alumno.getCiudadDomicilio());
+            campos.put("ciudad_nacimiento", alumno.getCiudadNacimiento());
+            campos.put("direccion_domicilio", alumno.getDireccionDomicilio());
+            campos.put("discapacidad", alumno.getDiscapacidad());
+            campos.put("email_alternativo", alumno.getEmailAlternativo());
+            campos.put("email_alumno", alumno.getEmailAlumno());
+            campos.put("email_familiar", alumno.getEmailFamiliar());
+            campos.put("estado_civil", alumno.getEstadoCivil());
+            campos.put("etnia", alumno.getEtnia());
+            campos.put("fecha_nacimiento", alumno.getFechaNacimiento());
+            campos.put("nombre_colegio", alumno.getNombreColegio());
+            campos.put("nombre_completo", alumno.getNombreCompleto());
+            campos.put("numero_celular_familiar", alumno.getNumeroCelularFamiliar());
+            campos.put("numero_conadis", alumno.getNumeroConadis());
+            campos.put("numero_fijo_familiar", alumno.getNumeroFijoFamiliar());
+            campos.put("pais_estudio", alumno.getPaisEstudio());
+            campos.put("pais_nacimiento", alumno.getPaisNacimiento());
+            campos.put("parentesco", alumno.getParentesco());
+            campos.put("persona_contacto", alumno.getPersonaContacto());
+            campos.put("sexo", alumno.getSexo());
+            campos.put("telefono_fijo", alumno.getTelefonoFijo());
+            return campos;
         } catch (Exception e) {
-           EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
+            EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
         }
-        return  campos;
+        return campos;
     }
 
     private boolean validaForm() {
-        boolean resultado = false;
-        JTextField[] texto = {cedulaTxt, apellidoPaternoTxt, apellidoMaternoTxt,
-            nombresCompletosTxt, celularAlumnoTxt, celularFamiliarTxt, ciudadColegioTxt,
-            ciudadDomicilioTxt, ciudadNacimientoTxt, direccionTxt, discapacidadTxt,
-            emailAlternativoTxt, emailAlumnoTxt, emailFamiliarTxt, etniaTxt, nombreColegioTxt,
-            numeroConadisTxt, paisEstudioTxt, paisNacimientoTxt, parentescoTxt, personaContactoTxt,
-            telefonoFijoAlumnoTxt, tlfFamiliarTxt};
-        if (fechaNacimientoChooser.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Error campo fecha vacio", "Error", JOptionPane.ERROR_MESSAGE);
-            resultado = false;
-        } else if (sexoCmb.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Error combo sexo  vacio", "Error", JOptionPane.ERROR_MESSAGE);
-            resultado = false;
-        } else if (estadoCivilCmb.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Error combo estado civil vacio", "Error", JOptionPane.ERROR_MESSAGE);
-            resultado = false;
-        }
+        boolean resultado = true;
+        JTextField[] texto = {cedulaTxt, apellidoPaternoTxt, apellidoMaternoTxt, nombresCompletosTxt,
+            etniaTxt, telefonoFijoAlumnoTxt, emailAlumnoTxt, direccionTxt, ciudadDomicilioTxt, personaContactoTxt,
+            parentescoTxt, tlfFamiliarTxt, nombreColegioTxt};
         for (JTextField texto1 : texto) {
             if (texto1.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Error campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+                texto1.setBackground(Color.red);
                 resultado = false;
-                break;
             } else {
+                texto1.setBackground(null);
                 resultado = true;
             }
 
         }
-
+        JComboBox[] combo = {sexoCmb, estadoCivilCmb, paisNaciCmb, ciudadNaciCmb, paisEstCmb, ciudadEstCmb};
+        for (JComboBox combo1 : combo) {
+            if (combo1.getSelectedIndex()==0) {
+                combo1.setBackground(Color.red);
+                resultado=false;
+            } else {
+                combo1.setBackground(null);
+                resultado=true;
+            }
+        }
+        if (fechaNacimientoChooser.getDate() == null) {
+            fechaNacimientoChooser.setBackground(Color.red);
+            resultado = false;
+        } else {
+            fechaNacimientoChooser.setBackground(null);
+        }
         if (resultado == true) {
             ocultaCampos();
             guardarBtn.setEnabled(true);
@@ -657,17 +679,47 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
     private void ocultaCampos() {
         JTextField[] texto = {cedulaTxt, apellidoPaternoTxt, apellidoMaternoTxt,
-            nombresCompletosTxt, celularAlumnoTxt, celularFamiliarTxt, ciudadColegioTxt,
-            ciudadDomicilioTxt, ciudadNacimientoTxt, direccionTxt, discapacidadTxt,
+            nombresCompletosTxt, celularAlumnoTxt, celularFamiliarTxt,
+            ciudadDomicilioTxt, direccionTxt, discapacidadTxt,
             emailAlternativoTxt, emailAlumnoTxt, emailFamiliarTxt, etniaTxt, nombreColegioTxt,
-            numeroConadisTxt, paisEstudioTxt, paisNacimientoTxt, parentescoTxt, personaContactoTxt,
+            numeroConadisTxt, parentescoTxt, personaContactoTxt,
             telefonoFijoAlumnoTxt, tlfFamiliarTxt};
         for (JTextField texto1 : texto) {
             texto1.setEnabled(false);
         }
+        paisEstCmb.setEnabled(false);
+        paisNaciCmb.setEnabled(false);
+        ciudadEstCmb.setEnabled(false);
+        ciudadNaciCmb.setEnabled(false);
         estadoCivilCmb.setEnabled(false);
         sexoCmb.setEnabled(false);
         fechaNacimientoChooser.setEnabled(false);
+    }
+
+    private void cargaCiudad() {
+        try {
+            resultSet = generalesDao.cargaCiudad();
+            while (resultSet.next()) {
+                String ciudad = resultSet.getString("ciudad");
+                ciudadNaciCmb.addItem(ciudad);
+                ciudadEstCmb.addItem(ciudad);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void cargaPais() {
+        try {
+            resultSet = generalesDao.cargaPais();
+            while (resultSet.next()) {
+                String pais = resultSet.getString("pais");
+                paisNaciCmb.addItem(pais);
+                paisEstCmb.addItem(pais);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String args[]) {
@@ -713,9 +765,9 @@ public class FormularioAlumno extends javax.swing.JDialog {
     private javax.swing.JTextField cedulaTxt;
     private javax.swing.JTextField celularAlumnoTxt;
     private javax.swing.JTextField celularFamiliarTxt;
-    private javax.swing.JTextField ciudadColegioTxt;
     private javax.swing.JTextField ciudadDomicilioTxt;
-    private javax.swing.JTextField ciudadNacimientoTxt;
+    private javax.swing.JComboBox ciudadEstCmb;
+    private javax.swing.JComboBox ciudadNaciCmb;
     private javax.swing.JTextField direccionTxt;
     private javax.swing.JTextField discapacidadTxt;
     private javax.swing.JTextField emailAlternativoTxt;
@@ -739,7 +791,6 @@ public class FormularioAlumno extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -758,13 +809,14 @@ public class FormularioAlumno extends javax.swing.JDialog {
     private javax.swing.JTextField nombreColegioTxt;
     private javax.swing.JTextField nombresCompletosTxt;
     private javax.swing.JTextField numeroConadisTxt;
-    private javax.swing.JTextField paisEstudioTxt;
-    private javax.swing.JTextField paisNacimientoTxt;
+    private javax.swing.JComboBox paisEstCmb;
+    private javax.swing.JComboBox paisNaciCmb;
     private javax.swing.JTextField parentescoTxt;
     private javax.swing.JTextField personaContactoTxt;
     private javax.swing.JComboBox sexoCmb;
     private javax.swing.JTextField telefonoFijoAlumnoTxt;
     private javax.swing.JTextField tlfFamiliarTxt;
     private javax.swing.JButton validarBtn;
+    private javax.swing.JLabel xNCO;
     // End of variables declaration//GEN-END:variables
 }
