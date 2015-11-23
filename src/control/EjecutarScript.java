@@ -15,7 +15,7 @@ public class EjecutarScript {
 
     public void crearTabla() {
 
-      //  String archivo = "src/script/alumno.sql";
+     
         try {
             File path = new File("script/alumno.sql");
             Conexion cc = Conexion.getInstance();
