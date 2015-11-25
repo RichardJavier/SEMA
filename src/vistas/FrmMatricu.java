@@ -87,7 +87,6 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
         cargarEspecialidad();
         cargarSemestre();
         cargarParalelo();
-        cargarDatos();
         especialidad = new Especialidad();
         semestre = new Semestre();
         paralelo = new Paralelo();
@@ -138,10 +137,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
         matriculaTabla.getTableHeader().getColumnModel().getColumn(6).setMinWidth(80);
 
         matriculaTabla.setRowSorter(new TableRowSorter<TableModel>(this.modelo));
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
+     
                 matricula = new Matricula();
                 int i = 0;
                 if (listaMatricula == null) {
@@ -195,8 +191,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                         System.out.println(e);
                     }
                 }
-            }
-        }).start();
+          
     }
 
     private void ocultaCampos() {
@@ -275,7 +270,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Busqueda por Cedula");
+        jLabel1.setText("Búsqueda por Cedula");
 
         buscarMatriculaBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
         buscarMatriculaBtn.setText("Buscar");
@@ -632,6 +627,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
     private void nuevaMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
         activaCampos();
         periodo = metodosGeneralesDao.codigoPeriodoActivo();
+        matricula=new Matricula();
     }
 
     private void buscarInscritoBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -808,6 +804,9 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
 
     private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
         cargarDatos();
+        if (matriculaTabla.getRowCount()==0) {
+            JOptionPane.showMessageDialog(null,"No se encontro el alumno matriculado");
+        }
     }
 
     private Map cargarCamposMatricula() {

@@ -6,7 +6,6 @@
 package vistas;
 
 import conectar.Conexion;
-import control.Crud;
 import control.EnviaEmail;
 import java.awt.Desktop;
 import java.io.File;

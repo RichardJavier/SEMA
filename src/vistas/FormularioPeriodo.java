@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import logica.PeriodoDao;
 import modelo.Periodo;
@@ -123,6 +124,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FORMULARIO DE REGISTRO DE PERIODO");
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
 
         jLabel1.setText("Codigo Periodo");
 

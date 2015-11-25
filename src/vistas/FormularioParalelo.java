@@ -9,6 +9,7 @@ import control.Crud;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import logica.ParaleloDao;
 
@@ -76,6 +77,8 @@ public class FormularioParalelo extends javax.swing.JDialog {
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FORMULARIO PARALELO");
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
 
         jLabel3.setText("Codigo Paralelo");
 

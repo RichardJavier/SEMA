@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.ConfiguracionDao;
@@ -109,6 +110,7 @@ public class FormularioConfiguracion extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FORMULARIO DE CONFIGURACION");
         setFocusTraversalPolicyProvider(true);
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
 
         jLabel1.setText("Descripcion");
 

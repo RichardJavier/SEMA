@@ -176,7 +176,7 @@ public class FrmProfesor extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Busqueda por Nombre");
+        jLabel1.setText("Búsqueda por Nombre");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

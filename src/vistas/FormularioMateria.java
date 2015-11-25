@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.ConfiguracionMateriaDao;
@@ -250,6 +251,7 @@ public class FormularioMateria extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FORMULARIO DE REGISTRO DE MATERIA");
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/iconPr.png")).getImage());
 
         jLabel1.setText("Nombre Materia");
 

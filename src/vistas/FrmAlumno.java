@@ -146,7 +146,7 @@ public final class FrmAlumno extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(alumnoTabla);
 
-        jLabel1.setText("Bussqueda por Cedula");
+        jLabel1.setText("Búsqueda  por Cedula");
 
         buscarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/search.png"))); // NOI18N
         buscarBtn.setText("Buscar");

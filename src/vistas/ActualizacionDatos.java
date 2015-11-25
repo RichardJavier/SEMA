@@ -36,6 +36,7 @@ public class ActualizacionDatos extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
+        setTitle("ACTUALIZACION DE DATOS");
 
         actualizacionBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Sync.png"))); // NOI18N
         actualizacionBtn.setText("Iniciar Actualizacion");
