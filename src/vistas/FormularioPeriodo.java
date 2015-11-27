@@ -318,11 +318,16 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 campos.put("fecha_fin", periodo1.getFechaFinalizacion());
                 campos.put("nueva_malla", periodo1.getMalla());
                 if (idPeriodo == 0) {
-                    crud.insertarM("periodo_semestre", campos, Ingreso.getUsuario().getNombre());
                     EjecutarScript jr = new EjecutarScript();
-                    jr.crearTabla();
-                    cambiarNombre();
-                    this.dispose();
+                    if (jr.crearTabla()) {
+                        crud.insertarM("periodo_semestre", campos, Ingreso.getUsuario().getNombre());
+                        cambiarNombre();
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se creo la tabla periodo", "Error", JOptionPane.ERROR_MESSAGE);
+                        this.dispose();
+                    }
+   
 
                 } else {
                     crud.actualizar("periodo_semestre", "id1_periodo", idPeriodo, campos, Ingreso.getUsuario().getNombre());
@@ -330,7 +335,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
                 }
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al ingresar"+e, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al ingresar" + e, "Error", JOptionPane.ERROR_MESSAGE);
                 EnviaEmail.enviaMail("javier.tec1989@gmail.com", e.toString());
             }
         } else {
@@ -427,7 +432,7 @@ public class FormularioPeriodo extends javax.swing.JDialog {
             st.executeUpdate(sql1);
         } catch (SQLException e) {
             System.out.println("error al ejecutar el cambio de nombre" + e);
-            JOptionPane.showMessageDialog(null, "Error al ejecutar script de tabla", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al cambiar el nombre a tabla", "Error", JOptionPane.ERROR_MESSAGE);
 
         }
 

@@ -92,6 +92,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
         paralelo = new Paralelo();
         cal = Calendar.getInstance();
         resumen = new Resumen();
+        cargarDatos();
     }
 
     private void cargarDatos() {
@@ -460,9 +461,9 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
+                        .addGap(26, 26, 26)
                         .addComponent(buscarMatriculaBtn)
-                        .addGap(280, 280, 280)
+                        .addGap(283, 283, 283)
                         .addComponent(certificadoBtn)
                         .addGap(18, 18, 18)
                         .addComponent(fichaBtn)
@@ -481,14 +482,14 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buscarMatriculaBtn))
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(33, 33, 33)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(filtroTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(buscarMatriculaBtn)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -616,6 +617,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
                 }
 
             } catch (JRException | IOException ex) {
+                System.out.println(ex.toString());
                 EnviaEmail.enviaMail("javier.tec1989@gmail.com", ex.toString());
                 JOptionPane.showMessageDialog(null, "Error al cargar pdf", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -802,7 +804,7 @@ public class FrmMatricu extends javax.swing.JInternalFrame {
         }
     }
 
-    private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    private void buscarMatriculaBtnActionPerformed(java.awt.event.ActionEvent evt) {   
         cargarDatos();
         if (matriculaTabla.getRowCount()==0) {
             JOptionPane.showMessageDialog(null,"No se encontro el alumno matriculado");

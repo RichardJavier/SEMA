@@ -13,9 +13,7 @@ import javax.swing.JOptionPane;
 
 public class EjecutarScript {
 
-    public void crearTabla() {
-
-     
+    public Boolean crearTabla() {     
         try {
             File path = new File("script/alumno.sql");
             Conexion cc = Conexion.getInstance();
@@ -23,10 +21,11 @@ public class EjecutarScript {
             ScriptRunner src = new ScriptRunner(cn, false, false);
             Reader r = new BufferedReader(new FileReader(path.getAbsoluteFile()));
             src.runScript(r);
+            return  true;
         } catch (SQLException | IOException e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al cargar el Script"+e, "Error", JOptionPane.ERROR_MESSAGE);
             EnviaEmail.enviaMail("javier.tec1989@gmail.com",e.toString());
-
+            return false;
         }
 
     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-26T14:41:07 -->
+<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaMatricula" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd917976-f39b-421a-880b-b66dc82e7d41">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -259,11 +258,11 @@ AND ma.id_matricula=$P{idMatricula}]]>
 		<band height="81" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="308" height="60" uuid="2d16809d-638d-4d2c-8a21-4d5461ea7151"/>
-				<imageExpression><![CDATA["C:/workspaceNeatbeans/SEMA/reportes/logo_senescyt.png"]]></imageExpression>
+				<imageExpression><![CDATA["reportes/logo_senescyt.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="345" y="0" width="208" height="60" uuid="78b02b61-5c93-4670-abf0-ce3b87d7972f"/>
-				<imageExpression><![CDATA["C:/workspaceNeatbeans/SEMA/reportes/ITSBJ 1.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["reportes/ITSBJ 1.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -511,7 +510,7 @@ AND ma.id_matricula=$P{idMatricula}]]>
 		</band>
 	</detail>
 	<summary>
-		<band height="135" splitType="Stretch">
+		<band height="115" splitType="Stretch">
 			<componentElement>
 				<reportElement x="143" y="55" width="120" height="60" uuid="daaff84b-6a50-4001-8372-9514bd239de8">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
