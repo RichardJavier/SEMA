@@ -7,6 +7,7 @@ package vistas;
 
 import control.Crud;
 import control.EnviaEmail;
+import control.VerificadorCedula;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,7 @@ public class FormularioAlumno extends javax.swing.JDialog {
     Alumno alumno;
     Crud crud;
     MetodosGeneralesDao generalesDao;
+    private boolean ced;
 
     public FormularioAlumno(FrmAlumno parent, boolean modal) {
         FormularioAlumno.frmAlumno = parent;
@@ -563,7 +565,9 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
     private void validarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarBtnActionPerformed
         if (validaForm() == false) {
-            JOptionPane.showMessageDialog(null, "Se encuentran campos vacíos por favor ingresar información", "Error campos vacios", JOptionPane.ERROR_MESSAGE);
+            if (ced != false) {
+                JOptionPane.showMessageDialog(null, "Se encuentran campos vacíos por favor ingresar información", "Error campos vacios", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_validarBtnActionPerformed
 
@@ -643,7 +647,8 @@ public class FormularioAlumno extends javax.swing.JDialog {
 
     private boolean validaForm() {
         boolean resultado = true;
-        JTextField[] texto = {cedulaTxt, apellidoPaternoTxt, apellidoMaternoTxt, nombresCompletosTxt,
+        VerificadorCedula verificador = new VerificadorCedula();
+        JTextField[] texto = {apellidoPaternoTxt, apellidoMaternoTxt, nombresCompletosTxt,
             etniaTxt, telefonoFijoAlumnoTxt, emailAlumnoTxt, direccionTxt, ciudadDomicilioTxt, personaContactoTxt,
             parentescoTxt, tlfFamiliarTxt, nombreColegioTxt};
         JComboBox[] combo = {sexoCmb, estadoCivilCmb, paisNaciCmb, ciudadNaciCmb, paisEstCmb, ciudadEstCmb};
@@ -698,15 +703,23 @@ public class FormularioAlumno extends javax.swing.JDialog {
             }
 
         }
-        if (resultado == true) {
-            if (fechaNacimientoChooser.getDate() == null) {
-                fechaNacimientoChooser.setBackground(Color.red);
-                resultado = false;
-            } else {
-                fechaNacimientoChooser.setBackground(null);
-            }
-        }
+        if (!cedulaTxt.getText().trim().isEmpty()) {
+            if (cedulaTxt.getText().length() == 10) {
+                if (verificador.verificaCedula(cedulaTxt.getText()) == true) {
+                    resultado = true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cedula incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+                    resultado = false;
+                    ced = false;
+                }
 
+            } else {
+                JOptionPane.showMessageDialog(null, "La cedula debe tener 10 digitos", "Error cedula", JOptionPane.ERROR_MESSAGE);
+                resultado = false;
+                ced = false;
+            }
+
+        }
         if (resultado == true) {
             ocultaCampos();
             guardarBtn.setEnabled(true);
